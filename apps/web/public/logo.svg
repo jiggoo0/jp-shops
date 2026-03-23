@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Premium Gold Gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9F295" />
+      <stop offset="25%" stop-color="#E0AA3E" />
+      <stop offset="50%" stop-color="#F9F295" />
+      <stop offset="75%" stop-color="#B8860B" />
+      <stop offset="100%" stop-color="#FFDF73" />
+    </linearGradient>
+    
+    <!-- Dark Navy Gradient for Shield/Base -->
+    <linearGradient id="navyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <!-- Drop Shadow for 3D Effect -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Shield -->
+  <path d="M200 40 L340 90 L340 220 C340 300 280 350 200 380 C120 350 60 300 60 220 L60 90 Z" 
+        fill="url(#navyGradient)" 
+        filter="url(#dropShadow)" />
+
+  <!-- Outer Golden Border -->
+  <path d="M200 55 L320 100 L320 215 C320 285 270 330 200 355 C130 330 80 285 80 215 L80 100 Z" 
+        fill="none" 
+        stroke="url(#goldGradient)" 
+        stroke-width="4" 
+        opacity="0.5" />
+
+  <!-- Geometric Lion Head Elements -->
+  <!-- Main Mane Structure -->
+  <path d="M200 100 L260 140 L260 260 L200 300 L140 260 L140 140 Z" fill="none" stroke="url(#goldGradient)" stroke-width="8" stroke-linejoin="round" />
+  
+  <!-- Inner Face -->
+  <path d="M200 130 L240 160 L240 230 L200 270 L160 230 L160 160 Z" fill="url(#goldGradient)" opacity="0.1" />
+  <path d="M200 130 L240 160 L240 230 L200 270 L160 230 L160 160 Z" fill="none" stroke="url(#goldGradient)" stroke-width="6" stroke-linejoin="round" />
+
+  <!-- Eyes / Brow -->
+  <path d="M170 180 L190 190 L190 200 L170 190 Z" fill="url(#goldGradient)" />
+  <path d="M230 180 L210 190 L210 200 L230 190 Z" fill="url(#goldGradient)" />
+
+  <!-- Nose & Crown Bridge -->
+  <polygon points="200,140 215,170 200,220 185,170" fill="url(#goldGradient)" />
+  
+  <!-- Snout / Roar -->
+  <polygon points="200,235 220,255 200,285 180,255" fill="url(#goldGradient)" opacity="0.8" />
+
+  <!-- Sharp Accent Lines (Whiskers/Mane details) -->
+  <line x1="120" y1="200" x2="150" y2="210" stroke="url(#goldGradient)" stroke-width="6" stroke-linecap="round" />
+  <line x1="280" y1="200" x2="250" y2="210" stroke="url(#goldGradient)" stroke-width="6" stroke-linecap="round" />
+  <line x1="130" y1="230" x2="160" y2="235" stroke="url(#goldGradient)" stroke-width="4" stroke-linecap="round" />
+  <line x1="270" y1="230" x2="240" y2="235" stroke="url(#goldGradient)" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Top Crown Accent -->
+  <polygon points="200,75 215,95 185,95" fill="url(#goldGradient)" />
+</svg>

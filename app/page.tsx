@@ -1,11 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Plane,
   Briefcase,
+  Plane,
   FileSignature,
   FileText,
   ShieldCheck,
@@ -18,6 +15,7 @@ import {
 import { Button, Card, Section } from "@/components/ui";
 import BlogSection from "@/components/sections/BlogSection";
 import Hero from "@/components/sections/Hero";
+import { ClientMotionDiv } from "@/components/ui/ClientMotion";
 
 const services = [
   {
@@ -111,7 +109,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {services.map((service, index) => (
-              <motion.div
+              <ClientMotionDiv
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -146,7 +144,7 @@ export default function LandingPage() {
                     </div>
                   </Card>
                 </Link>
-              </motion.div>
+              </ClientMotionDiv>
             ))}
           </div>
         </div>
@@ -161,7 +159,7 @@ export default function LandingPage() {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-500/5 via-transparent to-blue-500/5"></div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-32 items-center">
-          <motion.div
+          <ClientMotionDiv
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -205,9 +203,9 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </ClientMotionDiv>
 
-          <motion.div
+          <ClientMotionDiv
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -247,7 +245,7 @@ export default function LandingPage() {
                 Authentic Doc
               </span>
             </div>
-          </motion.div>
+          </ClientMotionDiv>
         </div>
       </section>
 
@@ -266,7 +264,7 @@ export default function LandingPage() {
             เพื่อให้คุณได้รับบริการที่ดีที่สุดและปลอดภัยสูงสุด
           </p>
 
-          <motion.div
+          <ClientMotionDiv
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -293,7 +291,7 @@ export default function LandingPage() {
                 Private Consultant 24/7
               </p>
             </div>
-          </motion.div>
+          </ClientMotionDiv>
         </div>
       </Section>
     </div>

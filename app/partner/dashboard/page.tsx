@@ -1,24 +1,13 @@
-import { cookies } from "next/headers";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
+import { getSubscriptionStatus } from "@/lib/services/subscription";
+import { planConfig, type PlanType } from "@/lib/config/plans";
 import Link from "next/link";
-import {
-  ShieldCheck,
-  FileText,
-  Clock,
-  ArrowRight,
-  AlertCircle,
-} from "lucide-react";
-import { getSubscriptionStatus } from "@/lib";
+import { ShieldCheck, FileText, Clock, ArrowRight } from "lucide-react";
 import { redirect } from "next/navigation";
+import { SubscriptionBooster } from "@/components/ui/SubscriptionBooster";
 
 export default async function PartnerDashboard() {
-  const cookieStore = await cookies();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: { headers: { Cookie: cookieStore.toString() } },
-  });
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -28,71 +17,77 @@ export default async function PartnerDashboard() {
     redirect("/login");
   }
 
-  const sub = await getSubscriptionStatus(user.id);
+  // 🚀 Parallel Fetching (ดึงข้อมูลทั้งหมดที่จำเป็นในครั้งเดียว)
+  const [sub, { data: recentDocs }, { data: profile }] = await Promise.all([
+    getSubscriptionStatus(user.id),
+    supabase
+      .from("documents")
+      .select("id, owner_name, document_type, created_at")
+      .eq("partner_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase.from("users").select("role").eq("id", user.id).maybeSingle(),
+  ]);
 
-  // Fetch recent documents
-  const { data: recentDocs } = await supabase
-    .from("documents")
-    .select("id, owner_name, document_type, created_at")
-    .eq("partner_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(3);
+  // 1. ถ้าเป็น Admin ให้ Redirect ไปหน้า Admin Dashboard ทันทีที่เข้าหน้านี้ (เพื่อแยกสิทธิ์ชัดเจน)
+  if (profile?.role === "admin") {
+    redirect("/admin/dashboard");
+  }
+
+  // 2. ถ้าเป็น Partner ทั่วไป และ Subscription ไม่ Active ให้ไปหน้า Pricing
+  if (!sub.isActive) {
+    redirect("/partner/pricing");
+  }
+
+  const planName = sub.planId
+    ? planConfig[sub.planId as PlanType]?.name
+    : "Starter";
 
   return (
-    <div className="bg-gray-50/50 p-6 md:p-12 font-sans pt-32">
+    <div className="bg-gray-50/30 p-6 md:p-12 font-sans pt-32 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        {/* Welcome & Status */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          <div className="lg:col-span-2">
-            <h1 className="text-5xl font-black uppercase tracking-tighter text-gray-900 mb-4">
-              Welcome, Partner 🦁
-            </h1>
-            <p className="text-gray-500 font-medium text-lg italic">
-              ศูนย์ควบคุมระบบเอกสารความเชื่อมั่น Vifily และการจัดการสิทธิ์
-            </p>
-          </div>
-          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                Subscription Status
+        {/* Welcome Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-12 h-1.5 bg-gray-900 rounded-full"></div>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">
+                Partner Control Center
               </span>
-              {sub.isActive ? (
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              ) : (
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              )}
             </div>
-            <div className="flex items-center space-x-4">
-              <div
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center ${sub.isActive ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600"}`}
-              >
-                {sub.isActive ? (
-                  <ShieldCheck className="w-6 h-6" />
-                ) : (
-                  <AlertCircle className="w-6 h-6" />
-                )}
-              </div>
-              <div>
-                <p className="text-xl font-black text-gray-900 uppercase tracking-tight">
-                  {sub.isActive ? "Active Plan" : "Inactive"}
-                </p>
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  {sub.isActive ? `Expires: ${sub.expiry}` : "No Active Plan"}
-                </p>
-              </div>
-            </div>
-            {!sub.isActive && (
-              <Link href="/partner/pricing" className="mt-6">
-                <button className="w-full py-3 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-600 transition-all">
-                  Upgrade Now
-                </button>
-              </Link>
-            )}
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-gray-900 leading-[0.85]">
+              Welcome, <br />
+              <span className="text-gray-300 italic">Lion Partner.</span>
+            </h1>
+          </div>
+          <div className="hidden lg:block text-right">
+            <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">
+              System Version
+            </p>
+            <p className="text-gray-900 text-xs font-black">
+              Vifily OS v15.1.4
+            </p>
           </div>
         </div>
 
+        {/* New Premium Booster Card */}
+        <div className="mb-16">
+          <SubscriptionBooster
+            status={sub.isActive ? "active" : "inactive"}
+            planName={planName}
+            expiryDate={sub.expiry}
+          />
+        </div>
+
+        {/* Floating Booster for mobile/scroll */}
+        <SubscriptionBooster
+          status={sub.isActive ? "active" : "inactive"}
+          planName={planName}
+          variant="floating"
+        />
+
         {/* Quick Actions */}
-        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-8 px-2">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-8 px-2">
           Core Services
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
@@ -105,7 +100,7 @@ export default async function PartnerDashboard() {
               <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
                 AI Document Generator
               </h3>
-              <p className="text-gray-500 font-medium mb-10 leading-relaxed italic">
+              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic">
                 สร้างเอกสารสลิปเงินเดือนหรือหนังสือรับรองมาตรฐาน Vifily
                 พร้อมระบบตรวจสอบจริง
               </p>
@@ -125,7 +120,7 @@ export default async function PartnerDashboard() {
               <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
                 Document Archive
               </h3>
-              <p className="text-gray-500 font-medium mb-10 leading-relaxed italic">
+              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic">
                 เรียกดูประวัติเอกสารทั้งหมดของคุณ คัดลอกลิงก์ตรวจสอบ
                 หรือจัดการสถานะเอกสาร
               </p>
@@ -141,7 +136,7 @@ export default async function PartnerDashboard() {
         {recentDocs && recentDocs.length > 0 && (
           <div className="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden mb-16">
             <div className="p-10 border-b border-gray-50 flex justify-between items-center">
-              <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
+              <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-500">
                 Recent Documents
               </h2>
               <Link
@@ -160,19 +155,19 @@ export default async function PartnerDashboard() {
                 >
                   <div className="flex items-center space-x-6">
                     <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors">
-                      <ShieldCheck className="w-6 h-6 text-gray-400 group-hover:text-green-600" />
+                      <ShieldCheck className="w-6 h-6 text-gray-500 group-hover:text-green-600" />
                     </div>
                     <div>
                       <p className="text-sm font-black text-gray-900 uppercase tracking-tight">
                         {doc.owner_name}
                       </p>
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                         {doc.document_type}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-black text-gray-400 uppercase mb-1">
+                    <p className="text-[10px] font-black text-gray-500 uppercase mb-1">
                       {new Date(doc.created_at).toLocaleDateString()}
                     </p>
                     <ArrowRight className="w-4 h-4 text-gray-200 group-hover:text-gray-900 ml-auto" />

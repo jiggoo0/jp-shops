@@ -14,12 +14,14 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui";
-import { registerUser } from "@/app/actions/auth";
-import { supabase, planConfig, type PlanType } from "@/lib";
+import { registerUser } from "@/actions/auth";
+import { planConfig, type PlanType } from "@/lib";
+import { createClient } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -35,13 +37,15 @@ export default function RegisterPage() {
     setIsLoading(true);
     setErrorMsg(null);
 
-    const result = await registerUser(formData);
+    const result = await registerUser({ ...formData, planId: selectedPlan });
 
     if (!result.success) {
       setErrorMsg(result.error || "เกิดข้อผิดพลาดในการสมัครสมาชิก");
       setIsLoading(false);
       return;
     }
+
+    const userId = result.userId;
 
     if (supabase) {
       await supabase.auth.signInWithPassword({
@@ -50,16 +54,15 @@ export default function RegisterPage() {
       });
     }
 
-    const plan = planConfig[selectedPlan];
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          serviceName: `Subscription: ${plan.name}`,
-          amount: plan.price,
-          returnUrl: window.location.origin,
           planId: selectedPlan,
+          category: "subscription",
+          userId: userId,
+          returnUrl: window.location.origin,
         }),
       });
 
@@ -86,7 +89,7 @@ export default function RegisterPage() {
         <div className="hidden lg:block">
           <Link
             href="/"
-            className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors mb-12 group"
+            className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors mb-12 group"
           >
             <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
             Back to Portal
@@ -102,7 +105,7 @@ export default function RegisterPage() {
             เข้าร่วมเป็น <br />
             <span className="text-gray-300 italic">พาร์ทเนอร์ของเรา.</span>
           </h1>
-          <p className="text-gray-500 font-medium leading-relaxed mb-12 max-w-md">
+          <p className="text-gray-600 font-medium leading-relaxed mb-12 max-w-md">
             สมัครสมาชิกเพื่อเข้าถึงระบบ AI สร้างและตรวจสอบเอกสาร (Vifily)
             เพิ่มความน่าเชื่อถือระดับสากลให้ลูกค้าของคุณ <br className="mb-4" />
             <span className="font-bold text-gray-900 flex items-center">
@@ -120,7 +123,7 @@ export default function RegisterPage() {
                 <p className="font-black text-gray-900 uppercase tracking-tight">
                   Zero Error Protocol
                 </p>
-                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
+                <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">
                   AI Validation Engine
                 </p>
               </div>
@@ -137,7 +140,7 @@ export default function RegisterPage() {
             <h1 className="text-3xl font-black tracking-tight text-gray-900 uppercase mb-2">
               Register
             </h1>
-            <p className="text-gray-400 text-xs font-black uppercase tracking-widest">
+            <p className="text-gray-500 text-xs font-black uppercase tracking-widest">
               Elite Partner Enrollment
             </p>
           </div>
@@ -145,11 +148,11 @@ export default function RegisterPage() {
           <form onSubmit={handleRegister} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2">
                   ชื่อ-นามสกุล
                 </label>
                 <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
                     <User className="w-4 h-4" />
                   </div>
                   <input
@@ -165,11 +168,11 @@ export default function RegisterPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2">
                   เบอร์โทรศัพท์
                 </label>
                 <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
                     <Phone className="w-4 h-4" />
                   </div>
                   <input
@@ -187,11 +190,11 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2">
                 อีเมล (Account ID)
               </label>
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -208,11 +211,11 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2">
                 รหัสผ่าน (Security Key)
               </label>
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -242,7 +245,7 @@ export default function RegisterPage() {
                       className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                         selectedPlan === key
                           ? "border-gray-900 bg-gray-900 text-white shadow-lg"
-                          : "border-gray-50 bg-gray-50/50 hover:border-gray-200 text-gray-400"
+                          : "border-gray-50 bg-gray-50/50 hover:border-gray-200 text-gray-500"
                       }`}
                     >
                       <p className="text-[9px] font-black uppercase tracking-widest mb-1 opacity-60">
@@ -288,7 +291,7 @@ export default function RegisterPage() {
           <div className="mt-10 text-center">
             <Link
               href="/login"
-              className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
+              className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors"
             >
               Already a partner?{" "}
               <span className="text-gray-900 underline underline-offset-4">

@@ -1,5 +1,4 @@
-import { cookies } from "next/headers";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -7,6 +6,7 @@ import {
   Calendar,
   ExternalLink,
   ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -18,18 +18,12 @@ export default async function PartnerDocumentsPage({
   searchParams,
 }: PartnerDocumentsPageProps) {
   const { page } = await searchParams;
-  const currentPage = parseInt(page || "1");
+  const currentPage = Math.max(1, parseInt(page || "1"));
   const pageSize = 12;
   const from = (currentPage - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  const cookieStore = await cookies();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: { headers: { Cookie: cookieStore.toString() } },
-  });
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -45,7 +39,9 @@ export default async function PartnerDocumentsPage({
     count,
   } = await supabase
     .from("documents")
-    .select("*", { count: "exact" })
+    .select("id, status, owner_name, document_type, issued_date, expiry_date", {
+      count: "exact",
+    })
     .eq("partner_id", user.id)
     .order("created_at", { ascending: false })
     .range(from, to);
@@ -55,13 +51,15 @@ export default async function PartnerDocumentsPage({
   }
 
   const totalPages = count ? Math.ceil(count / pageSize) : 0;
+  const hasNextPage = currentPage < totalPages;
+  const hasPrevPage = currentPage > 1;
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-6 md:p-12 font-sans">
       <div className="max-w-6xl mx-auto">
         <Link
           href="/partner/dashboard"
-          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors mb-8 group"
+          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors mb-8 group"
         >
           <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
           Back to Dashboard
@@ -72,7 +70,7 @@ export default async function PartnerDocumentsPage({
             <h1 className="text-4xl font-black uppercase tracking-tighter text-gray-900 mb-2">
               My Documents
             </h1>
-            <p className="text-gray-500 font-medium text-sm italic">
+            <p className="text-gray-600 font-medium text-sm italic">
               รายการเอกสาร Vifily ที่คุณสร้างขึ้นในระบบ ({count || 0} รายการ)
             </p>
           </div>
@@ -86,7 +84,7 @@ export default async function PartnerDocumentsPage({
         {!documents || documents.length === 0 ? (
           <div className="bg-white rounded-[3rem] p-20 text-center border border-gray-100 shadow-sm">
             <FileText className="w-16 h-16 text-gray-100 mx-auto mb-6" />
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">
               ยังไม่มีเอกสารในระบบ
             </p>
           </div>
@@ -111,16 +109,16 @@ export default async function PartnerDocumentsPage({
                     <h3 className="text-xl font-black text-gray-900 mb-2 uppercase tracking-tight">
                       {doc.owner_name}
                     </h3>
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8">
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-8">
                       {doc.document_type}
                     </p>
 
                     <div className="space-y-4 mb-10">
-                      <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+                      <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
                         <Calendar className="w-3.5 h-3.5 mr-2" />
                         Issued: {new Date(doc.issued_date).toLocaleDateString()}
                       </div>
-                      <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+                      <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
                         <Calendar className="w-3.5 h-3.5 mr-2" />
                         Expiry: {new Date(doc.expiry_date).toLocaleDateString()}
                       </div>
@@ -139,16 +137,41 @@ export default async function PartnerDocumentsPage({
             </div>
 
             {totalPages > 1 && (
-              <div className="flex justify-center items-center space-x-2">
-                {Array.from({ length: totalPages }).map((_, i) => (
+              <div className="flex justify-center items-center space-x-3">
+                {hasPrevPage && (
                   <Link
-                    key={i}
-                    href={`/partner/documents?page=${i + 1}`}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-all ${currentPage === i + 1 ? "bg-gray-900 text-white shadow-lg" : "bg-white text-gray-400 border border-gray-100 hover:border-gray-900 hover:text-gray-900"}`}
+                    href={`/partner/documents?page=${currentPage - 1}`}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center bg-white text-gray-500 border border-gray-100 hover:border-gray-900 hover:text-gray-900 transition-all"
                   >
-                    {i + 1}
+                    <ChevronLeft className="w-4 h-4" />
                   </Link>
-                ))}
+                )}
+
+                {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
+                  const pageNum = i + 1;
+                  return (
+                    <Link
+                      key={pageNum}
+                      href={`/partner/documents?page=${pageNum}`}
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-all ${currentPage === pageNum ? "bg-gray-900 text-white shadow-lg" : "bg-white text-gray-500 border border-gray-100 hover:border-gray-900 hover:text-gray-900"}`}
+                    >
+                      {pageNum}
+                    </Link>
+                  );
+                })}
+
+                {totalPages > 5 && currentPage <= totalPages && (
+                  <span className="text-gray-300 font-black">...</span>
+                )}
+
+                {hasNextPage && (
+                  <Link
+                    href={`/partner/documents?page=${currentPage + 1}`}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center bg-white text-gray-500 border border-gray-100 hover:border-gray-900 hover:text-gray-900 transition-all"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                )}
               </div>
             )}
           </>

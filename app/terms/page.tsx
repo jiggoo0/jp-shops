@@ -49,7 +49,7 @@ export default function TermsOfServicePage() {
             ข้อกำหนดการใช้บริการ <br />
             <span className="text-gray-300 italic">(Terms of Service)</span>
           </h1>
-          <p className="text-gray-400 text-lg font-medium leading-relaxed italic">
+          <p className="text-gray-500 text-lg font-medium leading-relaxed italic">
             &quot;เครื่องมือของเราสร้างขึ้นเพื่อเพิ่มความน่าเชื่อถือให้กับเอกสาร
             ความรับผิดชอบของคุณคือการใช้งานมันอย่างมีคุณธรรม&quot;
           </p>
@@ -66,14 +66,14 @@ export default function TermsOfServicePage() {
                   {rule.title}
                 </h2>
               </div>
-              <p className="text-gray-500 text-base leading-relaxed font-medium pl-16">
+              <p className="text-gray-600 text-base leading-relaxed font-medium pl-16">
                 {rule.content}
               </p>
             </div>
           ))}
 
           <div className="mt-20 p-12 bg-gray-50 rounded-[3rem] border border-gray-100 italic">
-            <p className="text-xs text-gray-400 leading-relaxed font-bold uppercase tracking-widest text-center">
+            <p className="text-xs text-gray-500 leading-relaxed font-bold uppercase tracking-widest text-center">
               &quot;JP Visual Docs ดำเนินธุรกิจภายใต้หลักความโปร่งใสทางเทคโนโลยี{" "}
               <br />
               เราขอปฏิเสธความรับผิดชอบในการใช้งานที่ขัดต่อกฎหมายท้องถิ่นในทุกกรณี&quot;

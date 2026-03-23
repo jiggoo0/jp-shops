@@ -1,33 +1,32 @@
 "use server";
 
-import { supabaseAdmin, calculateExpiryDate, type PlanType } from "@/lib";
+import { calculateExpiryDate, type PlanType } from "@/lib";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { withAdminGuard } from "@/lib/services/guard";
 import { revalidatePath } from "next/cache";
 
 export async function grantSubscription(email: string, plan: PlanType) {
-  try {
-    if (!supabaseAdmin) {
-      return {
-        success: false,
-        error: "ระบบแอดมินขัดข้อง (Admin Config Error)",
-      };
-    }
+  // Execute with Admin Guard (Critical Security Check)
+  const result = await withAdminGuard(async () => {
+    const adminClient = createAdminClient();
+
     // 1. ค้นหา User จาก Email
-    const { data: userData, error: userError } = await supabaseAdmin
-      .from("profiles")
+    const { data: userData, error: userError } = await adminClient
+      .from("users")
       .select("id, subscription_end_date")
       .eq("email", email)
       .single();
 
     if (userError || !userData) {
-      return { success: false, error: "ไม่พบผู้ใช้งานรายนี้ในระบบ" };
+      throw new Error("ไม่พบผู้ใช้งานรายนี้ในระบบ");
     }
 
     // 2. คำนวณวันหมดอายุใหม่
     const newExpiry = calculateExpiryDate(plan, userData.subscription_end_date);
 
     // 3. อัปเดตข้อมูลพาร์ทเนอร์
-    const { error: updateError } = await supabaseAdmin
-      .from("profiles")
+    const { error: updateError } = await adminClient
+      .from("users")
       .update({
         subscription_status: "active",
         subscription_end_date: newExpiry.toISOString(),
@@ -41,11 +40,13 @@ export async function grantSubscription(email: string, plan: PlanType) {
 
     revalidatePath("/admin/users");
     return {
-      success: true,
       message: `ต่ออายุสำเร็จ! วันหมดอายุใหม่คือ: ${newExpiry.toLocaleDateString("th-TH")}`,
     };
-  } catch (error) {
-    console.error("Admin Action Error:", error);
-    return { success: false, error: "เกิดข้อผิดพลาดในการต่ออายุ" };
+  });
+
+  if (!result.success) {
+    return { success: false, error: result.error };
   }
+
+  return { success: true, message: result.data?.message };
 }

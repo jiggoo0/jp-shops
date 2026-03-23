@@ -50,7 +50,7 @@ export default async function BlogListPage() {
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gray-900 uppercase italic leading-none mb-6">
             Insights & <span className="text-gray-300">Protocols.</span>
           </h1>
-          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.4em] max-w-md mx-auto">
+          <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] max-w-md mx-auto">
             Deep dive into AI security, document verification, and the future of
             digital trust.
           </p>

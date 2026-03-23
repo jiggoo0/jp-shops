@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { grantSubscription } from "@/app/actions/admin";
+import { grantSubscription } from "@/actions/admin";
 import { type PlanType, planConfig } from "@/lib";
 import {
   UserPlus,
@@ -47,12 +47,12 @@ export default function AdminUsersPage() {
             <h1 className="text-3xl font-black text-gray-900 tracking-tight uppercase italic">
               Partner Management
             </h1>
-            <p className="text-gray-400 text-xs font-black uppercase tracking-widest mt-2 flex items-center">
+            <p className="text-gray-500 text-xs font-black uppercase tracking-widest mt-2 flex items-center">
               <ShieldCheck className="w-4 h-4 mr-2 text-green-600" />
               <span>Admin Manual Grant Terminal</span>
             </p>
           </div>
-          <div className="bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+          <div className="bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-gray-500">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span>System Online</span>
           </div>
@@ -68,11 +68,11 @@ export default function AdminUsersPage() {
 
           <form onSubmit={handleSubmit} className="p-10 space-y-8">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3">
                 ค้นหาด้วยอีเมลพาร์ทเนอร์ (Search Partner Email)
               </label>
               <div className="relative">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500">
                   <Search className="w-5 h-5" />
                 </div>
                 <input
@@ -87,7 +87,7 @@ export default function AdminUsersPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-5">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-5">
                 เลือกแพ็กเกจที่จะเติม (Select Subscription Plan)
               </label>
               <div className="grid grid-cols-2 gap-4">
@@ -96,7 +96,7 @@ export default function AdminUsersPage() {
                     key={p}
                     type="button"
                     onClick={() => setPlan(p)}
-                    className={`p-6 rounded-2xl border-2 transition-all flex items-center space-x-4 ${plan === p ? "border-gray-900 bg-gray-900 text-white shadow-xl" : "border-gray-100 bg-white text-gray-400 hover:border-gray-200"}`}
+                    className={`p-6 rounded-2xl border-2 transition-all flex items-center space-x-4 ${plan === p ? "border-gray-900 bg-gray-900 text-white shadow-xl" : "border-gray-100 bg-white text-gray-500 hover:border-gray-200"}`}
                   >
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center ${plan === p ? "bg-white/10" : "bg-gray-50"}`}
@@ -108,7 +108,7 @@ export default function AdminUsersPage() {
                         {planConfig[p].label}
                       </p>
                       <p
-                        className={`text-[10px] font-bold ${plan === p ? "text-gray-400" : "text-gray-300"}`}
+                        className={`text-[10px] font-bold ${plan === p ? "text-gray-500" : "text-gray-300"}`}
                       >
                         + {planConfig[p].days} Days
                       </p>
@@ -152,7 +152,7 @@ export default function AdminUsersPage() {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em]">
+          <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em]">
             Authorized Access Only • Security Protocol v.15.1.4
           </p>
         </div>

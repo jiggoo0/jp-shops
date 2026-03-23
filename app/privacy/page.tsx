@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
             นโยบายความเป็นส่วนตัว <br />
             <span className="text-gray-300 italic">(Privacy Policy)</span>
           </h1>
-          <p className="text-gray-400 text-lg font-medium leading-relaxed italic">
+          <p className="text-gray-500 text-lg font-medium leading-relaxed italic">
             &quot;ความเชื่อมั่นคือรากฐานของความสำเร็จ
             เราจึงให้ความสำคัญกับการคุ้มครองข้อมูลของพาร์ทเนอร์อย่างเข้มงวดที่สุด&quot;
           </p>
@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
                   {section.title}
                 </h2>
               </div>
-              <p className="text-gray-500 text-base leading-relaxed font-medium pl-16">
+              <p className="text-gray-600 text-base leading-relaxed font-medium pl-16">
                 {section.content}
               </p>
             </div>
@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
           <div className="pt-16 border-t border-gray-100 mt-20">
             <div className="flex items-center space-x-3 mb-6">
               <Globe className="w-4 h-4 text-gray-300" />
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">
                 อัปเดตล่าสุด: 24 มีนาคม 2026
               </p>
             </div>

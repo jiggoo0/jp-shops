@@ -11,23 +11,23 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
-import { verifyPayment } from "@/app/actions/auth";
+import { verifyPayment } from "@/actions/auth";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const sessionId = searchParams.get("session_id");
-  const planId = searchParams.get("plan_id");
+  const category = searchParams.get("category");
+  const targetId = searchParams.get("target_id");
   const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
     async function verify() {
-      if (sessionId && planId) {
-        const result = await verifyPayment(sessionId, planId);
+      if (sessionId && category && targetId) {
+        const result = await verifyPayment(sessionId, category, targetId);
         if (result.success) {
           setIsVerifying(false);
         } else {
-          // If verification fails, we could handle error, but for now just stop verifying
           console.error("Payment verification failed", result.error);
           setIsVerifying(false);
         }
@@ -36,13 +36,13 @@ function SuccessContent() {
       }
     }
     verify();
-  }, [sessionId, planId]);
+  }, [sessionId, category, targetId]);
 
   if (isVerifying) {
     return (
       <div className="min-h-screen bg-[#FDFDFD] flex flex-col items-center justify-center px-6">
         <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin mb-4"></div>
-        <p className="text-sm font-black uppercase tracking-widest text-gray-400">
+        <p className="text-sm font-black uppercase tracking-widest text-gray-500">
           Verifying Payment...
         </p>
       </div>
@@ -96,13 +96,13 @@ function SuccessContent() {
         <div className="p-10 md:p-16 space-y-10">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              {planId
+              {category === "subscription"
                 ? "ระบบของคุณถูกเปิดใช้งานแล้ว"
                 : "ขอบคุณที่ไว้วางใจ JP Visual Docs"}
             </h2>
-            <p className="text-gray-500 leading-relaxed max-w-md mx-auto">
+            <p className="text-gray-600 leading-relaxed max-w-md mx-auto">
               ระบบ AI ของเราได้รับคำขอของคุณแล้ว
-              {planId
+              {category === "subscription"
                 ? " คุณสามารถเข้าสู่ Partner Dashboard เพื่อเริ่มงานได้ทันที"
                 : " ทีมงานผู้เชี่ยวชาญจะเริ่มดำเนินการตรวจสอบและจัดเตรียมเอกสารทันที"}
             </p>
@@ -114,7 +114,7 @@ function SuccessContent() {
                 <Mail className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">ตรวจสอบอีเมล</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed">
                 เราได้ส่งรายละเอียดการสั่งซื้อและขั้นตอนการรับงานไปยังอีเมลของคุณแล้ว
               </p>
             </div>
@@ -124,7 +124,7 @@ function SuccessContent() {
                 <MessageSquare className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">ฝ่ายบริการลูกค้า</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed">
                 หากมีข้อสงสัย สามารถติดต่อทีมงานผ่าน Line Official ได้ตลอด 24
                 ชม.
               </p>
@@ -135,12 +135,20 @@ function SuccessContent() {
             <Button
               size="lg"
               className="w-full py-4 rounded-xl group"
-              onClick={() => router.push(planId ? "/partner/dashboard" : "/")}
+              onClick={() =>
+                router.push(
+                  category === "subscription" ? "/partner/dashboard" : "/",
+                )
+              }
             >
-              <span>{planId ? "เข้าสู่ Dashboard" : "กลับไปที่หน้าหลัก"}</span>
+              <span>
+                {category === "subscription"
+                  ? "เข้าสู่ Dashboard"
+                  : "กลับไปที่หน้าหลัก"}
+              </span>
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <p className="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center space-x-2">
+            <p className="mt-6 text-[10px] text-gray-500 font-bold uppercase tracking-widest flex items-center space-x-2">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
               <span>Our AI is processing your request with 100% precision</span>
             </p>

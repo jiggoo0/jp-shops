@@ -5,169 +5,212 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import {
   ShieldCheck,
-  Target,
+  Lock,
+  UserCheck,
   Zap,
-  Cpu,
   Award,
   ArrowRight,
-  Sparkles,
+  Fingerprint,
+  History,
+  Users,
 } from "lucide-react";
-import { Button, Section } from "@/components/ui";
+import { Button } from "@/components/ui";
 import Link from "next/link";
 
 export default function AboutPage() {
-  const values = [
+  const corePrinciples = [
     {
-      title: "ความแม่นยำสูงสุด (Precision)",
+      title: "ความลับคือที่สุด (Absolute Privacy)",
       description:
-        "ใช้ระบบ AI วิเคราะห์และตรวจสอบข้อมูลเอกสารแบบ 10 ขั้นตอน เพื่อความถูกต้องแม่นยำ 100%",
-      icon: <Target className="w-6 h-6 text-red-500" />,
+        "เรายึดถือความลับของลูกค้าเป็นอันดับหนึ่ง ข้อมูลทุกอย่างจะถูกจัดการภายใต้ระบบปิด และทำลายทิ้งทันทีเมื่อส่งมอบงานจบสิ้น",
+      icon: <Lock className="w-6 h-6 text-green-600" />,
     },
     {
-      title: "ความปลอดภัยระดับสากล (Security)",
+      title: "ลำดับชั้นการทำงาน (Professional Hierarchy)",
       description:
-        "ข้อมูลพาร์ทเนอร์และลูกค้าจะถูกเข้ารหัสและทำลายทิ้งทันทีเมื่อจบกระบวนการ ไร้รอยเท้าดิจิทัล",
-      icon: <ShieldCheck className="w-6 h-6 text-green-600" />,
+        "เมื่อเกิดการจ้างงาน เราคือลูกจ้างและคุณคือนายจ้าง เราทำงานตามคำสั่งและส่งมอบผลลัพธ์อย่างซื่อสัตย์ที่สุด",
+      icon: <UserCheck className="w-6 h-6 text-blue-600" />,
     },
     {
-      title: "นวัตกรรม Vifily (Innovation)",
+      title: "ทีมงานระดับมืออาชีพ (Expert Team)",
       description:
-        "ระบบ QR Code เฉพาะตัวที่ตรวจสอบสิทธิ์ได้จากทั่วโลก สร้าง Trust ในระดับที่ไม่มีใครเลียนแบบได้",
-      icon: <Zap className="w-6 h-6 text-yellow-500" />,
+        "เบื้องหลังการทำงานไม่ใช่คนเพียงคนเดียว แต่คือทีมงานผู้เชี่ยวชาญเฉพาะทางที่ผมมั่นใจว่าเก่งที่สุดในสายงานนี้",
+      icon: <Users className="w-6 h-6 text-purple-600" />,
     },
   ];
 
   return (
-    <div className="bg-[#FDFDFD] font-sans">
-      {/* Hero Section */}
-      <header className="pt-48 pb-20 px-6 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-green-500/5 blur-[120px] rounded-full -mr-20 -mt-20"></div>
-        <div className="max-w-7xl mx-auto text-center relative z-10">
+    <div className="bg-white font-sans selection:bg-gray-900 selection:text-white">
+      {/* Dynamic Background Accents - Subtly enhanced contrast */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-green-500/[0.07] rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] bg-blue-500/[0.05] rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* Hero Section: The Identity */}
+      <header className="pt-48 pb-32 px-6 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center space-x-3 bg-white px-6 py-2.5 rounded-full mb-10 shadow-sm border border-gray-100"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="inline-flex items-center space-x-3 bg-gray-100 border border-gray-200 px-5 py-2.5 rounded-full mb-12 shadow-sm"
           >
-            <Sparkles className="w-4 h-4 text-green-600" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
-              The Legend Behind the Docs
+            <History className="w-4 h-4 text-green-600" />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-700">
+              ESTABLISHED 2017 • 9TH YEAR EDITION
             </span>
           </motion.div>
-          <h1 className="text-6xl md:text-8xl font-black mb-10 tracking-tighter uppercase leading-[0.85]">
-            ความเชื่อมั่น <br />
-            <span className="text-gray-300 italic">
-              คือสินทรัพย์ที่แพงที่สุด.
-            </span>
-          </h1>
-          <p className="text-gray-400 text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed italic">
-            &quot;JP Visual Docs ไม่ได้ถือกำเนิดขึ้นเพียงเพื่อสร้างเอกสาร
-            แต่เราสร้างขึ้นเพื่อทลายทุกกำแพงแห่งโอกาส ด้วยพลังแห่ง AI
-            และความโปร่งใสทางเทคโนโลยี&quot;
-          </p>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-end">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-6xl md:text-9xl font-black mb-12 tracking-tighter uppercase leading-[0.85] text-gray-900">
+                JP-VISUAL <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-green-600">
+                  & THE LEGACY.
+                </span>
+              </h1>
+              <p className="text-2xl md:text-4xl font-black text-gray-900 uppercase italic tracking-widest mb-12 flex items-center">
+                <span className="w-12 h-[3px] bg-green-500 mr-4"></span>
+                BY. เจ้าป่า
+              </p>
+              <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-2xl font-semibold italic border-l-4 border-green-500 pl-8 bg-gray-50/50 py-4 rounded-r-2xl">
+                &quot;ผมไม่ใช่คนเก่งที่สุด
+                แต่ผมมั่นใจว่าทีมงานของผมทำงานได้ละเอียดและปลอดภัยที่สุดในวงการ
+                ประสบการณ์ 9 ปีคือเครื่องยืนยัน&quot;
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="relative hidden lg:block"
+            >
+              <div className="bg-gray-100 aspect-[4/3] rounded-[4rem] overflow-hidden relative shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] border border-gray-200">
+                <Image
+                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200"
+                  alt="Security Infrastructure"
+                  fill
+                  className="object-cover opacity-80 grayscale-0 transition-all duration-[2s]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent"></div>
+                <div className="absolute bottom-12 left-12 flex items-center space-x-6">
+                  <div className="bg-gray-900 p-5 rounded-3xl shadow-xl border border-white/10">
+                    <Fingerprint className="w-8 h-8 text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                      System Integrity
+                    </p>
+                    <p className="text-sm font-black text-gray-900 uppercase tracking-tight">
+                      JAOPRA-PROTOCOL-001
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </header>
 
-      {/* Philosophy Section */}
-      <Section className="py-32">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-black mb-8 uppercase tracking-tight">
-              ปรัชญาของ <span className="text-green-600">เจ้าป่า.</span>
+      {/* The Pact: Employer-Employee Relationship */}
+      <section className="py-32 bg-gray-100/50 border-y border-gray-200 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-4xl">
+            <h2 className="text-4xl md:text-6xl font-black mb-12 uppercase tracking-tight text-gray-900">
+              สัญญาใจ{" "}
+              <span className="text-green-600 italic font-black">
+                และการร่วมงาน.
+              </span>
             </h2>
-            <p className="text-gray-500 text-lg leading-relaxed mb-10 font-medium italic">
-              ในโลกที่เอกสารเป็นเพียงกระดาษหรือไฟล์ดิจิทัล เรามองเห็นมันในฐานะ
-              &quot;กุญแจสำคัญ&quot; ที่จะเปลี่ยนชีวิตผู้คน
-              ไม่ว่าจะเป็นการยื่นวีซ่าเพื่อเริ่มต้นชีวิตใหม่ในต่างแดน
-              หรือการขอสินเชื่อเพื่อสร้างธุรกิจ
-            </p>
-            <p className="text-gray-500 text-lg leading-relaxed mb-12 font-medium">
-              เราจึงทุ่มเทพัฒนาเทคโนโลยี **Vifily Verification**
-              เพื่อให้พาร์ทเนอร์ของเรามีอาวุธที่เหนือกว่า มั่นใจกว่า
-              และทำงานได้อย่างเป็นมืออาชีพที่สุด ภายใต้มาตรฐานที่ Google AI
-              และสถาบันทั่วโลกยอมรับ
-            </p>
-            <div className="flex items-center space-x-10">
-              <div>
-                <p className="text-4xl font-black text-gray-900 mb-1">2,500+</p>
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  Success Cases
+            <div className="grid md:grid-cols-2 gap-16">
+              <div className="space-y-10">
+                <p className="text-xl text-gray-800 leading-relaxed font-bold">
+                  &quot;ยินดีร่วมงานทุกสายวงการ ยินดีให้คำปรึกษาอย่างถูกต้อง
+                  และคุณไม่ต้องกังวลว่าความลับของคุณจะรั่วไหล&quot;
+                </p>
+                <div className="h-[4px] w-24 bg-green-600 rounded-full"></div>
+                <p className="text-lg text-gray-600 leading-relaxed italic font-medium">
+                  &quot;เพราะเมื่อเกิดการจ้างงาน{" "}
+                  <span className="text-gray-900 font-black underline decoration-green-500 decoration-4">
+                    ผมเป็นลูกจ้างและคุณคือนายจ้าง
+                  </span>{" "}
+                  เมื่อจบงานทุกอย่างก็ไม่มีผลต่อกัน
+                  ผมทำงานตามที่บริการส่วนคุณจะนำไปใช้อะไรต่อคือสิทธิ์ของคุณโดยสมบูรณ์&quot;
                 </p>
               </div>
-              <div className="w-px h-12 bg-gray-100"></div>
-              <div>
-                <p className="text-4xl font-black text-gray-900 mb-1">100%</p>
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  AI Accuracy
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <div className="relative">
-            <div className="aspect-square bg-gray-900 rounded-[4rem] overflow-hidden shadow-2xl relative group">
-              <Image
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000"
-                alt="AI Infrastructure"
-                fill
-                className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[2s]"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-10">
-                  <Cpu className="w-20 h-20 text-white mx-auto mb-8 animate-pulse" />
-                  <p className="text-white font-black uppercase tracking-[0.4em] text-xs">
-                    Vifily Intelligence Core
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-[3rem] shadow-2xl border border-gray-100 flex items-center space-x-5">
-              <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
-                <Award className="w-8 h-8" />
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">
-                  Certified By
-                </p>
-                <p className="text-sm font-black text-gray-900 uppercase">
-                  JP Visual Global
+              <div className="relative p-12 bg-white rounded-[3.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-gray-200 flex flex-col justify-center overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-full -mr-16 -mt-16 transition-colors group-hover:bg-green-100"></div>
+                <ShieldCheck className="w-16 h-16 text-green-600 mb-8 relative z-10" />
+                <h3 className="text-2xl font-black mb-4 uppercase tracking-tight relative z-10 text-gray-900">
+                  Zero-Trace Protocol
+                </h3>
+                <p className="text-gray-600 leading-relaxed font-semibold relative z-10">
+                  ระบบการทำงานของเราถูกออกแบบมาเพื่อทำลายข้อมูลทันทีหลังส่งมอบ
+                  เพื่อให้มั่นใจว่าไม่มีรอยเท้าดิจิทัลใดๆ
+                  หลงเหลืออยู่ในระบบของเราหลังจบงาน
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Core Values Grid */}
-      <section className="py-32 bg-gray-50">
+      {/* Core Principles Grid */}
+      <section className="py-40 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl font-black uppercase tracking-tight mb-4">
-              ค่านิยมหลักของเรา
-            </h2>
-            <div className="w-20 h-1.5 bg-gray-900 mx-auto rounded-full"></div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
+            <div>
+              <p className="text-[10px] font-black text-green-600 uppercase tracking-[0.4em] mb-4">
+                Core Principles
+              </p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-gray-900">
+                ค่านิยม <span className="text-gray-400">ที่เรายึดถือ.</span>
+              </h2>
+            </div>
+            <div className="flex -space-x-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden shadow-lg"
+                >
+                  <Image
+                    src={`https://i.pravatar.cc/100?img=${i + 20}`}
+                    alt="Team Expert"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+              ))}
+              <div className="w-12 h-12 rounded-full border-4 border-white bg-gray-900 flex items-center justify-center text-[10px] text-white font-black shadow-xl">
+                +12
+              </div>
+            </div>
           </div>
+
           <div className="grid md:grid-cols-3 gap-12">
-            {values.map((value, index) => (
+            {corePrinciples.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white p-12 rounded-[3rem] shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group"
+                className="bg-white p-12 rounded-[3.5rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] transition-all duration-700 border border-gray-100 group relative overflow-hidden"
               >
-                <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-10 group-hover:bg-gray-900 group-hover:text-white transition-all duration-500">
-                  {value.icon}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 group-hover:bg-green-50 transition-colors duration-500"></div>
+                <div className="w-16 h-16 bg-gray-900 text-white rounded-[1.5rem] flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 relative z-10 shadow-lg">
+                  {item.icon}
                 </div>
-                <h3 className="text-2xl font-black mb-6 uppercase tracking-tight">
-                  {value.title}
+                <h3 className="text-2xl font-black mb-6 uppercase tracking-tight relative z-10 text-gray-900">
+                  {item.title}
                 </h3>
-                <p className="text-gray-500 leading-relaxed font-medium">
-                  {value.description}
+                <p className="text-gray-700 leading-relaxed font-bold relative z-10">
+                  {item.description}
                 </p>
               </motion.div>
             ))}
@@ -175,35 +218,92 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <Section className="py-40">
+      {/* History & Stats */}
+      <section className="pb-40 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="bg-gray-900 rounded-[5rem] p-12 md:p-24 text-white relative overflow-hidden shadow-[0_60px_120px_-30px_rgba(0,0,0,0.4)]">
+            <div className="absolute top-0 right-0 w-[50%] h-full bg-green-500/20 blur-[100px] rounded-full -mr-20"></div>
+            <div className="relative z-10 grid lg:grid-cols-2 gap-24 items-center">
+              <div>
+                <h2 className="text-5xl md:text-7xl font-black mb-10 tracking-tighter uppercase leading-none italic">
+                  ยืนหยัดเข้าสู่ <br />
+                  <span className="text-green-500 italic font-black">
+                    ปีที่ 9.
+                  </span>
+                </h2>
+                <p className="text-xl text-gray-300 leading-relaxed font-medium mb-12">
+                  กาลเวลาพิสูจน์ความจริงใจ ชื่อของ &quot;เจ้าป่า&quot;
+                  ยังคงยืนอยู่ที่เดิมไม่เปลี่ยนแปลง
+                  ขณะที่เจ้าอื่นอาจล่วงหายตามกาลเวลา
+                  เพราะความลับลูกค้าคือลมหายใจของเรา
+                </p>
+                <div className="flex flex-wrap gap-12">
+                  <div>
+                    <p className="text-5xl font-black mb-2 tracking-tighter text-white">
+                      2.8K+
+                    </p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+                      Managed Assets
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-5xl font-black mb-2 tracking-tighter text-white">
+                      100%
+                    </p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+                      Security Rate
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-8">
+                <div className="aspect-square bg-white/10 rounded-[3.5rem] border border-white/20 flex flex-col items-center justify-center p-8 text-center group hover:bg-green-600 transition-all duration-500 shadow-2xl">
+                  <Zap className="w-14 h-14 text-white mb-6 group-hover:scale-125 transition-transform" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em]">
+                    Fast Track
+                  </p>
+                </div>
+                <div className="aspect-square bg-white/10 rounded-[3.5rem] border border-white/20 flex flex-col items-center justify-center p-8 text-center mt-12 group hover:bg-blue-600 transition-all duration-500 shadow-2xl">
+                  <Award className="w-14 h-14 text-white mb-6 group-hover:scale-125 transition-transform" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em]">
+                    Certified
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final Call to Action */}
+      <section className="pb-40 px-6 bg-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-7xl font-black mb-12 tracking-tighter uppercase leading-none">
-            พร้อมร่วมงานกับ <br />
-            <span className="text-gray-300 italic">ตัวจริงหรือยัง?</span>
+          <h2 className="text-5xl md:text-8xl font-black mb-12 tracking-tighter uppercase leading-none text-gray-900">
+            พร้อมเริ่มงาน <br />
+            <span className="text-gray-300 italic">กับเราแล้วหรือยัง?</span>
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <Link href="/register">
+            <Link href="/register" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="h-20 px-12 rounded-[2rem] bg-gray-900 text-white font-black uppercase tracking-widest text-sm shadow-2xl hover:bg-green-600 transition-all flex items-center space-x-4"
+                className="w-full sm:w-auto h-20 px-12 rounded-[2.5rem] bg-gray-900 text-white font-black uppercase tracking-widest text-sm shadow-[0_40px_80px_-15px_rgba(0,0,0,0.3)] hover:bg-green-600 transition-all duration-500 flex items-center space-x-4 border-none"
               >
-                <span>สมัครเป็นพาร์ทเนอร์</span>
-                <ArrowRight className="w-5 h-5" />
+                <span className="text-lg">ลงทะเบียนโปรโตคอล</span>
+                <ArrowRight className="w-6 h-6" />
               </Button>
             </Link>
-            <Link href="/#contact">
+            <Link href="/#contact" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
-                className="h-20 px-12 rounded-[2rem] font-black uppercase tracking-widest text-sm"
+                className="w-full sm:w-auto h-20 px-12 rounded-[2.5rem] font-black uppercase tracking-widest text-sm border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-500"
               >
-                ปรึกษาเราโดยตรง
+                ปรึกษาความลับ
               </Button>
             </Link>
           </div>
         </div>
-      </Section>
+      </section>
     </div>
   );
 }

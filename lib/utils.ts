@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { supabaseAdmin } from "./index";
+import { createAdminClient } from "./supabase/admin";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,10 +18,9 @@ export async function logApiActivity(params: {
   responsePayload?: unknown;
   durationMs?: number;
 }) {
-  if (!supabaseAdmin) return;
-
   try {
-    await supabaseAdmin.from("api_logs").insert([
+    const adminClient = createAdminClient();
+    await adminClient.from("api_logs").insert([
       {
         user_id: params.userId,
         endpoint: params.endpoint,

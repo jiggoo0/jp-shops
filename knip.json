@@ -1,6 +1,20 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
   "project": ["**/*.{ts,tsx}"],
-  "ignore": ["node_modules/**", ".next/**"],
-  "ignoreDependencies": ["sharp", "unrs-resolver"]
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "lib/index.ts",
+    "middleware.ts",
+    "next.config.ts"
+  ],
+  "ignore": ["node_modules/**", ".next/**", "supabase/migrations/**"],
+  "ignoreDependencies": [
+    "sharp",
+    "unrs-resolver",
+    "eslint-config-next",
+    "postcss-load-config"
+  ],
+  "ignoreBinaries": ["next", "prettier", "eslint", "knip", "tsc"],
+  "ignoreExportsUsedInFile": true
 }

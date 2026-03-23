@@ -50,7 +50,7 @@ export default async function BlogPage({
       <div className="max-w-4xl mx-auto px-6">
         <Link
           href="/blog"
-          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors mb-12 group"
+          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors mb-12 group"
         >
           <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
           Back to Blog
@@ -62,7 +62,7 @@ export default async function BlogPage({
             <span className="px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full">
               Insight
             </span>
-            <div className="flex items-center space-x-4 text-gray-400 text-[10px] font-black uppercase tracking-widest">
+            <div className="flex items-center space-x-4 text-gray-500 text-[10px] font-black uppercase tracking-widest">
               <span className="flex items-center space-x-1.5">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{frontmatter.date}</span>
@@ -86,7 +86,7 @@ export default async function BlogPage({
               <p className="text-[10px] font-black uppercase tracking-widest text-gray-900">
                 {frontmatter.author}
               </p>
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+              <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
                 AI Architect
               </p>
             </div>
@@ -112,7 +112,7 @@ export default async function BlogPage({
             <h3 className="text-xl font-black uppercase tracking-tight text-gray-900 mb-4">
               สนใจร่วมเป็นพาร์ทเนอร์กับ JP Visual Docs?
             </h3>
-            <p className="text-gray-500 text-sm font-medium mb-8 max-w-md mx-auto leading-relaxed">
+            <p className="text-gray-600 text-sm font-medium mb-8 max-w-md mx-auto leading-relaxed">
               เราพร้อมสนับสนุนความถูกต้องของเอกสารและการตรวจสอบแบบดิจิทัล
               ร่วมสร้างมาตรฐานความเชื่อมั่นยุคใหม่ไปกับเรา
             </p>

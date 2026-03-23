@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib";
-import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, Lock, ArrowRight, User, ChevronLeft } from "lucide-react";
@@ -10,7 +9,7 @@ import { Button } from "@/components/ui";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -34,34 +33,33 @@ export default function LoginPage() {
       setErrorMsg(error.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setIsLoading(false);
     } else {
-      // ดึงข้อมูล Profile ล่าสุด
+      // ดึงข้อมูล User Profile ล่าสุด
       const { data: profile, error: profileError } = await supabase
-        .from("profiles")
+        .from("users")
         .select("role, subscription_status, subscription_end_date")
         .eq("id", authData.user.id)
-        .single();
+        .maybeSingle();
 
       if (profileError) {
         console.error("Profile fetch error:", profileError);
       }
 
-      // รีเฟรชสถานะฝั่ง Server ก่อนเปลี่ยนหน้า
-      router.refresh();
-
+      // ใช้ window.location.href เพื่อให้ Middleware รันใหม่ 100% และป้องกันปัญหา Session Sync
       if (profile?.role === "admin") {
-        router.push("/admin/dashboard");
+        window.location.href = "/admin/dashboard";
       } else {
         const now = new Date();
-        const expiry = profile?.subscription_end_date 
-          ? new Date(profile.subscription_end_date) 
+        const expiry = profile?.subscription_end_date
+          ? new Date(profile.subscription_end_date)
           : null;
 
-        const isNotActive = !expiry || expiry < now || profile?.subscription_status !== "active";
+        const isNotActive =
+          !expiry || expiry < now || profile?.subscription_status !== "active";
 
         if (isNotActive) {
-          router.push("/partner/pricing");
+          window.location.href = "/partner/pricing";
         } else {
-          router.push("/partner/dashboard");
+          window.location.href = "/partner/dashboard";
         }
       }
     }
@@ -76,7 +74,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full relative z-10">
         <Link
           href="/"
-          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors mb-12 group"
+          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors mb-12 group"
         >
           <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
           Back to Portal
@@ -101,7 +99,7 @@ export default function LoginPage() {
           <h1 className="text-4xl font-black tracking-tighter text-gray-900 uppercase italic">
             Elite <span className="text-gray-300">Login.</span>
           </h1>
-          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.3em] mt-4 flex items-center justify-center space-x-2">
+          <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.3em] mt-4 flex items-center justify-center space-x-2">
             <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
             <span>Secure Access Protocol</span>
           </p>
@@ -115,11 +113,11 @@ export default function LoginPage() {
         >
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3">
                 Partner Email
               </label>
               <div className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -134,11 +132,11 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3">
                 Security Key
               </label>
               <div className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -181,7 +179,7 @@ export default function LoginPage() {
           <div className="mt-10 text-center">
             <Link
               href="/register"
-              className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
+              className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors"
             >
               Need a partner account?{" "}
               <span className="text-gray-900 underline underline-offset-4">

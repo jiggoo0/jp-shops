@@ -1,41 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type DocumentInput, supabase } from "@/lib";
-import { createDocument } from "@/app/actions/document";
+import dynamic from "next/dynamic";
+import { type DocumentInput } from "@/lib";
+import { createClient } from "@/lib/supabase/client";
+import { createDocument } from "@/actions/document";
 import Link from "next/link";
-import { ShieldCheck, FileText, User } from "lucide-react";
-import { z } from "zod";
+import { ShieldCheck, User } from "lucide-react";
 
-type FormValues = {
-  ownerName: string;
-  documentType: string;
-  issuedDate: string;
-  expiryDate: string;
-  status: string;
-  issuer: string;
-};
-
-const uiSchema = z.object({
-  ownerName: z.string().min(2, "Owner name is required"),
-  documentType: z.string().min(2, "Document type is required"),
-  issuedDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Invalid date format",
-  }),
-  expiryDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Invalid date format",
-  }),
-  status: z.string().min(2, "Status is required"),
-  issuer: z.string().min(2, "Issuer is required"),
-});
+// 🚀 Dynamic Import for heavy form component (bundle-dynamic-imports)
+const DocumentForm = dynamic(
+  () => import("@/components/sections/DocumentForm"),
+  {
+    loading: () => (
+      <div className="w-full h-96 bg-gray-50 animate-pulse rounded-2xl flex items-center justify-center">
+        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">
+          Loading Generator Form...
+        </p>
+      </div>
+    ),
+    ssr: false, // Client-side only for form state
+  },
+);
 
 export default function DocumentGeneratorPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClient();
   const [generatedId, setGeneratedId] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -48,41 +41,14 @@ export default function DocumentGeneratorPage() {
       }
     };
     checkUser();
-  }, []);
+  }, [supabase]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(uiSchema),
-    defaultValues: {
-      ownerName: "",
-      documentType: "Premium Visa Package",
-      issuedDate: new Date().toISOString().split("T")[0],
-      expiryDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-        .toISOString()
-        .split("T")[0],
-      status: "Verified",
-      issuer: "JP-Visual&Docs Intelligence",
-    },
-  });
-
-  const onSubmit = async (values: FormValues) => {
+  const handleFormSubmit = async (values: DocumentInput) => {
     setIsLoading(true);
     setErrorMsg(null);
 
-    const finalData: DocumentInput = {
-      ownerName: values.ownerName,
-      documentType: values.documentType,
-      issuedDate: values.issuedDate,
-      expiryDate: values.expiryDate,
-      status: values.status,
-      issuer: values.issuer,
-    };
-
     try {
-      const result = await createDocument(finalData);
+      const result = await createDocument(values);
       if (result.success && result.id) {
         setGeneratedId(result.id);
       } else {
@@ -105,7 +71,7 @@ export default function DocumentGeneratorPage() {
           <h2 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">
             สำเร็จ!
           </h2>
-          <p className="text-gray-500 mb-8 leading-relaxed">
+          <p className="text-gray-600 mb-8 leading-relaxed">
             เอกสารระดับมืออาชีพของคุณถูกสร้างและบันทึกลงฐานข้อมูล Vifily
             เรียบร้อยแล้ว พร้อมตรวจสอบผ่าน QR Code
           </p>
@@ -136,7 +102,7 @@ export default function DocumentGeneratorPage() {
             <h1 className="text-3xl font-black text-gray-900 tracking-tight">
               AI Document Generator
             </h1>
-            <p className="text-gray-500 mt-1 flex items-center">
+            <p className="text-gray-600 mt-1 flex items-center">
               <ShieldCheck className="w-4 h-4 mr-1 text-green-500" />
               <span>
                 สร้างเอกสารความน่าเชื่อถือสูง มาตรฐาน Vifily International
@@ -146,10 +112,10 @@ export default function DocumentGeneratorPage() {
           <div className="hidden sm:flex items-center space-x-3">
             <div className="bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                <User className="w-4 h-4 text-gray-400" />
+                <User className="w-4 h-4 text-gray-500" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-none mb-1">
+                <span className="text-[10px] font-black uppercase tracking-widest text-gray-500 leading-none mb-1">
                   Signed in as
                 </span>
                 <span className="text-xs font-bold text-gray-900 leading-none">
@@ -160,148 +126,15 @@ export default function DocumentGeneratorPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-8 py-5 border-b border-gray-100 bg-gray-50/50 flex items-center space-x-3">
-              <FileText className="w-5 h-5 text-gray-400" />
-              <h2 className="text-sm font-black uppercase tracking-widest text-gray-900">
-                Vifily Document Details
-              </h2>
-            </div>
+        <DocumentForm
+          onSubmit={handleFormSubmit}
+          isLoading={isLoading}
+          errorMsg={errorMsg}
+        />
 
-            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="col-span-2">
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  ชื่อเจ้าของเอกสาร (Owner Name)
-                </label>
-                <input
-                  type="text"
-                  {...register("ownerName")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  placeholder="e.g. Somchai S."
-                />
-                {errors.ownerName && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.ownerName.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  ประเภทเอกสาร (Document Type)
-                </label>
-                <input
-                  type="text"
-                  {...register("documentType")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  placeholder="e.g. Premium Visa Package"
-                />
-                {errors.documentType && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.documentType.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  สถานะเอกสาร (Status)
-                </label>
-                <input
-                  type="text"
-                  {...register("status")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  placeholder="e.g. Verified"
-                />
-                {errors.status && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.status.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  วันที่ออกเอกสาร (Issued Date)
-                </label>
-                <input
-                  type="date"
-                  {...register("issuedDate")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                />
-                {errors.issuedDate && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.issuedDate.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  วันหมดอายุ (Expiry Date)
-                </label>
-                <input
-                  type="date"
-                  {...register("expiryDate")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                />
-                {errors.expiryDate && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.expiryDate.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="col-span-2">
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-                  ผู้ออกเอกสาร (Issuer)
-                </label>
-                <input
-                  type="text"
-                  {...register("issuer")}
-                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  placeholder="e.g. JP-Visual&Docs Intelligence"
-                />
-                {errors.issuer && (
-                  <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.issuer.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-6">
-            {errorMsg && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-700 rounded-xl text-sm font-bold flex items-center space-x-2">
-                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                <span>{errorMsg}</span>
-              </div>
-            )}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-5 px-6 bg-gray-900 text-white rounded-2xl hover:bg-gray-800 transition font-black text-xl flex justify-center items-center shadow-2xl disabled:bg-gray-400 transform hover:-translate-y-1 active:scale-[0.98]"
-            >
-              {isLoading ? (
-                <div className="flex items-center space-x-3">
-                  <div className="w-5 h-5 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>กำลังสร้างเอกสารด้วย AI...</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2">
-                  <ShieldCheck className="w-6 h-6" />
-                  <span>ยืนยันข้อมูลและสร้างเอกสาร Vifily</span>
-                </div>
-              )}
-            </button>
-            <p className="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-[0.2em] font-bold">
-              Secure Cloud Processing • Zero Human Touch • ISO Certified
-              Standard
-            </p>
-          </div>
-        </form>
+        <p className="text-center text-[10px] text-gray-500 mt-8 uppercase tracking-[0.2em] font-bold">
+          Secure Cloud Processing • Zero Human Touch • ISO Certified Standard
+        </p>
       </div>
     </div>
   );

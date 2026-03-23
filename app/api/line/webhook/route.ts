@@ -39,15 +39,24 @@ export async function POST(request: Request) {
 
     for (const event of events) {
       console.log(`Processing event type: ${event.type}`);
+
+      // 2. Handle Text Messages
       if (event.type === "message" && event.message.type === "text") {
         const replyToken = event.replyToken;
         const userMessage = event.message.text;
-
         console.log(`Received message: ${userMessage}`);
 
-        // 2. Use Strategy Pattern via BotHandler (Returns BotResponse)
         const botResponse = botHandler.handle(userMessage);
+        await replyMessage(replyToken, botResponse);
+      }
 
+      // 3. Handle Image Messages (New Support)
+      if (event.type === "message" && event.message.type === "image") {
+        const replyToken = event.replyToken;
+        console.log(`Received image from user`);
+
+        // Use Strategy Pattern via BotHandler with special event trigger
+        const botResponse = botHandler.handle("EVENT_IMAGE");
         await replyMessage(replyToken, botResponse);
       }
     }

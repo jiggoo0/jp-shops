@@ -57,32 +57,37 @@ export default async function BlogSection() {
       <div className="absolute bottom-0 left-[-10%] w-[30%] h-[30%] bg-gray-50 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24">
           <div className="max-w-2xl">
-            <div className="flex items-center space-x-3 mb-6">
-              <span className="w-12 h-[2px] bg-green-600"></span>
-              <span className="text-green-600 text-[10px] font-black uppercase tracking-[0.4em] flex items-center">
-                <Sparkles className="w-3 h-3 mr-2" />
-                Latest Protocols
+            <div className="flex items-center space-x-3 mb-8">
+              <span className="w-16 h-1 bg-green-500 rounded-full"></span>
+              <span className="text-gray-900 text-[10px] font-black uppercase tracking-[0.4em] flex items-center">
+                <Sparkles className="w-3.5 h-3.5 mr-3 text-green-600 animate-pulse" />
+                Latest Protocols & Insights
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-gray-900 uppercase italic leading-[0.9]">
-              Elite <span className="text-gray-300">Insights.</span>
+            <h2 className="text-6xl md:text-8xl font-black tracking-tighter text-gray-900 uppercase italic leading-[0.85]">
+              Elite{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400">
+                Insights.
+              </span>
             </h2>
-            <p className="text-gray-500 text-sm md:text-lg font-medium mt-8 max-w-xl leading-relaxed">
-              เกาะติดเทรนด์ AI และการจัดการเอกสารยุคใหม่
-              เพื่อยกระดับความแม่นยำและความน่าเชื่อถือให้กับทุกธุรกรรมของคุณ
+            <p className="text-gray-700 text-xl font-bold mt-10 max-w-xl leading-relaxed italic bg-gray-50/50 px-6 py-4 rounded-2xl border border-gray-100">
+              &quot;เกาะติดเทรนด์การจัดการเอกสารยุคใหม่และเทคโนโลยีความปลอดภัย
+              เพื่อยกระดับความแม่นยำและความน่าเชื่อถือให้กับคุณ&quot;
             </p>
           </div>
 
-          <div className="mt-10 md:mt-0">
+          <div className="mt-12 md:mt-0">
             <Link
               href="/blog"
-              className="inline-flex items-center space-x-3 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-gray-900 transition-colors group"
+              className="inline-flex items-center space-x-5 text-[11px] font-black uppercase tracking-[0.3em] text-gray-400 hover:text-gray-900 transition-all duration-500 group"
             >
-              <span>Explore All Insights</span>
-              <div className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-gray-900 group-hover:text-white transition-all duration-300">
-                <ArrowRight className="w-4 h-4" />
+              <span className="border-b-2 border-transparent group-hover:border-green-500 pb-1">
+                Explore All Insights
+              </span>
+              <div className="w-14 h-14 rounded-2xl border border-gray-100 flex items-center justify-center bg-white shadow-sm group-hover:bg-gray-900 group-hover:text-white group-hover:rotate-12 transition-all duration-500">
+                <ArrowRight className="w-5 h-5" />
               </div>
             </Link>
           </div>

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { supabaseAdmin } from "@/lib";
+import { createAdminClient } from "@/lib/supabase/admin";
 import VerifyClient from "./VerifyClient";
 
 interface VerifyPageProps {
@@ -16,9 +16,12 @@ export default async function VerifyPage({ params }: VerifyPageProps) {
     return notFound();
   }
 
-  const { data: docData, error } = await supabaseAdmin
+  const adminClient = createAdminClient();
+  const { data: docData, error } = await adminClient
     .from("documents")
-    .select("*")
+    .select(
+      "id, owner_name, document_type, issued_date, expiry_date, status, issuer",
+    )
     .eq("id", id)
     .single();
 

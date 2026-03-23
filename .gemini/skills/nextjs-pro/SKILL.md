@@ -1,28 +1,32 @@
+# Skill: Next.js Pro (v2.0)
+
+## Objective: Build Enterprise-Grade Next.js 15 Fullstack Applications
+
+## 1. Directory Structure (Standard)
+- **`app/`**: Always use App Router. Prefer Server Components over Client Components.
+- **`lib/`**: Business logic, Supabase config, and shared schemas (Path: `@/lib/*`).
+- **`components/`**: UI components. Use `components/ui/` for shared components (Path: `@/components/*`).
+
+## 2. Server Actions (Best Practices)
+- Place all server actions in `app/actions/`.
+- Always add `'use server'` at the top.
+- Handle errors gracefully and return standardized responses (e.g., `{ success: boolean, data?: any, error?: string }`).
+
+## 3. Data Fetching & Caching
+- Fetch data in Server Components where possible.
+- Use `revalidatePath` or `revalidateTag` after data mutations in Server Actions.
+- Properly handle Next.js `loading.tsx` and `error.tsx` for a seamless UX.
+
+## 4. UI/UX Standard
+- Clean, Modern, Trustworthy (Elite Brand Tone).
+- Responsive mobile-first design.
+- Use `framer-motion` for interactive feedback.
+- Use `lucide-react` for iconography.
+
+## 5. Security Protocol
+- Never expose environment variables in client components (use `NEXT_PUBLIC_` only for public data).
+- Ensure Supabase RLS is active for all table access.
+- Validate all incoming data with **Zod** schemas in `@/lib/index.ts`.
+
 ---
-name: nextjs-pro
-description: แนวทางปฏิบัติที่ดีที่สุดสำหรับ Next.js 15 (App Router) เน้นการใช้ Server Actions, React Server Components และการจัดการ Cache อย่างถูกต้องตามมาตรฐาน Vercel Labs
-version: 1.0.0
-author: JP Visual Docs (inspired by Vercel Labs)
----
-
-# Next.js 15 Professional Patterns
-
-สกิลนี้ช่วยควบคุมการพัฒนาเว็บแอปพลิเคชัน Next.js ให้มีประสิทธิภาพสูงสุด (Performance) และมีข้อผิดพลาดน้อยที่สุด (Zero Error)
-
-## 🎯 วัตถุประสงค์
-
-- พัฒนา App Router ที่ซับซ้อนได้อย่างรื่นไหล
-- ใช้ Server Actions แทน API Routes เพื่อความปลอดภัยและการเชื่อมต่อที่สมบูรณ์ (Seamless Integration)
-- ควบคุม TypeScript ให้เป็นแบบ Strict Mode (ห้ามใช้ any)
-
-## 🔄 ขั้นตอนการทำงาน (Workflows)
-
-1. **Server Actions First:** เมื่อมีการส่งฟอร์ม (Form Submission) ให้ใช้ Server Actions เสมอ โดยมีการตรวจสอบข้อมูลด้วย `zod`
-2. **Component Separation:** แยก Client Components เฉพาะเมื่อจำเป็น (เช่น มีการใช้ useState, useEffect, onClick) ส่วนที่เหลือให้เป็น Server Components เพื่อความรวดเร็ว
-3. **Data Fetching:** ใช้ `await` สำหรับ `params` และ `searchParams` ในหน้า Page และ Layout ตามมาตรฐาน Next.js 15
-
-## 🛡️ กฎเหล็ก (Rules)
-
-- ห้ามใช้ `any` หรือ `@ts-ignore` (Strict TypeScript)
-- ทุก API Call หรือ Database Interaction ต้องมี `try-catch` และ Fallback UI
-- การแสดงผลข้อมูลสำคัญต้องมีการตรวจสอบสิทธิ์ (Auth Check) ก่อนเสมอ
+*Updated: 2026-03-23 | AI Precision Mode Active*

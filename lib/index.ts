@@ -2,23 +2,15 @@
 export * from "./config/plans";
 export * from "./utils";
 
-import { createClient } from "@supabase/supabase-js";
 import { type PlanType, planConfig } from "./config/plans";
 
-// 📦 Backward Compatibility instances (Client-safe)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Note: supabaseAdmin and Server-only functions (like getSubscriptionStatus)
-// should be imported directly from "@/lib/supabase/admin" or "@/lib/services/subscription"
-// to avoid build errors in Client Components.
+// Note: Do NOT export a global supabase instance here.
+// Use createClient() from "@/lib/supabase/client" for Client Components
+// or "@/lib/supabase/server" for Server Components to avoid Multiple Instance warnings.
 
 /**
  * Utility to calculate expiry date based on plan type or number of days.
- */
-export function calculateExpiryDate(
+ */ export function calculateExpiryDate(
   daysOrPlan: number | PlanType,
   startDate?: Date,
 ): Date {

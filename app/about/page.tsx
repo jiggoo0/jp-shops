@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   Target,
   Zap,
-  Globe,
   Cpu,
   Award,
   ArrowRight,
@@ -39,9 +38,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] font-sans">
+    <div className="bg-[#FDFDFD] font-sans">
       {/* Hero Section */}
-      <header className="pt-32 pb-20 px-6 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
+      <header className="pt-48 pb-20 px-6 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-green-500/5 blur-[120px] rounded-full -mr-20 -mt-20"></div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <motion.div
@@ -125,7 +124,6 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            {/* Decorative badge */}
             <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-[3rem] shadow-2xl border border-gray-100 flex items-center space-x-5">
               <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
                 <Award className="w-8 h-8" />
@@ -206,16 +204,6 @@ export default function AboutPage() {
           </div>
         </div>
       </Section>
-
-      {/* Simple Footer Note */}
-      <footer className="py-20 border-t border-gray-100 text-center">
-        <div className="flex items-center justify-center space-x-3 mb-6">
-          <Globe className="w-4 h-4 text-gray-300" />
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 italic">
-            JP Visual Docs &bull; Global Compliance Group
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

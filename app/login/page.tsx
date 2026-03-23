@@ -4,8 +4,10 @@ import { useState } from "react";
 import { supabase } from "@/lib";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Lock, ArrowRight, User } from "lucide-react";
+import Image from "next/image";
+import { ShieldCheck, Lock, ArrowRight, User, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,7 +34,6 @@ export default function LoginPage() {
       setErrorMsg(error.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setIsLoading(false);
     } else {
-      // Check Role and Subscription Status
       const { data: profile } = await supabase
         .from("profiles")
         .select("role, subscription_status")
@@ -44,7 +45,6 @@ export default function LoginPage() {
       } else if (profile?.subscription_status === "active") {
         router.push("/partner/dashboard");
       } else {
-        // Pending, None, or Expired
         router.push("/partner/pricing");
       }
 
@@ -53,47 +53,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center px-6 font-sans">
-      <div className="max-w-md w-full">
-        {/* Brand Header */}
+    <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center px-6 font-sans relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gray-900"></div>
+      <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-gray-50 rounded-full blur-[100px] pointer-events-none"></div>
+
+      <div className="max-w-md w-full relative z-10">
+        <Link
+          href="/"
+          className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors mb-12 group"
+        >
+          <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
+          Back to Portal
+        </Link>
+
         <div className="text-center mb-12">
-          <div className="inline-flex items-center space-x-3 mb-6">
-            <div className="relative w-14 h-14">
-              <svg
-                viewBox="0 0 100 100"
-                className="w-full h-full drop-shadow-xl"
-              >
-                <path
-                  d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z"
-                  fill="#111827"
-                />
-                <text
-                  x="50"
-                  y="62"
-                  textAnchor="middle"
-                  fill="white"
-                  fontSize="32"
-                  fontWeight="900"
-                >
-                  JP
-                </text>
-              </svg>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="inline-flex items-center space-x-3 mb-8"
+          >
+            <div className="relative w-16 h-16">
+              <Image
+                src="/logo.svg"
+                alt="JP Visual Docs"
+                width={64}
+                height={64}
+                className="drop-shadow-2xl"
+              />
             </div>
-          </div>
-          <h1 className="text-3xl font-black tracking-tight text-gray-900 uppercase">
-            Partner Login
+          </motion.div>
+          <h1 className="text-4xl font-black tracking-tighter text-gray-900 uppercase italic">
+            Elite <span className="text-gray-300">Login.</span>
           </h1>
-          <p className="text-gray-400 text-xs font-black uppercase tracking-[0.2em] mt-3 flex items-center justify-center space-x-2">
+          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.3em] mt-4 flex items-center justify-center space-x-2">
             <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-            <span>AI Document Compliance System</span>
+            <span>Secure Access Protocol</span>
           </p>
         </div>
 
-        <div className="bg-white p-10 rounded-[2.5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)] border border-gray-100">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white p-10 md:p-12 rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] border border-gray-100"
+        >
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
-                อีเมลผู้เชี่ยวชาญ (Partner Email)
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+                Partner Email
               </label>
               <div className="relative">
                 <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
@@ -103,7 +111,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-gray-900/5 focus:bg-white outline-none transition-all font-medium text-gray-900"
+                  className="w-full pl-12 pr-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-gray-900/5 focus:bg-white outline-none transition-all font-bold text-gray-900 text-sm"
                   placeholder="name@company.com"
                   required
                 />
@@ -111,8 +119,8 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">
-                รหัสผ่านลับ (Security Key)
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
+                Security Key
               </label>
               <div className="relative">
                 <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
@@ -122,7 +130,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-gray-900/5 focus:bg-white outline-none transition-all font-medium text-gray-900"
+                  className="w-full pl-12 pr-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-4 focus:ring-gray-900/5 focus:bg-white outline-none transition-all font-bold text-gray-900 text-sm"
                   placeholder="••••••••"
                   required
                 />
@@ -139,16 +147,16 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-16 rounded-2xl bg-gray-900 text-white font-black uppercase tracking-widest text-sm shadow-xl hover:bg-gray-800 transition-all transform active:scale-95 disabled:bg-gray-300"
+              className="w-full h-20 rounded-2xl bg-gray-900 text-white font-black uppercase tracking-widest text-xs shadow-2xl hover:bg-green-600 transition-all transform active:scale-95 disabled:bg-gray-300"
             >
               {isLoading ? (
                 <div className="flex items-center space-x-3">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>กำลังตรวจสอบ...</span>
+                  <span>Authenticating...</span>
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
-                  <span>เข้าสู่ระบบพาร์ทเนอร์</span>
+                <div className="flex items-center space-x-3">
+                  <span>Enter Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               )}
@@ -160,16 +168,16 @@ export default function LoginPage() {
               href="/register"
               className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
             >
-              ยังไม่มีบัญชีพาร์ทเนอร์?{" "}
+              Need a partner account?{" "}
               <span className="text-gray-900 underline underline-offset-4">
-                สมัครใหม่ที่นี่
+                Register here
               </span>
             </Link>
           </div>
-        </div>
+        </motion.div>
 
-        <p className="mt-12 text-center text-[10px] text-gray-400 font-black uppercase tracking-[0.25em]">
-          Powered by JP Visual & Docs Group.
+        <p className="mt-12 text-center text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
+          JP Visual & Docs &copy; {new Date().getFullYear()}
         </p>
       </div>
     </div>

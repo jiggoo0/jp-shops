@@ -6,7 +6,6 @@ import {
   FileText,
   Clock,
   ArrowRight,
-  User as UserIcon,
   AlertCircle,
 } from "lucide-react";
 import { getSubscriptionStatus } from "@/lib";
@@ -40,30 +39,8 @@ export default async function PartnerDashboard() {
     .limit(3);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 md:p-12 font-sans">
+    <div className="bg-gray-50/50 p-6 md:p-12 font-sans pt-32">
       <div className="max-w-6xl mx-auto">
-        {/* Header Navigation */}
-        <div className="flex justify-between items-center mb-12">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white group-hover:bg-green-600 transition-colors">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <span className="text-xl font-black uppercase tracking-tighter">
-              JP-VISOUL<span className="text-gray-300">&DOCS</span>
-            </span>
-          </Link>
-          <div className="flex items-center space-x-4">
-            <div className="bg-white px-4 py-2 rounded-full border border-gray-100 shadow-sm flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                <UserIcon className="w-4 h-4 text-gray-400" />
-              </div>
-              <span className="text-xs font-bold text-gray-900">
-                {user.email?.split("@")[0]}
-              </span>
-            </div>
-          </div>
-        </div>
-
         {/* Welcome & Status */}
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
           <div className="lg:col-span-2">

@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type DocumentInput, supabase } from "@/lib";
 import { createDocument } from "@/app/actions/document";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ShieldCheck, FileText, LogOut, User } from "lucide-react";
+import { ShieldCheck, FileText, User } from "lucide-react";
 import { z } from "zod";
 
 type FormValues = {
@@ -33,9 +32,7 @@ const uiSchema = z.object({
 });
 
 export default function DocumentGeneratorPage() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [generatedId, setGeneratedId] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -52,19 +49,6 @@ export default function DocumentGeneratorPage() {
     };
     checkUser();
   }, []);
-
-  const handleLogout = async () => {
-    if (!supabase) return;
-    setIsLoggingOut(true);
-    try {
-      await supabase.auth.signOut();
-      router.push("/");
-      router.refresh();
-    } catch (error) {
-      console.error("Error logging out:", error);
-      setIsLoggingOut(false);
-    }
-  };
 
   const {
     register,
@@ -145,7 +129,7 @@ export default function DocumentGeneratorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-gray-50/50 py-32 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -159,7 +143,7 @@ export default function DocumentGeneratorPage() {
               </span>
             </p>
           </div>
-          <div className="flex items-center space-x-3">
+          <div className="hidden sm:flex items-center space-x-3">
             <div className="bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm flex items-center space-x-3">
               <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
                 <User className="w-4 h-4 text-gray-400" />
@@ -173,16 +157,6 @@ export default function DocumentGeneratorPage() {
                 </span>
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              className="p-3 bg-white text-gray-400 hover:text-red-500 rounded-xl border border-gray-100 shadow-sm transition-all active:scale-95 disabled:opacity-50"
-              title="Logout from System"
-            >
-              <LogOut
-                className={`w-5 h-5 ${isLoggingOut ? "animate-pulse" : ""}`}
-              />
-            </button>
           </div>
         </div>
 
@@ -197,7 +171,7 @@ export default function DocumentGeneratorPage() {
 
             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="col-span-2">
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   ชื่อเจ้าของเอกสาร (Owner Name)
                 </label>
                 <input
@@ -214,7 +188,7 @@ export default function DocumentGeneratorPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   ประเภทเอกสาร (Document Type)
                 </label>
                 <input
@@ -231,7 +205,7 @@ export default function DocumentGeneratorPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   สถานะเอกสาร (Status)
                 </label>
                 <input
@@ -248,7 +222,7 @@ export default function DocumentGeneratorPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   วันที่ออกเอกสาร (Issued Date)
                 </label>
                 <input
@@ -264,7 +238,7 @@ export default function DocumentGeneratorPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   วันหมดอายุ (Expiry Date)
                 </label>
                 <input
@@ -280,7 +254,7 @@ export default function DocumentGeneratorPage() {
               </div>
 
               <div className="col-span-2">
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                   ผู้ออกเอกสาร (Issuer)
                 </label>
                 <input

@@ -93,7 +93,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] py-32 px-6 font-sans">
+    <div className="bg-[#FDFDFD] py-40 px-6 font-sans">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24">
           <motion.div

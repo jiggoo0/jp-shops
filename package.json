@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint --dir app --dir components --dir lib",
+    "lint": "next lint",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "knip": "knip"

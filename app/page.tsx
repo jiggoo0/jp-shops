@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import {
   Plane,
   Briefcase,
@@ -22,8 +24,16 @@ import {
 } from "lucide-react";
 import { Button, Card, Section } from "@/components/ui";
 import { supabase } from "@/lib";
-import { CheckoutModal } from "@/components/CheckoutModal";
-import { AIAssistant } from "@/components/AIAssistant";
+
+const CheckoutModal = dynamic(
+  () => import("@/components/CheckoutModal").then((mod) => mod.CheckoutModal),
+  { ssr: false },
+);
+
+const AIAssistant = dynamic(
+  () => import("@/components/AIAssistant").then((mod) => mod.AIAssistant),
+  { ssr: false },
+);
 
 const services = [
   {
@@ -151,9 +161,11 @@ export default function LandingPage() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
             <div className="relative w-12 h-12">
-              <img
+              <Image
                 src="/logo.svg"
                 alt="JP Visual Docs Logo"
+                width={48}
+                height={48}
                 className="w-full h-full drop-shadow-xl group-hover:scale-110 transition-transform duration-500"
               />
             </div>
@@ -190,21 +202,24 @@ export default function LandingPage() {
 
           <div className="flex items-center space-x-4">
             {userEmail ? (
-              <div className="flex items-center space-x-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100 shadow-inner">
-                <div className="hidden sm:flex flex-col text-right">
-                  <span className="text-[8px] font-black uppercase tracking-widest text-gray-400">
-                    Partner
-                  </span>
-                  <span className="text-[10px] font-bold text-gray-900">
-                    {userEmail}
-                  </span>
-                </div>
+              <div className="flex items-center space-x-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100 shadow-inner group">
                 <Link
                   href="/partner/dashboard"
-                  className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center hover:bg-green-600 transition-colors"
+                  className="flex items-center space-x-3"
                 >
-                  <UserIcon className="w-4 h-4" />
+                  <div className="hidden sm:flex flex-col text-right">
+                    <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600 transition-colors">
+                      Partner Dashboard
+                    </span>
+                    <span className="text-[10px] font-bold text-gray-900">
+                      {userEmail}
+                    </span>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                    <UserIcon className="w-4 h-4" />
+                  </div>
                 </Link>
+                <div className="w-px h-4 bg-gray-200"></div>
                 <button
                   onClick={handleLogout}
                   className="p-2 text-gray-400 hover:text-red-500 transition-colors"
@@ -228,10 +243,14 @@ export default function LandingPage() {
             )}
             <Button
               size="sm"
-              onClick={() => setIsCheckoutOpen(true)}
+              onClick={() =>
+                userEmail
+                  ? router.push("/partner/dashboard")
+                  : setIsCheckoutOpen(true)
+              }
               className="rounded-full px-6 bg-gray-900 text-white font-black uppercase tracking-widest text-[10px] h-10 shadow-xl shadow-gray-200"
             >
-              ประเมินด่วน
+              {userEmail ? "Dashboard" : "ประเมินด่วน"}
             </Button>
           </div>
         </div>
@@ -302,9 +321,11 @@ export default function LandingPage() {
                     key={i}
                     className="w-14 h-14 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-10"
                   >
-                    <img
+                    <Image
                       src={`https://i.pravatar.cc/150?img=${i + 30}`}
                       alt="Successful User"
+                      width={56}
+                      height={56}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -335,11 +356,13 @@ export default function LandingPage() {
             transition={{ duration: 1, delay: 0.2 }}
             className="relative hidden lg:block"
           >
-            <div className="relative rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white">
-              <img
+            <div className="relative rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white aspect-[4/5]">
+              <Image
                 src="/hero-image.webp"
                 alt="Elite Document Consultant"
-                className="w-full aspect-[4/5] object-cover"
+                fill
+                priority
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
 
@@ -426,10 +449,11 @@ export default function LandingPage() {
                   className="group overflow-hidden !p-0 border-none shadow-[0_30px_60px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] transition-all duration-700 rounded-[3rem] bg-white cursor-pointer h-full flex flex-col"
                 >
                   <div className="h-64 w-full overflow-hidden relative">
-                    <img
+                    <Image
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent"></div>
                   </div>
@@ -516,10 +540,11 @@ export default function LandingPage() {
             className="relative"
           >
             <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-950 rounded-[4rem] p-2 shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)] relative group overflow-hidden border border-gray-800">
-              <img
+              <Image
                 src="/vifily-verification.webp"
                 alt="Vifily Scan Portal"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-1000"
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-72 h-72 bg-white p-10 rounded-[3.5rem] shadow-2xl transform -rotate-12 group-hover:rotate-0 transition-all duration-1000 ease-out">
@@ -574,10 +599,11 @@ export default function LandingPage() {
             <div className="absolute -inset-10 bg-green-500/5 rounded-full blur-[100px] animate-pulse"></div>
             <div className="flex flex-col items-center justify-center p-16 bg-white rounded-[4rem] border border-gray-50 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)] relative z-10 group hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.15)] transition-all duration-700 border-b-[12px] border-b-gray-900">
               <div className="w-64 h-64 mb-12 relative p-4 bg-gray-50 rounded-[3rem]">
-                <img
+                <Image
                   src="https://qr-official.line.me/gs/M_462fqtfc_GW.png?oat_content=qr"
                   alt="Line OA JP Visual Docs"
-                  className="w-full h-full relative z-10 rounded-[2rem] shadow-sm group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  className="relative z-10 rounded-[2rem] shadow-sm group-hover:scale-105 transition-transform duration-500 p-4"
                 />
               </div>
               <div className="bg-green-50 text-green-700 px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.25em] mb-6 border border-green-100">
@@ -602,9 +628,11 @@ export default function LandingPage() {
             <div className="col-span-2">
               <div className="flex items-center space-x-3 mb-10">
                 <div className="relative w-12 h-12">
-                  <img
+                  <Image
                     src="/logo.svg"
                     alt="JP Visual Docs Logo"
+                    width={48}
+                    height={48}
                     className="w-full h-full drop-shadow-xl opacity-80 hover:opacity-100 transition-opacity"
                   />
                 </div>

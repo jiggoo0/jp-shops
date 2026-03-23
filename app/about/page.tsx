@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   ShieldCheck,
   Target,
@@ -109,10 +110,11 @@ export default function AboutPage() {
 
           <div className="relative">
             <div className="aspect-square bg-gray-900 rounded-[4rem] overflow-hidden shadow-2xl relative group">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000"
                 alt="AI Infrastructure"
-                className="w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-[2s]"
+                fill
+                className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[2s]"
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center p-10">

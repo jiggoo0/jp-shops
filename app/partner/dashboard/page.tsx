@@ -1,70 +1,210 @@
+import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
-import { ShieldCheck, FileText, Clock, ArrowRight } from "lucide-react";
+import {
+  ShieldCheck,
+  FileText,
+  Clock,
+  ArrowRight,
+  User as UserIcon,
+  AlertCircle,
+} from "lucide-react";
+import { getSubscriptionStatus } from "@/lib";
+import { redirect } from "next/navigation";
 
-export default function PartnerDashboard() {
+export default async function PartnerDashboard() {
+  const cookieStore = await cookies();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: { headers: { Cookie: cookieStore.toString() } },
+  });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const sub = await getSubscriptionStatus(user.id);
+
+  // Fetch recent documents
+  const { data: recentDocs } = await supabase
+    .from("documents")
+    .select("id, owner_name, document_type, created_at")
+    .eq("partner_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
   return (
-    <div className="min-h-screen bg-gray-50 p-8 md:p-12">
+    <div className="min-h-screen bg-gray-50/50 p-6 md:p-12 font-sans">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-          <div>
-            <h1 className="text-3xl font-black uppercase tracking-tight text-gray-900 mb-2">
-              Partner Dashboard
+        {/* Header Navigation */}
+        <div className="flex justify-between items-center mb-12">
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white group-hover:bg-green-600 transition-colors">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <span className="text-xl font-black uppercase tracking-tighter">
+              JP-VISOUL<span className="text-gray-300">&DOCS</span>
+            </span>
+          </Link>
+          <div className="flex items-center space-x-4">
+            <div className="bg-white px-4 py-2 rounded-full border border-gray-100 shadow-sm flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <UserIcon className="w-4 h-4 text-gray-400" />
+              </div>
+              <span className="text-xs font-bold text-gray-900">
+                {user.email?.split("@")[0]}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Welcome & Status */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          <div className="lg:col-span-2">
+            <h1 className="text-5xl font-black uppercase tracking-tighter text-gray-900 mb-4">
+              Welcome, Partner 🦁
             </h1>
-            <p className="text-gray-500 font-medium text-sm">
-              ศูนย์ควบคุมระบบเอกสารความเชื่อมั่น (Vifily)
+            <p className="text-gray-500 font-medium text-lg italic">
+              ศูนย์ควบคุมระบบเอกสารความเชื่อมั่น Vifily และการจัดการสิทธิ์
             </p>
           </div>
-          <div className="mt-4 md:mt-0 flex items-center space-x-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm">
-            <ShieldCheck className="w-5 h-5 text-green-500" />
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
-              Status: Active
-            </span>
+          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                Subscription Status
+              </span>
+              {sub.isActive ? (
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              ) : (
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+              )}
+            </div>
+            <div className="flex items-center space-x-4">
+              <div
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center ${sub.isActive ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600"}`}
+              >
+                {sub.isActive ? (
+                  <ShieldCheck className="w-6 h-6" />
+                ) : (
+                  <AlertCircle className="w-6 h-6" />
+                )}
+              </div>
+              <div>
+                <p className="text-xl font-black text-gray-900 uppercase tracking-tight">
+                  {sub.isActive ? "Active Plan" : "Inactive"}
+                </p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  {sub.isActive ? `Expires: ${sub.expiry}` : "No Active Plan"}
+                </p>
+              </div>
+            </div>
+            {!sub.isActive && (
+              <Link href="/partner/pricing" className="mt-6">
+                <button className="w-full py-3 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-green-600 transition-all">
+                  Upgrade Now
+                </button>
+              </Link>
+            )}
           </div>
         </div>
 
         {/* Quick Actions */}
-        <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
-          Quick Actions
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-8 px-2">
+          Core Services
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           <Link href="/partner/generator" className="group block">
-            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-300">
-              <div className="w-14 h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 transition-colors">
-                <FileText className="w-6 h-6" />
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 opacity-50 group-hover:bg-green-500/10 transition-colors"></div>
+              <div className="w-16 h-16 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-8 group-hover:bg-green-600 transition-colors relative z-10 shadow-xl">
+                <FileText className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-black text-gray-900 mb-3 uppercase">
-                สร้างเอกสารใหม่
+              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
+                AI Document Generator
               </h3>
-              <p className="text-gray-500 text-sm font-medium mb-6">
-                เริ่มระบบ AI ออกสลิปเงินเดือนหรือหนังสือรับรอง พร้อม Vifily QR
-                Code
+              <p className="text-gray-500 font-medium mb-10 leading-relaxed italic">
+                สร้างเอกสารสลิปเงินเดือนหรือหนังสือรับรองมาตรฐาน Vifily
+                พร้อมระบบตรวจสอบจริง
               </p>
-              <div className="flex items-center text-xs font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 transition-colors">
-                <span>Start Generator</span>
+              <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
+                <span>Access Generator</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
 
-          <Link
-            href="/partner/dashboard"
-            className="group block opacity-60 hover:opacity-100 transition-opacity"
-          >
-            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all duration-300 h-full">
-              <div className="w-14 h-14 bg-gray-100 text-gray-600 rounded-2xl flex items-center justify-center mb-6">
-                <Clock className="w-6 h-6" />
+          <Link href="/partner/documents" className="group block">
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 opacity-50 transition-colors"></div>
+              <div className="w-16 h-16 bg-white text-gray-900 border-2 border-gray-900 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-gray-900 group-hover:text-white transition-all relative z-10 shadow-lg">
+                <Clock className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-black text-gray-900 mb-3 uppercase">
-                ประวัติเอกสาร (เร็วๆ นี้)
+              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
+                Document Archive
               </h3>
-              <p className="text-gray-500 text-sm font-medium">
-                ดูประวัติการสร้างเอกสาร คัดลอกลิงก์ตรวจสอบ Vifily
-                หรือจัดการข้อมูล
+              <p className="text-gray-500 font-medium mb-10 leading-relaxed italic">
+                เรียกดูประวัติเอกสารทั้งหมดของคุณ คัดลอกลิงก์ตรวจสอบ
+                หรือจัดการสถานะเอกสาร
               </p>
+              <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
+                <span>View Archive</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
           </Link>
         </div>
+
+        {/* Recent Activity */}
+        {recentDocs && recentDocs.length > 0 && (
+          <div className="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden mb-16">
+            <div className="p-10 border-b border-gray-50 flex justify-between items-center">
+              <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
+                Recent Documents
+              </h2>
+              <Link
+                href="/partner/documents"
+                className="text-[10px] font-black uppercase tracking-widest text-gray-900 hover:text-green-600"
+              >
+                View All
+              </Link>
+            </div>
+            <div className="divide-y divide-gray-50">
+              {recentDocs.map((doc) => (
+                <Link
+                  key={doc.id}
+                  href={`/verify/doc/${doc.id}`}
+                  className="flex items-center justify-between p-8 hover:bg-gray-50 transition-colors group"
+                >
+                  <div className="flex items-center space-x-6">
+                    <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors">
+                      <ShieldCheck className="w-6 h-6 text-gray-400 group-hover:text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black text-gray-900 uppercase tracking-tight">
+                        {doc.owner_name}
+                      </p>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        {doc.document_type}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] font-black text-gray-400 uppercase mb-1">
+                      {new Date(doc.created_at).toLocaleDateString()}
+                    </p>
+                    <ArrowRight className="w-4 h-4 text-gray-200 group-hover:text-gray-900 ml-auto" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

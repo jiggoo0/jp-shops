@@ -1,0 +1,8 @@
+.next
+.vercel
+node_modules
+dist
+build
+public
+*.config.js
+*.config.mjs

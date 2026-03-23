@@ -1,8 +1,10 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { logApiActivity } from "@/lib/utils";
 
 export async function GET() {
+  const startTime = Date.now();
   const cookieStore = await cookies();
 
   const supabase = createServerClient(
@@ -28,6 +30,12 @@ export async function GET() {
   } = await supabase.auth.getUser();
 
   if (!user) {
+    await logApiActivity({
+      endpoint: "/api/v1/partners/me",
+      method: "GET",
+      statusCode: 401,
+      durationMs: Date.now() - startTime,
+    });
     return NextResponse.json(
       { status: "error", message: "Unauthorized" },
       { status: 401 },
@@ -41,13 +49,20 @@ export async function GET() {
     .single();
 
   if (error) {
+    await logApiActivity({
+      userId: user.id,
+      endpoint: "/api/v1/partners/me",
+      method: "GET",
+      statusCode: 404,
+      durationMs: Date.now() - startTime,
+    });
     return NextResponse.json(
       { status: "error", message: "Profile not found" },
       { status: 404 },
     );
   }
 
-  return NextResponse.json({
+  const responseData = {
     status: "success",
     data: {
       id: profile.id,
@@ -56,5 +71,16 @@ export async function GET() {
     meta: {
       timestamp: new Date().toISOString(),
     },
+  };
+
+  await logApiActivity({
+    userId: user.id,
+    endpoint: "/api/v1/partners/me",
+    method: "GET",
+    statusCode: 200,
+    responsePayload: responseData,
+    durationMs: Date.now() - startTime,
   });
+
+  return NextResponse.json(responseData);
 }

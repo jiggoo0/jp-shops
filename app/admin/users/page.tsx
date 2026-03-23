@@ -16,7 +16,7 @@ import { Button } from "@/components/ui";
 
 export default function AdminUsersPage() {
   const [email, setEmail] = useState("");
-  const [plan, setPlan] = useState<PlanType>("monthly");
+  const [plan, setPlan] = useState<PlanType>("30_days");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";

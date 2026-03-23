@@ -1,23 +1,15 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has TypeScript errors.
-    ignoreDuringBuilds: true,
-  },
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

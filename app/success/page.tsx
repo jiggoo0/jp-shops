@@ -1,8 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   CheckCircle2,
   ShieldCheck,
@@ -12,10 +11,43 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
+import { verifyPayment } from "@/app/actions/auth";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const sessionId = searchParams.get("session_id");
+  const planId = searchParams.get("plan_id");
+  const [isVerifying, setIsVerifying] = useState(true);
+
+  useEffect(() => {
+    async function verify() {
+      if (sessionId && planId) {
+        const result = await verifyPayment(sessionId, planId);
+        if (result.success) {
+          setIsVerifying(false);
+        } else {
+          // If verification fails, we could handle error, but for now just stop verifying
+          console.error("Payment verification failed", result.error);
+          setIsVerifying(false);
+        }
+      } else {
+        setIsVerifying(false);
+      }
+    }
+    verify();
+  }, [sessionId, planId]);
+
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen bg-[#FDFDFD] flex flex-col items-center justify-center px-6">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin mb-4"></div>
+        <p className="text-sm font-black uppercase tracking-widest text-gray-400">
+          Verifying Payment...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] flex flex-col items-center justify-center px-6 py-20 font-sans">
@@ -64,11 +96,15 @@ function SuccessContent() {
         <div className="p-10 md:p-16 space-y-10">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              ขอบคุณที่ไว้วางใจ JP Visual Docs
+              {planId
+                ? "ระบบของคุณถูกเปิดใช้งานแล้ว"
+                : "ขอบคุณที่ไว้วางใจ JP Visual Docs"}
             </h2>
             <p className="text-gray-500 leading-relaxed max-w-md mx-auto">
               ระบบ AI ของเราได้รับคำขอของคุณแล้ว
-              ทีมงานผู้เชี่ยวชาญจะเริ่มดำเนินการตรวจสอบและจัดเตรียมเอกสารทันที
+              {planId
+                ? " คุณสามารถเข้าสู่ Partner Dashboard เพื่อเริ่มงานได้ทันที"
+                : " ทีมงานผู้เชี่ยวชาญจะเริ่มดำเนินการตรวจสอบและจัดเตรียมเอกสารทันที"}
             </p>
           </div>
 
@@ -96,12 +132,14 @@ function SuccessContent() {
           </div>
 
           <div className="pt-6 border-t border-gray-100 flex flex-col items-center">
-            <Link href="/" className="w-full">
-              <Button size="lg" className="w-full py-4 rounded-xl group">
-                <span>กลับไปที่หน้าหลัก</span>
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="w-full py-4 rounded-xl group"
+              onClick={() => router.push(planId ? "/partner/dashboard" : "/")}
+            >
+              <span>{planId ? "เข้าสู่ Dashboard" : "กลับไปที่หน้าหลัก"}</span>
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
             <p className="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center space-x-2">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
               <span>Our AI is processing your request with 100% precision</span>

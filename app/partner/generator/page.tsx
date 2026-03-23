@@ -1,57 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type DocumentInput, supabase } from "@/lib";
 import { createDocument } from "@/app/actions/document";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Plus,
-  Trash2,
-  ShieldCheck,
-  Briefcase,
-  FileText,
-  LogOut,
-  User,
-} from "lucide-react";
+import { ShieldCheck, FileText, LogOut, User } from "lucide-react";
 import { z } from "zod";
 
 type FormValues = {
-  type: "payslip" | "salary_certificate";
-  companyName: string;
-  employeeName: string;
-  position: string;
-  yearsOfService: number;
-  baseSalary: number;
-  issueDate: string;
-  otherEarningsList: { label: string; amount: number }[];
-  deductionsList: { label: string; amount: number }[];
+  ownerName: string;
+  documentType: string;
+  issuedDate: string;
+  expiryDate: string;
+  status: string;
+  issuer: string;
 };
 
 const uiSchema = z.object({
-  type: z.enum(["payslip", "salary_certificate"]),
-  companyName: z.string().min(2, "Company name is required"),
-  employeeName: z.string().min(2, "Employee name is required"),
-  position: z.string().min(2, "Position is required"),
-  yearsOfService: z.number().min(0),
-  baseSalary: z.number().positive("Base salary is required"),
-  issueDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
+  ownerName: z.string().min(2, "Owner name is required"),
+  documentType: z.string().min(2, "Document type is required"),
+  issuedDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Invalid date format",
   }),
-  otherEarningsList: z.array(
-    z.object({
-      label: z.string(),
-      amount: z.number(),
-    }),
-  ),
-  deductionsList: z.array(
-    z.object({
-      label: z.string(),
-      amount: z.number(),
-    }),
-  ),
+  expiryDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    message: "Invalid date format",
+  }),
+  status: z.string().min(2, "Status is required"),
+  issuer: z.string().min(2, "Issuer is required"),
 });
 
 export default function DocumentGeneratorPage() {
@@ -91,68 +69,32 @@ export default function DocumentGeneratorPage() {
   const {
     register,
     handleSubmit,
-    control,
-    watch,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(uiSchema),
     defaultValues: {
-      type: "payslip",
-      companyName: "",
-      employeeName: "",
-      position: "",
-      yearsOfService: 1,
-      baseSalary: 0,
-      issueDate: new Date().toISOString().split("T")[0],
-      otherEarningsList: [{ label: "OT / Allowance", amount: 0 }],
-      deductionsList: [{ label: "Social Security", amount: 0 }],
+      ownerName: "",
+      documentType: "Premium Visa Package",
+      issuedDate: new Date().toISOString().split("T")[0],
+      expiryDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+        .toISOString()
+        .split("T")[0],
+      status: "Verified",
+      issuer: "JP-Visual&Docs Intelligence",
     },
-  });
-
-  const {
-    fields: earningFields,
-    append: appendEarning,
-    remove: removeEarning,
-  } = useFieldArray({
-    control,
-    name: "otherEarningsList",
-  });
-
-  const {
-    fields: deductionFields,
-    append: appendDeduction,
-    remove: removeDeduction,
-  } = useFieldArray({
-    control,
-    name: "deductionsList",
   });
 
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     setErrorMsg(null);
 
-    // Transform List back to Record<string, number> for the Server Action
-    const otherEarnings: Record<string, number> = {};
-    values.otherEarningsList.forEach((item) => {
-      if (item.label && item.amount > 0)
-        otherEarnings[item.label] = item.amount;
-    });
-
-    const deductions: Record<string, number> = {};
-    values.deductionsList.forEach((item) => {
-      if (item.label && item.amount > 0) deductions[item.label] = item.amount;
-    });
-
     const finalData: DocumentInput = {
-      type: values.type,
-      companyName: values.companyName,
-      employeeName: values.employeeName,
-      position: values.position,
-      yearsOfService: values.yearsOfService,
-      baseSalary: values.baseSalary,
-      issueDate: values.issueDate,
-      otherEarnings,
-      deductions,
+      ownerName: values.ownerName,
+      documentType: values.documentType,
+      issuedDate: values.issuedDate,
+      expiryDate: values.expiryDate,
+      status: values.status,
+      issuer: values.issuer,
     };
 
     try {
@@ -168,8 +110,6 @@ export default function DocumentGeneratorPage() {
       setIsLoading(false);
     }
   };
-
-  const docType = watch("type");
 
   if (generatedId) {
     return (
@@ -251,252 +191,109 @@ export default function DocumentGeneratorPage() {
             <div className="px-8 py-5 border-b border-gray-100 bg-gray-50/50 flex items-center space-x-3">
               <FileText className="w-5 h-5 text-gray-400" />
               <h2 className="text-sm font-black uppercase tracking-widest text-gray-900">
-                General Information
+                Vifily Document Details
               </h2>
             </div>
 
             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="col-span-2">
                 <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                  ประเภทเอกสาร (Document Type)
-                </label>
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      register("type").onChange({
-                        target: { value: "payslip", name: "type" },
-                      })
-                    }
-                    className={`py-4 px-6 rounded-xl border-2 font-bold transition-all flex items-center justify-center space-x-2 ${docType === "payslip" ? "border-gray-900 bg-gray-900 text-white shadow-lg" : "border-gray-100 bg-white text-gray-400 hover:border-gray-200"}`}
-                  >
-                    <span>สลิปเงินเดือน (Payslip)</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      register("type").onChange({
-                        target: { value: "salary_certificate", name: "type" },
-                      })
-                    }
-                    className={`py-4 px-6 rounded-xl border-2 font-bold transition-all flex items-center justify-center space-x-2 ${docType === "salary_certificate" ? "border-gray-900 bg-gray-900 text-white shadow-lg" : "border-gray-100 bg-white text-gray-400 hover:border-gray-200"}`}
-                  >
-                    <span>ใบรับรองเงินเดือน (Certificate)</span>
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                  ชื่อบริษัท (Company Name)
+                  ชื่อเจ้าของเอกสาร (Owner Name)
                 </label>
                 <input
                   type="text"
-                  {...register("companyName")}
+                  {...register("ownerName")}
                   className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  placeholder="e.g. JP Visual Docs Co., Ltd."
+                  placeholder="e.g. Somchai S."
                 />
-                {errors.companyName && (
+                {errors.ownerName && (
                   <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.companyName.message}
+                    {errors.ownerName.message}
                   </p>
                 )}
               </div>
 
               <div>
                 <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                  วันที่ออกเอกสาร (Issue Date)
+                  ประเภทเอกสาร (Document Type)
                 </label>
                 <input
-                  type="date"
-                  {...register("issueDate")}
+                  type="text"
+                  {...register("documentType")}
                   className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                  placeholder="e.g. Premium Visa Package"
                 />
-                {errors.issueDate && (
+                {errors.documentType && (
                   <p className="text-red-500 text-xs mt-2 font-bold">
-                    {errors.issueDate.message}
+                    {errors.documentType.message}
                   </p>
                 )}
               </div>
-            </div>
-          </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-8 py-5 border-b border-gray-100 bg-gray-50/50 flex items-center space-x-3">
-              <Briefcase className="w-5 h-5 text-gray-400" />
-              <h2 className="text-sm font-black uppercase tracking-widest text-gray-900">
-                Employee & Financial Profile
-              </h2>
-            </div>
-
-            <div className="p-8 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                    ชื่อพนักงาน (Employee Name)
-                  </label>
-                  <input
-                    type="text"
-                    {...register("employeeName")}
-                    className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  />
-                  {errors.employeeName && (
-                    <p className="text-red-500 text-xs mt-2 font-bold">
-                      {errors.employeeName.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                    ตำแหน่งงาน (Position)
-                  </label>
-                  <input
-                    type="text"
-                    {...register("position")}
-                    className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  />
-                  {errors.position && (
-                    <p className="text-red-500 text-xs mt-2 font-bold">
-                      {errors.position.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                    อายุงาน / ปี (Years of Service)
-                  </label>
-                  <input
-                    type="number"
-                    {...register("yearsOfService", { valueAsNumber: true })}
-                    className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
-                  />
-                  {errors.yearsOfService && (
-                    <p className="text-red-500 text-xs mt-2 font-bold">
-                      {errors.yearsOfService.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
-                    เงินเดือนพื้นฐาน (Base Salary)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">
-                      ฿
-                    </span>
-                    <input
-                      type="number"
-                      {...register("baseSalary", { valueAsNumber: true })}
-                      className="w-full pl-10 pr-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-bold text-lg"
-                    />
-                  </div>
-                  {errors.baseSalary && (
-                    <p className="text-red-500 text-xs mt-2 font-bold">
-                      {errors.baseSalary.message}
-                    </p>
-                  )}
-                </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                  สถานะเอกสาร (Status)
+                </label>
+                <input
+                  type="text"
+                  {...register("status")}
+                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                  placeholder="e.g. Verified"
+                />
+                {errors.status && (
+                  <p className="text-red-500 text-xs mt-2 font-bold">
+                    {errors.status.message}
+                  </p>
+                )}
               </div>
 
-              {/* Dynamic Earnings Section */}
-              <div className="pt-6 border-t border-gray-100">
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">
-                    รายรับอื่นๆ (Other Earnings)
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => appendEarning({ label: "", amount: 0 })}
-                    className="flex items-center space-x-2 text-xs font-bold text-gray-900 bg-gray-100 px-4 py-2 rounded-full hover:bg-gray-200 transition"
-                  >
-                    <Plus className="w-3 h-3" />
-                    <span>เพิ่มรายการรายรับ</span>
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {earningFields.map((field, index) => (
-                    <div key={field.id} className="flex space-x-4 items-start">
-                      <div className="flex-1">
-                        <input
-                          {...register(
-                            `otherEarningsList.${index}.label` as const,
-                          )}
-                          placeholder="e.g. Bonus, OT"
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-gray-900 outline-none text-sm"
-                        />
-                      </div>
-                      <div className="w-32">
-                        <input
-                          type="number"
-                          {...register(
-                            `otherEarningsList.${index}.amount` as const,
-                            { valueAsNumber: true },
-                          )}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-gray-900 outline-none text-sm font-bold"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeEarning(index)}
-                        className="p-2 text-gray-400 hover:text-red-500"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                  วันที่ออกเอกสาร (Issued Date)
+                </label>
+                <input
+                  type="date"
+                  {...register("issuedDate")}
+                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                />
+                {errors.issuedDate && (
+                  <p className="text-red-500 text-xs mt-2 font-bold">
+                    {errors.issuedDate.message}
+                  </p>
+                )}
               </div>
 
-              {/* Dynamic Deductions Section */}
-              <div className="pt-6 border-t border-gray-100">
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 text-red-600">
-                    รายการหัก (Deductions)
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => appendDeduction({ label: "", amount: 0 })}
-                    className="flex items-center space-x-2 text-xs font-bold text-red-600 bg-red-50 px-4 py-2 rounded-full hover:bg-red-100 transition"
-                  >
-                    <Plus className="w-3 h-3" />
-                    <span>เพิ่มรายการหัก</span>
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {deductionFields.map((field, index) => (
-                    <div key={field.id} className="flex space-x-4 items-start">
-                      <div className="flex-1">
-                        <input
-                          {...register(
-                            `deductionsList.${index}.label` as const,
-                          )}
-                          placeholder="e.g. Social Security"
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-gray-900 outline-none text-sm"
-                        />
-                      </div>
-                      <div className="w-32">
-                        <input
-                          type="number"
-                          {...register(
-                            `deductionsList.${index}.amount` as const,
-                            { valueAsNumber: true },
-                          )}
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-gray-900 outline-none text-sm font-bold text-red-600"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeDeduction(index)}
-                        className="p-2 text-gray-400 hover:text-red-500"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div>
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                  วันหมดอายุ (Expiry Date)
+                </label>
+                <input
+                  type="date"
+                  {...register("expiryDate")}
+                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                />
+                {errors.expiryDate && (
+                  <p className="text-red-500 text-xs mt-2 font-bold">
+                    {errors.expiryDate.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="col-span-2">
+                <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
+                  ผู้ออกเอกสาร (Issuer)
+                </label>
+                <input
+                  type="text"
+                  {...register("issuer")}
+                  className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                  placeholder="e.g. JP-Visual&Docs Intelligence"
+                />
+                {errors.issuer && (
+                  <p className="text-red-500 text-xs mt-2 font-bold">
+                    {errors.issuer.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>

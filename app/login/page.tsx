@@ -23,7 +23,7 @@ export default function LoginPage() {
     setIsLoading(true);
     setErrorMsg(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -32,7 +32,22 @@ export default function LoginPage() {
       setErrorMsg(error.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setIsLoading(false);
     } else {
-      router.push("/partner/dashboard");
+      // Check Role and Subscription Status
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, subscription_status")
+        .eq("id", authData.user.id)
+        .single();
+
+      if (profile?.role === "admin") {
+        router.push("/admin/dashboard");
+      } else if (profile?.subscription_status === "active") {
+        router.push("/partner/dashboard");
+      } else {
+        // Pending, None, or Expired
+        router.push("/partner/pricing");
+      }
+
       router.refresh();
     }
   };

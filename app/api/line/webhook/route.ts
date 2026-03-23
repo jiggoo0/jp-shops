@@ -30,13 +30,20 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = await JSON.parse(rawBody);
+    const body = JSON.parse(rawBody);
     const events = body.events || [];
 
+    if (events.length === 0) {
+      console.log("No events found in Webhook request");
+    }
+
     for (const event of events) {
+      console.log(`Processing event type: ${event.type}`);
       if (event.type === "message" && event.message.type === "text") {
         const replyToken = event.replyToken;
         const userMessage = event.message.text;
+
+        console.log(`Received message: ${userMessage}`);
 
         // 2. Use Strategy Pattern via BotHandler (Returns BotResponse)
         const botResponse = botHandler.handle(userMessage);

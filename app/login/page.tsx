@@ -34,23 +34,29 @@ export default function LoginPage() {
       setErrorMsg(error.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setIsLoading(false);
     } else {
-      const { data: profile } = await supabase
+      // ดึงข้อมูล Profile ล่าสุด
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role, subscription_status, subscription_end_date")
         .eq("id", authData.user.id)
         .single();
 
+      if (profileError) {
+        console.error("Profile fetch error:", profileError);
+      }
+
+      // รีเฟรชสถานะฝั่ง Server ก่อนเปลี่ยนหน้า
+      router.refresh();
+
       if (profile?.role === "admin") {
         router.push("/admin/dashboard");
       } else {
-        // สำหรับ Partner ตรวจสอบวันหมดอายุ
         const now = new Date();
-        const expiry = profile?.subscription_end_date
-          ? new Date(profile.subscription_end_date)
+        const expiry = profile?.subscription_end_date 
+          ? new Date(profile.subscription_end_date) 
           : null;
 
-        const isNotActive =
-          !expiry || expiry < now || profile?.subscription_status !== "active";
+        const isNotActive = !expiry || expiry < now || profile?.subscription_status !== "active";
 
         if (isNotActive) {
           router.push("/partner/pricing");
@@ -58,8 +64,6 @@ export default function LoginPage() {
           router.push("/partner/dashboard");
         }
       }
-
-      router.refresh();
     }
   };
 

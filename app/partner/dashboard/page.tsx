@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-  ShieldCheck,
-  FileText,
-  Clock,
-  Settings,
-  ArrowRight,
-} from "lucide-react";
+import { ShieldCheck, FileText, Clock, ArrowRight } from "lucide-react";
 
 export default function PartnerDashboard() {
   return (

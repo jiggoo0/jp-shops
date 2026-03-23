@@ -12,7 +12,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import { Button, Section } from "@jp-visual-docs/ui";
+import { Button, Section } from "@/components/ui";
 import Link from "next/link";
 
 export default function AboutPage() {

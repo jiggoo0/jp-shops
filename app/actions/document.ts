@@ -5,7 +5,7 @@ import {
   documentSchema,
   type DocumentInput,
   getSubscriptionStatus,
-} from "@jp-visual-docs/lib";
+} from "@/lib";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";

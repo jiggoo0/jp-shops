@@ -11,7 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@jp-visual-docs/ui";
+import { Button } from "@/components/ui";
 
 function SuccessContent() {
   const searchParams = useSearchParams();

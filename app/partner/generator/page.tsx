@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type DocumentInput, supabase } from "@jp-visual-docs/lib";
+import { type DocumentInput, supabase } from "@/lib";
 import { createDocument } from "@/app/actions/document";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

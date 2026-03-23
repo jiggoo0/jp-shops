@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { grantSubscription } from "@/app/actions/admin";
-import { type PlanType, planConfig } from "@jp-visual-docs/lib";
+import { type PlanType, planConfig } from "@/lib";
 import {
   UserPlus,
   Search,
@@ -12,7 +12,7 @@ import {
   AlertCircle,
   Calendar,
 } from "lucide-react";
-import { Button } from "@jp-visual-docs/ui";
+import { Button } from "@/components/ui";
 
 export default function AdminUsersPage() {
   const [email, setEmail] = useState("");

@@ -10,7 +10,7 @@ import {
   MessageCircle,
   ArrowRight,
 } from "lucide-react";
-import { Button } from "@jp-visual-docs/ui";
+import { Button } from "@/components/ui";
 
 const plans = [
   {
@@ -196,7 +196,7 @@ export default function PricingPage() {
 
               <Button
                 onClick={() => handleContactAdmin(plan.name)}
-                variant={plan.popular ? "primary" : "outline"}
+                variant={plan.popular ? "default" : "outline"}
                 className={`w-full h-16 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-2 transition-all ${plan.popular ? "bg-gray-900 text-white hover:bg-green-600" : "bg-white text-gray-900 hover:border-gray-900"}`}
               >
                 <span>ติดต่อแอดมิน</span>

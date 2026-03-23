@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@jp-visual-docs/lib";
+import { supabase } from "@/lib";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ShieldCheck, UserPlus, Mail, Lock } from "lucide-react";
-import { Button } from "@jp-visual-docs/ui";
+import { Button } from "@/components/ui";
 
 export default function RegisterPage() {
   const router = useRouter();

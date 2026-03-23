@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 export const siteConfig = {
   name: "JP Visual Docs | เจ้าป่า",
   description:

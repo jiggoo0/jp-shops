@@ -13,7 +13,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
-import { Button } from "@jp-visual-docs/ui";
+import { Button } from "@/components/ui";
 
 type Step = "category" | "details" | "pricing" | "screening" | "finish";
 

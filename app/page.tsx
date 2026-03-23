@@ -20,10 +20,10 @@ import {
   LogOut,
   User as UserIcon,
 } from "lucide-react";
-import { Button, Card, Section } from "@jp-visual-docs/ui";
-import { supabase } from "@jp-visual-docs/lib";
-import { CheckoutModal } from "./components/CheckoutModal";
-import { AIAssistant } from "./components/AIAssistant";
+import { Button, Card, Section } from "@/components/ui";
+import { supabase } from "@/lib";
+import { CheckoutModal } from "@/components/CheckoutModal";
+import { AIAssistant } from "@/components/AIAssistant";
 
 const services = [
   {

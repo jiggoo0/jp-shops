@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  supabaseAdmin,
-  calculateExpiryDate,
-  type PlanType,
-} from "@jp-visual-docs/lib";
+import { supabaseAdmin, calculateExpiryDate, type PlanType } from "@/lib";
 import { revalidatePath } from "next/cache";
 
 export async function grantSubscription(email: string, plan: PlanType) {
@@ -27,7 +23,7 @@ export async function grantSubscription(email: string, plan: PlanType) {
     }
 
     // 2. คำนวณวันหมดอายุใหม่
-    const newExpiry = calculateExpiryDate(userData.subscription_end_date, plan);
+    const newExpiry = calculateExpiryDate(plan, userData.subscription_end_date);
 
     // 3. อัปเดตข้อมูลพาร์ทเนอร์
     const { error: updateError } = await supabaseAdmin

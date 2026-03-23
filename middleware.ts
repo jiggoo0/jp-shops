@@ -85,12 +85,21 @@ export async function middleware(request: NextRequest) {
         }
       }
 
-      // 3. ป้องกัน User ที่มี Role ไปเข้าหน้า Login ซ้ำ (ถ้าเข้า /login ให้ไป Dashboard เลย)
+      // 3. ป้องกัน User ที่เข้าหน้า Login ซ้ำ (ถ้าเข้า /login ให้ส่งไปหน้าเริ่มต้นที่ถูกต้อง)
       if (request.nextUrl.pathname === "/login") {
-        if (profile.role === "admin")
+        if (profile.role === "admin") {
           return NextResponse.redirect(
             new URL("/admin/dashboard", request.url),
           );
+        }
+
+        // สำหรับ Partner ตรวจสอบสถานะการสมัคร
+        if (isExpired) {
+          return NextResponse.redirect(
+            new URL("/partner/pricing", request.url),
+          );
+        }
+
         return NextResponse.redirect(
           new URL("/partner/dashboard", request.url),
         );

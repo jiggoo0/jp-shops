@@ -12,12 +12,12 @@ import {
   CreditCard,
   ChevronRight,
   CheckCircle2,
-  Scan,
   Lock,
-  Award,
   ArrowRight,
 } from "lucide-react";
 import { Button, Card, Section } from "@/components/ui";
+import BlogSection from "@/components/sections/BlogSection";
+import Hero from "@/components/sections/Hero";
 
 const services = [
   {
@@ -75,164 +75,10 @@ const services = [
 ];
 
 export default function LandingPage() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="bg-[#FDFDFD] text-gray-900 font-sans selection:bg-gray-900 selection:text-white">
       {/* Hero Section */}
-      <main className="relative pt-32 pb-16 md:pt-56 md:pb-32 px-6 overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-green-500/5 rounded-full blur-[150px] pointer-events-none"></div>
-        <div className="absolute bottom-[0%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="inline-flex items-center space-x-3 bg-gray-100/80 backdrop-blur-sm px-5 py-2.5 rounded-full mb-10 border border-gray-200/50 shadow-sm">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-600">
-                AI-Powered Global Trust
-              </span>
-            </div>
-
-            <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-[0.85] mb-10 text-gray-900">
-              ยื่นที่ไหน <br />
-              ก็ผ่านฉลุย <br />
-              <span className="text-green-600 italic">มั่นใจ 100%.</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-gray-500 mb-12 leading-relaxed max-w-lg font-medium">
-              ไม่ต้องปวดหัวกับเอกสารอีกต่อไป! JP Visual Docs ช่วยคุณจัดชุดเอกสาร
-              วีซ่า สินเชื่อ และใบรับรองดิจิทัล ด้วยระบบ AI และผู้เชี่ยวชาญ
-              งานด่วน งานเนียน ตรวจสอบได้จริงทั่วโลก
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <Link href="/register" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  className="group w-full h-20 px-12 rounded-2xl bg-gray-900 text-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)] hover:bg-green-600 transition-all duration-500 flex items-center justify-center space-x-4"
-                >
-                  <div className="flex flex-col items-start">
-                    <span className="font-black uppercase tracking-widest text-sm">
-                      เริ่มประเมินงานฟรี
-                    </span>
-                    <span className="text-[9px] opacity-60 font-medium">
-                      รู้ผลเบื้องต้นใน 5 นาที
-                    </span>
-                  </div>
-                  <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              <button
-                onClick={() => scrollToSection("vifily")}
-                className="flex items-center space-x-4 text-[10px] font-black uppercase tracking-[0.2em] hover:text-green-600 transition-colors py-4 group"
-              >
-                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-green-600 group-hover:bg-green-50 transition-all">
-                  <Scan className="w-4 h-4" />
-                </div>
-                <span>วิธีตรวจสอบเอกสาร</span>
-              </button>
-            </div>
-
-            <div className="mt-20 flex items-center space-x-12">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-14 h-14 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-10"
-                  >
-                    <Image
-                      src={`https://i.pravatar.cc/150?img=${i + 30}`}
-                      alt="Successful User"
-                      width={56}
-                      height={56}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="text-sm">
-                <div className="flex items-center space-x-1 mb-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Award
-                      key={i}
-                      className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500"
-                    />
-                  ))}
-                </div>
-                <p className="font-black text-gray-900 uppercase tracking-[0.15em] text-xs">
-                  Trusted by 2,500+ Clients
-                </p>
-                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">
-                  Verified Satisfaction
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative rounded-[3.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[16px] border-white aspect-[4/5]">
-              <Image
-                src="/hero-image.webp"
-                alt="Elite Document Consultant"
-                fill
-                priority
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
-
-              <div className="absolute bottom-12 left-12 right-12 bg-white/95 backdrop-blur-2xl p-10 rounded-[2.5rem] shadow-2xl border border-white/50">
-                <div className="flex items-center space-x-3 text-green-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4">
-                  <ShieldCheck className="w-5 h-5" />
-                  <span>Elite Vifily Partner</span>
-                </div>
-                <p className="text-gray-900 text-xl font-black leading-tight mb-4 italic">
-                  &quot;ลดความเสี่ยงจากการถูกปฏิเสธเอกสารด้วยระบบตรวจสอบ AI 10
-                  ขั้นตอน&quot;
-                </p>
-                <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                      System Online
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-900">
-                    v.16.2.1
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute -top-12 -right-12 bg-white p-8 rounded-[3rem] shadow-2xl border border-gray-50 flex items-center space-x-5 animate-bounce-slow">
-              <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 shadow-inner">
-                <CheckCircle2 className="w-7 h-7" />
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-1">
-                  Success Rate
-                </p>
-                <p className="text-3xl font-black text-gray-900 tracking-tighter">
-                  99.9%
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </main>
+      <Hero />
 
       {/* Services Grid */}
       <Section id="services" className="bg-[#F8F8F8] py-32">
@@ -404,6 +250,9 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Blog Section */}
+      <BlogSection />
 
       {/* Contact Section */}
       <Section id="contact" className="bg-white py-40">

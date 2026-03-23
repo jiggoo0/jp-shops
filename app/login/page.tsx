@@ -36,16 +36,27 @@ export default function LoginPage() {
     } else {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role, subscription_status")
+        .select("role, subscription_status, subscription_end_date")
         .eq("id", authData.user.id)
         .single();
 
       if (profile?.role === "admin") {
         router.push("/admin/dashboard");
-      } else if (profile?.subscription_status === "active") {
-        router.push("/partner/dashboard");
       } else {
-        router.push("/partner/pricing");
+        // สำหรับ Partner ตรวจสอบวันหมดอายุ
+        const now = new Date();
+        const expiry = profile?.subscription_end_date
+          ? new Date(profile.subscription_end_date)
+          : null;
+
+        const isNotActive =
+          !expiry || expiry < now || profile?.subscription_status !== "active";
+
+        if (isNotActive) {
+          router.push("/partner/pricing");
+        } else {
+          router.push("/partner/dashboard");
+        }
       }
 
       router.refresh();

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { BotHandler } from "@/lib/bot/BotHandler";
+import { BotHandler, BotResponse } from "@/lib/bot/BotHandler";
 import { logApiActivity } from "@/lib/utils";
 
 const CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN || "";
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = JSON.parse(rawBody);
+    const body = await JSON.parse(rawBody);
     const events = body.events || [];
 
     for (const event of events) {
@@ -38,10 +38,10 @@ export async function POST(request: Request) {
         const replyToken = event.replyToken;
         const userMessage = event.message.text;
 
-        // 2. Use Strategy Pattern via BotHandler
-        const responseText = botHandler.handle(userMessage);
+        // 2. Use Strategy Pattern via BotHandler (Returns BotResponse)
+        const botResponse = botHandler.handle(userMessage);
 
-        await replyMessage(replyToken, responseText);
+        await replyMessage(replyToken, botResponse);
       }
     }
 
@@ -78,16 +78,33 @@ function verifySignature(body: string, signature: string): boolean {
   return hash === signature;
 }
 
-async function replyMessage(replyToken: string, text: string) {
+async function replyMessage(replyToken: string, botResponse: BotResponse) {
   const url = "https://api.line.me/v2/bot/message/reply";
+
+  let messagePayload: {
+    type: string;
+    text?: string;
+    altText?: string;
+    contents?: unknown;
+  };
+
+  if (botResponse.type === "text") {
+    messagePayload = {
+      type: "text",
+      text: botResponse.content as string,
+    };
+  } else {
+    // Flex Message structure
+    messagePayload = {
+      type: "flex",
+      altText: "JP Visual Docs Response",
+      contents: botResponse.content,
+    };
+  }
+
   const body = {
     replyToken,
-    messages: [
-      {
-        type: "text",
-        text: text,
-      },
-    ],
+    messages: [messagePayload],
   };
 
   const response = await fetch(url, {

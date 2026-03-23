@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -7,7 +5,7 @@ import Image from "next/image";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui";
 import { supabase } from "@/lib";
-
+import { Session } from "@supabase/supabase-js";
 interface HeaderProps {
   onOpenCheckout?: () => void;
 }
@@ -17,6 +15,7 @@ export function Header({ onOpenCheckout }: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -30,8 +29,20 @@ export function Header({ onOpenCheckout }: HeaderProps) {
         } = await client.auth.getSession();
         if (session?.user) {
           setUserEmail(session.user.email ?? "Partner");
+
+          // ดึงข้อมูล Role จาก profiles
+          const { data: profile } = await client
+            .from("profiles")
+            .select("role")
+            .eq("id", session.user.id)
+            .single();
+
+          if (profile) {
+            setUserRole(profile.role);
+          }
         } else {
           setUserEmail(null);
+          setUserRole(null);
         }
       } catch (error) {
         console.warn("Auth session check failed:", error);
@@ -42,13 +53,26 @@ export function Header({ onOpenCheckout }: HeaderProps) {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = client.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUserEmail(session.user.email ?? "Partner");
-      } else {
-        setUserEmail(null);
-      }
-    });
+    } = client.auth.onAuthStateChange(
+      async (_event: string, session: Session | null) => {
+        if (session?.user) {
+          setUserEmail(session.user.email ?? "Partner");
+
+          const { data: profile } = await client
+            .from("profiles")
+            .select("role")
+            .eq("id", session.user.id)
+            .single();
+
+          if (profile) {
+            setUserRole(profile.role);
+          }
+        } else {
+          setUserEmail(null);
+          setUserRole(null);
+        }
+      },
+    );
 
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -87,30 +111,44 @@ export function Header({ onOpenCheckout }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || pathname !== "/"
           ? "bg-white/90 backdrop-blur-xl border-b border-gray-100 py-4 shadow-sm"
           : "bg-transparent py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3 group">
-          <div className="relative w-12 h-12">
+        <Link href="/" className="flex items-center space-x-3 group relative">
+          <div className="relative w-14 h-14">
+            <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl group-hover:bg-green-500/40 transition-all duration-700"></div>
             <Image
               src="/logo.svg"
               alt="JP Visual Docs Logo"
-              width={48}
-              height={48}
-              className="w-full h-full drop-shadow-xl group-hover:scale-110 transition-transform duration-500"
+              width={56}
+              height={56}
+              className="w-full h-full relative z-10 drop-shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 ease-out"
             />
           </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-black tracking-tighter leading-none uppercase">
-              JP-VISOUL<span className="text-gray-300">&DOCS</span>
+          <div className="flex flex-col relative z-10">
+            <span
+              className={`text-2xl font-black tracking-tighter leading-none uppercase transition-colors duration-500 ${
+                scrolled || pathname !== "/"
+                  ? "text-gray-900"
+                  : "text-gray-900 drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]"
+              }`}
+            >
+              JP-VISUAL
+              <span
+                className={`${scrolled || pathname !== "/" ? "text-gray-400" : "text-gray-300"}`}
+              >
+                &DOCS
+              </span>
             </span>
-            <span className="text-[8px] font-black tracking-[0.2em] text-green-600 leading-none mt-1 uppercase">
-              By.เจ้าป่า
-            </span>
+            <div className="flex items-center mt-1">
+              <span className="text-[8px] font-black tracking-[0.3em] text-green-600 leading-none uppercase bg-green-50/50 px-1.5 py-0.5 rounded shadow-sm border border-green-100/50">
+                By.เจ้าป่า
+              </span>
+            </div>
           </div>
         </Link>
 
@@ -142,12 +180,16 @@ export function Header({ onOpenCheckout }: HeaderProps) {
           {userEmail ? (
             <div className="flex items-center space-x-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100 shadow-inner group">
               <Link
-                href="/partner/dashboard"
+                href={
+                  userRole === "admin"
+                    ? "/admin/dashboard"
+                    : "/partner/dashboard"
+                }
                 className="flex items-center space-x-3"
               >
                 <div className="hidden sm:flex flex-col text-right">
                   <span className="text-[8px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600 transition-colors">
-                    Partner Dashboard
+                    {userRole === "admin" ? "Admin" : "Partner"} Dashboard
                   </span>
                   <span className="text-[10px] font-bold text-gray-900">
                     {userEmail.split("@")[0]}

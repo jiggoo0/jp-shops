@@ -68,7 +68,7 @@ export default function RegisterPage() {
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
       } else {
-        router.push("/partner/dashboard");
+        router.push("/partner/pricing");
       }
     } catch (error) {
       console.error("Checkout redirect failed:", error);

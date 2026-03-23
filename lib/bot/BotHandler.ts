@@ -1,90 +1,120 @@
-export interface ReplyStrategy {
-  match(text: string): boolean;
-  execute(): string;
-}
+import { flexTemplates } from "./templates";
+import { siteConfig } from "@/lib/site-config";
 
-export const RESPONSES = {
-  loan: `สวัสดีครับ เจ้าป่ารับทราบว่าคุณสนใจบริการที่ปรึกษาสินเชื่อ / เดินสเตทเม้นท์ (Priority A) 🦁
-
-เพื่อความรวดเร็วในการประมวลผล กรุณาส่งข้อมูลเบื้องต้น:
-1. อาชีพปัจจุบัน
-2. รายได้เฉลี่ยต่อเดือน
-3. วัตถุประสงค์ (เช่น กู้บ้าน, รถ, ธุรกิจ)
-
-เดี๋ยวผมประเมินความเป็นไปได้และวางแผนตัวเลขให้ทันทีครับ`,
-
-  visa: `สวัสดีครับ เจ้าป่ารับทราบว่าคุณสนใจงานเอกสารวีซ่า / ทำงานต่างประเทศ 🦁
-
-กรุณาแจ้งข้อมูลเพื่อให้ทีมงานจัดชุดเอกสารมาตรฐานสูงสุด:
-1. ประเทศปลายทาง
-2. ประเภทวีซ่า (เช่น ท่องเที่ยว, ทำงาน)
-3. กำหนดการยื่น (ถ้ามี)
-
-ผมจะช่วยดูแลให้ผ่านฉลุยตามเกณฑ์สถานทูตครับ`,
-
-  vifily: `ระบบ Vifily Digital Trust พร้อมให้บริการครับ 🛡️
-
-เจ้าป่าจะช่วยสร้างความน่าเชื่อถือระดับสากลให้เอกสารของคุณ
-โปรดแจ้ง "ประเภทเอกสาร" ที่ต้องการประทับตรา QR Code ครับ
-(เช่น ใบรับรองเงินเดือน, สัญญาจ้าง, เอกสารเฉพาะทาง)`,
-
-  urgent: `สวัสดีครับ เจ้าป่ารับทราบว่าเป็นงานแก้ไขเอกสารด่วนพิเศษ (VIP) ⚡
-
-กรุณาส่งไฟล์รูปภาพหรือรายละเอียดจุดที่ต้องการแก้ไขมาได้เลยครับ
-ทีมงาน AI ของผมพร้อมดำเนินการให้เนียนที่สุดและรวดเร็วที่สุดครับ`,
-
-  default: `สวัสดีครับ ผม "เจ้าป่า" แห่ง JP Visual Docs ยินดีที่ได้ดูแลครับ 🦁
-
-มีเรื่องด่วนหรือต้องการปรึกษาด้านเอกสารความน่าเชื่อถือสูง (Vifily Standard)
-สามารถพิมพ์รายละเอียดทิ้งไว้ได้เลยครับ ผมจะรีบประมวลผลและตอบกลับโดยเร็วที่สุด`,
-};
-
-class LoanStrategy implements ReplyStrategy {
-  match(text: string) {
-    return text.includes("ที่ปรึกษาสินเชื่อ");
-  }
-  execute() {
-    return RESPONSES.loan;
-  }
-}
-
-class VisaStrategy implements ReplyStrategy {
-  match(text: string) {
-    return text.includes("เอกสารวีซ่า");
-  }
-  execute() {
-    return RESPONSES.visa;
-  }
-}
-
-class VifilyStrategy implements ReplyStrategy {
-  match(text: string) {
-    return text.includes("Vifily QR");
-  }
-  execute() {
-    return RESPONSES.vifily;
-  }
-}
-
-class UrgentStrategy implements ReplyStrategy {
-  match(text: string) {
-    return text.includes("แก้ไขเอกสารเฉพาะทาง");
-  }
-  execute() {
-    return RESPONSES.urgent;
-  }
+export interface BotResponse {
+  type: "text" | "flex";
+  content: string | Record<string, unknown>;
 }
 
 export class BotHandler {
-  private strategies: ReplyStrategy[] = [
-    new LoanStrategy(),
-    new VisaStrategy(),
-    new VifilyStrategy(),
-    new UrgentStrategy(),
-  ];
+  handle(text: string): BotResponse {
+    const input = text.trim();
 
-  handle(text: string): string {
-    const strategy = this.strategies.find((s) => s.match(text));
-    return strategy ? strategy.execute() : RESPONSES.default;
+    // --- มุมที่ 2: Triggers จากหน้าเว็บ (Web-to-LINE) ---
+    if (input === "INTENT_LOAN") return this.getLoanPrompt(true);
+    if (input === "INTENT_VISA") return this.getVisaPrompt(true);
+    if (input === "INTENT_VIFILY") return this.getVifilyPrompt(true);
+
+    // --- มุมที่ 1: การตอบโต้ทั่วไป ---
+
+    // กด 0 หรือเรียกเมนู
+    if (input === "0" || input.includes("เมนู")) {
+      return {
+        type: "flex",
+        content: flexTemplates.mainMenu.contents as Record<string, unknown>,
+      };
+    }
+
+    // [1] สินเชื่อ
+    if (
+      input === "1" ||
+      this.matchKeywords(input, ["สินเชื่อ", "กู้", "เงิน"])
+    ) {
+      return this.getLoanPrompt();
+    }
+
+    // [2] วีซ่า
+    if (input === "2" || this.matchKeywords(input, ["วีซ่า", "visa"])) {
+      return this.getVisaPrompt();
+    }
+
+    // [3] Vifily
+    if (
+      input === "3" ||
+      this.matchKeywords(input, ["vifily", "qr", "รับรอง"])
+    ) {
+      return this.getVifilyPrompt();
+    }
+
+    // [4] งานด่วน
+    if (input === "4" || this.matchKeywords(input, ["ด่วน", "แก้", "urgent"])) {
+      return {
+        type: "text",
+        content:
+          "🦁 [JP PROTOCOL - งานด่วนพิเศษ]\n\nเจ้าป่าพร้อมดำเนินการให้ทันทีครับ!\nกรุณาส่งรายละเอียด:\n1.ทำอะไร:\n2.ส่งรูป/ไฟล์:\n3.เวลาใช้:\n\n*แอดมินจะแจ้งราคาประเมินภายใน 15 นาทีครับ*",
+      };
+    }
+
+    // [5] เจ้าหน้าที่
+    if (
+      input === "5" ||
+      this.matchKeywords(input, ["คน", "คุย", "เจ้าหน้าที่"])
+    ) {
+      return {
+        type: "text",
+        content:
+          "🦁 [JP ASSISTANT - ติดต่อเจ้าหน้าที่]\n\nรับทราบครับ! ผมกำลังแจ้งทีมงานผู้เชี่ยวชาญเข้าดูแลคุณโดยเฉพาะ\n\nกรุณาแจ้ง:\n1.เรื่องที่ปรึกษา:\n2.เบอร์ติดต่อ:\n\n(เจ้าหน้าที่จะตอบกลับตามคิวโดยเร็วที่สุดครับ)",
+      };
+    }
+
+    // ตรวจสอบกรณีลูกค้าส่งข้อมูลกลับมา (แบบสั้นๆ)
+    if (input.includes(":") || input.includes(".")) {
+      return {
+        type: "text",
+        content:
+          "🦁 เจ้าป่าได้รับข้อมูลเบื้องต้นแล้วครับ!\n\nระบบกำลังประมวลผลและแจ้งทีมงานเพื่อตรวจสอบความถูกต้องของเอกสาร\n\n*กรุณารอการตอบกลับสักครู่ครับ*",
+      };
+    }
+
+    // Default: ส่ง Main Menu
+    return {
+      type: "flex",
+      content: flexTemplates.mainMenu.contents as Record<string, unknown>,
+    };
+  }
+
+  private getLoanPrompt(fromWeb = false): BotResponse {
+    const header = fromWeb
+      ? "🦁 ยินดีต้อนรับจากหน้าเว็บไซต์ครับ!"
+      : "🦁 สนใจโปรโตคอล [สินเชื่อ]";
+    return {
+      type: "text",
+      content: `${header}\nเพื่อให้เจ้าป่าประเมินวงเงินได้แม่นยำ กรุณาแจ้ง:\n\n1.อาชีพ:\n2.รายได้:\n3.กู้ซื้อ:\n4.ปัญหา:\n\nหรือประเมินละเอียดที่: ${siteConfig.url}/register`,
+    };
+  }
+
+  private getVisaPrompt(fromWeb = false): BotResponse {
+    const header = fromWeb
+      ? "🦁 ยินดีต้อนรับจากหน้าเว็บไซต์ครับ!"
+      : "🦁 สนใจโปรโตคอล [วีซ่า]";
+    return {
+      type: "text",
+      content: `${header}\nกรุณาแจ้งข้อมูลเพื่อจัดชุดเอกสารครับ:\n\n1.ประเทศ:\n2.ประเภท:\n3.งานปัจจุบัน:\n4.วันเดินทาง:\n\n*เจ้าป่าจะช่วยให้คุณผ่านฉลุยครับ*`,
+    };
+  }
+
+  private getVifilyPrompt(fromWeb = false): BotResponse {
+    const header = fromWeb
+      ? "🦁 ยินดีต้อนรับจากหน้าเว็บไซต์ครับ!"
+      : "🦁 สนใจโปรโตคอล [Vifily QR]";
+    return {
+      type: "text",
+      content: `${header}\nระบบความเชื่อมั่นระดับสากล พร้อมให้บริการครับ:\n\n1.ชื่อเอกสาร:\n2.จำนวนชุด:\n3.ยื่นที่ไหน:\n\n*ความปลอดภัยของเอกสารคือหัวใจของเรา*`,
+    };
+  }
+
+  private matchKeywords(input: string, keywords: string[]): boolean {
+    const lowInput = input.toLowerCase();
+    return keywords.some((key) => lowInput.includes(key));
   }
 }

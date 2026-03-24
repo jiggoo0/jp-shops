@@ -26,6 +26,7 @@ export async function createDocument(data: DocumentInput) {
           expiry_date: validatedData.expiryDate,
           status: validatedData.status,
           issuer: validatedData.issuer,
+          metadata: validatedData.metadata,
         },
       ])
       .select("id")

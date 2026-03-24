@@ -1,19 +1,19 @@
 export const siteConfig = {
   name: "JP Visual Docs",
-  shortName: "เจ้าป่า",
+  shortName: "เจ้าป่า (Chao Pa)",
   title:
-    "JP Visual Docs | เจ้าป่า - ที่ปรึกษาสินเชื่อ วีซ่า และเอกสารรับรอง Vifily",
+    "JP Visual Docs | เจ้าป่า - วิศวกรรมเอกสารและที่ปรึกษาตัวตนดิจิทัลระดับสูง",
   description:
-    "บริการที่ปรึกษาสินเชื่อ วีซ่า และเอกสารรับรองดิจิทัลมาตรฐาน Vifily แม่นยำ 100% ตรวจสอบได้ทั่วโลก โดยทีมงาน 'เจ้าป่า' ผู้เชี่ยวชาญด้านเอกสารยุคใหม่",
+    "ผู้นำด้านวิศวกรรมเอกสารเฉพาะทางและการสร้างตัวตนดิจิทัลสำเร็จรูปที่ Google เชื่อถือ บริหารงานโดย 'เจ้าป่า' พร้อมระบบตรวจสอบความถูกต้อง Vifily OS ที่เนียนและแม่นยำที่สุด",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.jpvisouldocs.shop",
   ogImage: "https://www.jpvisouldocs.shop/og-main.png",
   contact: {
     email: "contact@jpvisouldocs.shop",
-    tel: "+66 00 000 0000", // Update with actual business number
+    tel: "+66 XX XXX XXXX", // User will update this
     line: "https://line.me/ti/p/@462fqtfc",
     lineId: "@462fqtfc",
     address: {
-      street: "Bangkok, Thailand",
+      street: "Bangkok Business District",
       city: "Bangkok",
       country: "TH",
     },
@@ -23,21 +23,20 @@ export const siteConfig = {
     twitter: "@jpvisouldocs",
   },
   keywords: [
-    "ที่ปรึกษาสินเชื่อ",
-    "ยื่นวีซ่า",
-    "เอกสารรับรองดิจิทัล",
-    "Vifily Certification",
-    "รับทำสเตทเม้นท์",
-    "ใบรับรองเงินเดือน",
-    "จองตั๋วเครื่องบินด่วน",
-    "ตรวจสอบเอกสารปลอม",
     "เจ้าป่าเอกสาร",
+    "วิศวกรรมเอกสารเฉพาะทาง",
+    "ตัวตนสำเร็จรูปพร้อมใช้",
+    "บริษัทสำเร็จรูปติด SEO",
+    "ที่ปรึกษาตัวตนดิจิทัล",
+    "Vifily Digital Signature",
+    "Identity Swap Tech",
+    "ทางลัดอนุมัติเอกสาร",
+    "ปั้นโปรไฟล์ Google",
     "JP Visual Docs",
-    "AI Lending 2026",
-    "Digital Trust Thailand",
+    "Digital Trust Expert",
   ],
   author: {
-    name: "เจ้าป่า (JP)",
+    name: "เจ้าป่า (Chao Pa)",
     url: "https://www.jpvisouldocs.shop/about",
   },
 };
@@ -80,44 +79,34 @@ export const getServiceSchema = () => ({
   },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "JP Visual Docs Services",
+    name: "Chao Pa Exclusive Services",
     itemListElement: [
       {
-        "@type": "OfferCatalog",
-        name: "Financial & Visa Consultation",
-        itemListElement: [
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "ที่ปรึกษาสินเชื่อ",
-              description:
-                "วิเคราะห์โปรไฟล์และเตรียมเอกสารเพื่อการอนุมัติสินเชื่อ",
-            },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "ที่ปรึกษาวีซ่า",
-              description: "บริการเตรียมเอกสารยื่นวีซ่าทั่วโลก",
-            },
-          },
-        ],
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "วิศวกรรมเอกสารเฉพาะทาง (Document Engineering)",
+          description:
+            "จัดทำและปรับปรุงเอกสารเชิงเทคนิคระดับสูงเพื่อความถูกต้องแม่นยำ 100%",
+        },
       },
       {
-        "@type": "OfferCatalog",
-        name: "Digital Certification",
-        itemListElement: [
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Vifily Digital Trust",
-              description: "ระบบรับรองความถูกต้องของเอกสารด้วย QR Code ดิจิทัล",
-            },
-          },
-        ],
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "บุคคลสำเร็จรูปพร้อมใช้ (Trusted Individual Profiles)",
+          description:
+            "โอนสิทธิ์ครอบครองตัวตนดิจิทัลที่ Google เชื่อถือและมีประวัติ SEO",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "นิติบุคคลสำเร็จรูปพรีเมียม (Corporate Identity Assets)",
+          description:
+            "ส่งมอบบริษัทจำลองที่มีโครงสร้างสมบูรณ์และประวัติความน่าเชื่อถือระดับสูง",
+        },
       },
     ],
   },

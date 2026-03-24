@@ -1,6 +1,7 @@
 import BlogSection from "@/components/sections/BlogSection";
 import Hero from "@/components/sections/Hero";
 import { ServicesSection } from "@/components/sections/ServicesSection";
+import { ProcessSection } from "@/components/sections/ProcessSection";
 import { VerificationSection } from "@/components/sections/VerificationSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
@@ -24,6 +25,9 @@ export default function LandingPage() {
 
       {/* Services Grid */}
       <ServicesSection />
+
+      {/* Operational Protocol */}
+      <ProcessSection />
 
       {/* Vifily Verification Section */}
       <VerificationSection />

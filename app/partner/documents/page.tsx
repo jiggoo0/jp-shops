@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCachedUser } from "@/lib/services/guard";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -23,16 +24,17 @@ export default async function PartnerDocumentsPage({
   const from = (currentPage - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Use memoized user helper
+  const user = await getCachedUser();
 
   if (!user) {
     redirect("/login");
   }
 
+  const supabase = await createClient();
+
+  // Performance Note: Using 'exact' count is optimized by the
+  // idx_documents_partner_created_at index we just created.
   const {
     data: documents,
     error,

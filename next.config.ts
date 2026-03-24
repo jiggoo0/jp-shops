@@ -8,7 +8,19 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "gqndoxevdznbcogqfmvu.supabase.co",
+      },
+      {
+        protocol: "https",
+        hostname: "www.transparenttextures.com",
+      },
+      {
+        protocol: "https",
+        hostname: "qr-official.line.me",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
     ],
   },

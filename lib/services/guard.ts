@@ -1,5 +1,40 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getSubscriptionStatus } from "./subscription";
+
+/**
+ * Memoized helper to get the current user.
+ * Prevents multiple auth calls in the same request.
+ */
+export const getCachedUser = cache(async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user;
+});
+
+/**
+ * Memoized helper to get subscription status.
+ */
+export const getCachedSubscription = cache(async (userId: string) => {
+  return await getSubscriptionStatus(userId);
+});
+
+/**
+ * Memoized helper to get user role.
+ */
+export const getCachedUserRole = cache(async (userId: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if (error) return null;
+  return data?.role;
+});
 
 /**
  * Proxy Pattern: Wraps an action with a subscription check.
@@ -8,16 +43,13 @@ import { getSubscriptionStatus } from "./subscription";
 export async function withSubscriptionGuard<T>(
   action: (userId: string) => Promise<T>,
 ): Promise<{ success: boolean; data?: T; error?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCachedUser();
 
   if (!user) {
     return { success: false, error: "Authentication required." };
   }
 
-  const sub = await getSubscriptionStatus(user.id);
+  const sub = await getCachedSubscription(user.id);
   if (!sub.isActive) {
     return {
       success: false,
@@ -43,23 +75,16 @@ export async function withSubscriptionGuard<T>(
 export async function withAdminGuard<T>(
   action: (userId: string) => Promise<T>,
 ): Promise<{ success: boolean; data?: T; error?: string }> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCachedUser();
 
   if (!user) {
     return { success: false, error: "Authentication required." };
   }
 
-  // Check role from single source of truth (users table)
-  const { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  // Check role using memoized helper
+  const role = await getCachedUserRole(user.id);
 
-  if (userError || userData?.role !== "admin") {
+  if (role !== "admin") {
     return {
       success: false,
       error: "Unauthorized access. Admin role required.",

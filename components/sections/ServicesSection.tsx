@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Briefcase,
-  Plane,
   FileSignature,
   FileText,
   ShieldCheck,
@@ -12,64 +11,60 @@ import {
   ChevronRight,
   ArrowRight,
 } from "lucide-react";
+
 import { Button, Card, Section } from "@/components/ui";
 import { ClientMotionDiv } from "@/components/ui/ClientMotion";
 
 const services = [
   {
-    id: "loan",
+    id: "individual",
+    icon: <ShieldCheck className="w-6 h-6" />,
+    title: "ขายปลีก: บุคคลคุณภาพพร้อมใช้",
+    description:
+      "เลือกซื้อตัวตนเดี่ยวที่ Google เชื่อไปแล้ว (Retail Identity) มีประวัติ SEO ย้อนหลัง พร้อมสวมสิทธิ์ใช้งานได้ทันที เหมาะสำหรับงานด่วนที่ต้องการความน่าเชื่อถือรายบุคคล",
+    image: "/vifily-verification.webp",
+    priceHint: "เริ่มต้น 15,900.-",
+  },
+  {
+    id: "corporate",
     icon: <Briefcase className="w-6 h-6" />,
-    title: "วิเคราะห์โปรไฟล์สินเชื่อ",
+    title: "พรีเมียม: สินทรัพย์นิติบุคคล",
     description:
-      "เจาะลึกโครงสร้างการเงินส่วนบุคคล จัดชุดเอกสารตามมาตรฐานธนาคารเพื่อโอกาสสำเร็จสูงสุด ดำเนินการโดย Protocol เฉพาะทางระดับมืออาชีพ",
+      "ส่งมอบบริษัทจำลองที่มีโครงสร้างสมบูรณ์ (Corporate Asset) พอร์ตผลงานแน่น และประวัติความเชื่อถือระดับสูง สำหรับงานโปรเจกต์ใหญ่หรือการค้ำประกันระดับองค์กร",
     image: "/service-loan.webp",
+    priceHint: "เริ่มต้น 55,000.-",
   },
   {
-    id: "travel",
-    icon: <Plane className="w-6 h-6" />,
-    title: "เอกสารสิทธิ์การเดินทางสากล",
-    description:
-      "จัดการเอกสารการจองระดับพรีเมียมที่ตรวจสอบสถานะจริงได้ทั่วโลก รองรับการยื่นวีซ่าและธุรกรรมสากลด้วยความถูกต้อง 100%",
-    image: "/blog-evisa.webp",
-  },
-  {
-    id: "visa",
+    id: "matching",
     icon: <FileSignature className="w-6 h-6" />,
-    title: "ยื่นวีซ่ามาตรฐานพรีเมียม",
+    title: "จับคู่: อาณาจักรธุรกิจสำเร็จรูป",
     description:
-      "Protocol การจัดเตรียมเอกสารที่แม่นยำตามเกณฑ์สถานทูต ตรวจสอบความสมบูรณ์ของชุดข้อมูลแบบ 10 ขั้นตอนก่อนส่งมอบงาน",
-    image: "/service-visa.webp",
+      "แพ็กเกจ Combo จับคู่ 'CEO คุณภาพ + บริษัทพรีเมียม' (Identity Matching) เพื่อสร้าง Trust ระดับสูงสุดในระบบ Google และการตรวจสอบทุกรูปแบบ เนียนที่สุดในตลาด",
+    image: "/blog-vifily.webp",
+    priceHint: "เริ่มต้น 85,000.-",
   },
   {
     id: "specialist",
     icon: <FileText className="w-6 h-6" />,
-    title: "โซลูชันเอกสารเฉพาะทาง",
+    title: "วิศวกรรมเอกสารเฉพาะทาง",
     description:
-      "สร้างสรรค์และปรับปรุงเอกสารเชิงเทคนิคระดับสูงสำหรับงานด่วนพิเศษที่ต้องการคุณภาพไร้ที่ติ และความถูกต้องตามหลักสากล",
+      "งานซัพพอร์ตเทคนิคระดับสูง ปั้นเอกสารให้เนียนกริบ 100% ตามมาตรฐานสากล ทุกชิ้นงานผ่านการเข้ารหัส Vifily Digital Signature เพื่อความปลอดภัยขั้นสูงสุด",
     image: "/blog-lending.webp",
-  },
-  {
-    id: "vifily",
-    icon: <ShieldCheck className="w-6 h-6" />,
-    title: "การรับรองสิทธิ์ดิจิทัล Vifily",
-    description:
-      "ยกระดับความเชื่อมั่นระดับ Global ด้วยรหัสยืนยันตัวตนดิจิทัล ตรวจสอบประวัติและความถูกต้องของสิทธิ์ได้จากทุกมุมโลก",
-    image: "/vifily-verification.webp",
-  },
-  {
-    id: "premium-card",
-    icon: <CreditCard className="w-6 h-6" />,
-    title: "บัตรรับรองเกรดพรีเมียม",
-    description:
-      "ผลิต Physical Credentials คุณภาพสูงบนวัสดุเกรดพรีเมียม พร้อมระบบความปลอดภัยและการจัดส่งที่รัดกุมที่สุด",
-    image: "/blog-vifily.webp",
+    priceHint: "เริ่มต้น 8,500.-",
   },
 ];
 
 export function ServicesSection() {
   const handleOpenCheckout = (serviceId: string) => {
-    const event = new CustomEvent("open-checkout", { detail: { serviceId } });
-    window.dispatchEvent(event);
+    // บริการขายปลีก -> ใช้ระบบชำระเงินอัตโนมัติ
+    if (serviceId === "individual") {
+      const event = new CustomEvent("open-checkout", { detail: { serviceId } });
+      window.dispatchEvent(event);
+    }
+    // บริการมูลค่าสูง (บริษัท / จับคู่ / งานเทคนิค) -> ติดต่อไลน์เพื่อจบงานขายเอง
+    else {
+      window.open("https://line.me/ti/p/@462fqtfc", "_blank");
+    }
   };
 
   return (
@@ -104,7 +99,7 @@ export function ServicesSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-32">
           {services.map((service, index) => (
             <ClientMotionDiv
               key={index}
@@ -127,6 +122,11 @@ export function ServicesSection() {
                       className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent"></div>
+                    <div className="absolute top-6 right-6 bg-gray-900/90 backdrop-blur-md px-6 py-2 rounded-full shadow-2xl">
+                      <span className="text-white text-[10px] font-black uppercase tracking-widest leading-none">
+                        {service.priceHint}
+                      </span>
+                    </div>
                   </div>
                   <div className="p-12 relative flex-grow flex flex-col">
                     <div className="w-16 h-16 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-10 shadow-2xl -mt-20 relative z-10 border-[8px] border-white group-hover:bg-green-600 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
@@ -150,6 +150,100 @@ export function ServicesSection() {
             </ClientMotionDiv>
           ))}
         </div>
+
+        {/* Takeover Section */}
+        <ClientMotionDiv
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="relative bg-gray-900 rounded-[4rem] p-12 md:p-24 overflow-hidden shadow-[0_100px_150px_-30px_rgba(0,0,0,0.5)] border-4 border-gray-800"
+        >
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <div className="flex items-center space-x-4 mb-10">
+                <div className="w-12 h-1 bg-green-500 rounded-full"></div>
+                <span className="text-green-500 text-[10px] font-black uppercase tracking-[0.4em]">
+                  Exclusive Investment Opportunity
+                </span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-black text-white mb-10 leading-[0.85] uppercase tracking-tighter">
+                Takeover <br />
+                <span className="text-gray-500 italic">This System.</span>
+              </h2>
+              <p className="text-gray-300 text-xl font-bold leading-relaxed mb-12 italic border-l-4 border-green-500 pl-8">
+                &quot;คุณหาไอเดีย... เราเป็นโรงงานผลิตให้เอง&quot;
+                โมเดลธุรกิจที่ออกแบบมาเพื่อส่งมอบอาณาจักรเจ้าป่าให้คุณบริหารจัดการ
+                100% พร้อมทีมซัพพอร์ตเบื้องหลังที่ไร้ขีดจำกัด
+              </p>
+
+              <div className="space-y-6 mb-16">
+                <div className="flex items-start space-x-6 bg-white/5 p-6 rounded-3xl border border-white/10">
+                  <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-gray-900 shrink-0 shadow-[0_0_20px_rgba(34,197,94,0.5)]">
+                    <ShieldCheck className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-black text-lg uppercase tracking-tight mb-2">
+                      Exclusive Support 100%
+                    </h4>
+                    <p className="text-gray-400 text-sm font-bold italic">
+                      เราจะไม่เปิดแข่งกับคุณ ไม่รับงานเจ้าอื่น
+                      ซัพพอร์ตคุณเพียงผู้เดียวแบบ Win-Win
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-6 bg-white/5 p-6 rounded-3xl border border-white/10">
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shrink-0">
+                    <CreditCard className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-black text-lg uppercase tracking-tight mb-2">
+                      Buy-Back Guarantee
+                    </h4>
+                    <p className="text-gray-400 text-sm font-bold italic">
+                      มีทางลงที่ปลอดภัย หากไปต่อไม่ได้ตามระยะเวลาที่กำหนด
+                      เรายินดีรับซื้อระบบคืน
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-red-500/10 border-2 border-red-500/20 p-8 rounded-[2rem] mb-12">
+                <p className="text-red-400 text-xs font-black uppercase tracking-widest leading-relaxed">
+                  ⚠️ [WARNING] ข้อมูลเชิงลึกมีมูลค่ามหาศาล หากไม่มีเงินทุน...
+                  ไม่ต้องพยายามติดต่อมา
+                  เราไม่มีการให้ข้อมูลฟรีสำหรับผู้ที่ต้องการแค่ความอยากรู้อยากเห็น
+                  จำไว้.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="bg-white p-12 rounded-[4rem] shadow-2xl w-full text-center relative overflow-hidden group">
+                <div className="absolute inset-0 bg-green-500 translate-y-[110%] group-hover:translate-y-0 transition-transform duration-700"></div>
+                <div className="relative z-10">
+                  <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 group-hover:text-white transition-colors">
+                    Starting Takeover From
+                  </p>
+                  <p className="text-7xl font-black text-gray-900 mb-2 group-hover:text-white transition-colors">
+                    250K
+                  </p>
+                  <p className="text-xl font-black text-gray-900 uppercase tracking-tighter group-hover:text-white transition-colors mb-12">
+                    Thai Baht
+                  </p>
+                  <Link href="https://line.me/ti/p/@462fqtfc">
+                    <Button className="w-full h-24 rounded-[2rem] bg-gray-900 text-white font-black uppercase tracking-[0.2em] group-hover:bg-white group-hover:text-gray-900 transition-all shadow-2xl">
+                      Access Investment Protocol
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <p className="mt-8 text-gray-500 text-[10px] font-black uppercase tracking-widest italic">
+                *จำกัดจำนวนพาร์ทเนอร์ต่อเดือนเพื่อคุณภาพสูงสุด
+              </p>
+            </div>
+          </div>
+        </ClientMotionDiv>
       </div>
     </Section>
   );

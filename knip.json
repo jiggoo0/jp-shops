@@ -4,11 +4,19 @@
   "entry": [
     "app/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
+    "actions/**/*.ts",
+    "lib/auth.ts",
     "lib/index.ts",
     "middleware.ts",
     "next.config.ts"
   ],
-  "ignore": ["node_modules/**", ".next/**", "supabase/migrations/**"],
+  "ignore": [
+    "node_modules/**",
+    ".next/**",
+    "supabase/migrations/**",
+    "types/**"
+  ],
+
   "ignoreDependencies": [
     "sharp",
     "unrs-resolver",

@@ -21,8 +21,8 @@ const services = [
     icon: <ShieldCheck className="w-6 h-6" />,
     title: "บุคคลคุณภาพพร้อมใช้ (Expertise Profile)",
     description:
-      "Identity Farming: ปั้นโปรไฟล์บุคคลที่มีความเชี่ยวชาญสูงในระบบ Google Search พร้อมอายุประวัติ 9 ปี ภายใต้การรับรอง UNLINK-GLOBAL Verified Entity",
-    image: "/vifily-verification.webp",
+      "Identity Farming: บริการสร้างตัวตนที่มีความเชี่ยวชาญสูง (High-Authority) พร้อมประวัติการทำงานย้อนหลังสูงสุด 9 ปี บนระบบค้นหา Google Search ภายใต้มาตรฐานการรับรอง UNLINK-GLOBAL Verified Entity เพื่อสร้างความน่าเชื่อถือสูงสุดในการทำธุรกรรมหรือยื่นเอกสารสำคัญระดับสากล",
+    image: "/unlink-verification.webp",
     priceHint: "เริ่มต้น 15,900.-",
     showSeal: true,
   },
@@ -31,7 +31,7 @@ const services = [
     icon: <Briefcase className="w-6 h-6" />,
     title: "นิติบุคคลพรีเมียม (Corporate Assets)",
     description:
-      "Enterprise Asset: บริษัทที่มีโครงสร้างสมบูรณ์ พอร์ตผลงานแน่น และได้รับตรา UNLINK Trust Level 3 เพื่อการันตีความมั่นคงในระดับองค์กรสากล",
+      "Enterprise Asset: จัดหาและบริหารจัดการโครงสร้างบริษัทที่มีความสมบูรณ์ทางกฎหมาย มีประวัติผลงาน (Portfolio) ที่จับต้องได้ และได้รับตราสัญลักษณ์ UNLINK Trust Level 3 เพื่อยืนยันความมั่นคงของสถานะนิติบุคคลสำหรับการร่วมทุนหรือขยายธุรกิจในระดับ Global Market",
     image: "/service-loan.webp",
     priceHint: "เริ่มต้น 55,000.-",
   },
@@ -40,8 +40,8 @@ const services = [
     icon: <FileSignature className="w-6 h-6" />,
     title: "อาณาจักรธุรกิจสำเร็จรูป (Identity Matching)",
     description:
-      "Business Combo: เชื่อมโยง 'บุคคลคุณภาพ' เข้ากับ 'บริษัทพรีเมียม' สร้าง UNLINK Network ระดับสูงสุด พร้อมสถานะ Verified Entity บน Google",
-    image: "/blog-vifily.webp",
+      "Business Combo Protocol: บริการเชื่อมโยง 'บุคคลคุณภาพ' เข้ากับ 'นิติบุคคลพรีเมียม' เพื่อสร้างโครงข่ายธุรกิจ (UNLINK Network) ที่มีความน่าเชื่อถือระดับสูงสุด พร้อมการันตีการขึ้นสถานะ Verified Entity บน Google Knowledge Panel อย่างเป็นทางการ เพื่อการเข้าถึงโอกาสทางธุรกิจที่เหนือกว่า",
+    image: "/blog-unlink.webp",
     priceHint: "เริ่มต้น 85,000.-",
     showSeal: true,
   },
@@ -50,7 +50,7 @@ const services = [
     icon: <Plane className="w-6 h-6" />,
     title: "ตั๋วและที่พัก (Global Travel Protocol)",
     description:
-      "Travel Verification: ระบบจำลองตั๋วเครื่องบินและที่พัก 100% จากแบรนด์ชั้นนำทั่วโลก พร้อม QR Code สแกนตรวจสอบสถานะโดย UNLINK-GLOBAL",
+      "Travel Verification System: ระบบสร้างเอกสารจำลองตั๋วเครื่องบินและบุ๊กกิ้งโรงแรม 100% จากสายการบินและโรงแรมชั้นนำทั่วโลก พร้อมระบบ QR Code สำหรับสแกนตรวจสอบสถานะแบบ Real-time ผ่าน UNLINK-GLOBAL เหมาะสำหรับการใช้ประกอบการวางแผนการเดินทางหรือการยืนยันสถานะที่พักอย่างมืออาชีพ",
     image: "/service-visa.webp",
     priceHint: "เริ่มต้น 500.-",
   },

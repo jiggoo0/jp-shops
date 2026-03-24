@@ -113,7 +113,7 @@ export default async function PartnerDashboard() {
           <Link href="/partner/showcase" className="group block">
             <div className="bg-gray-900 p-10 rounded-[3rem] shadow-2xl hover:shadow-green-500/20 transition-all duration-500 h-full relative overflow-hidden border-4 border-gray-800">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full -mr-16 -mt-16 group-hover:bg-green-500/20 transition-colors"></div>
-              <div className="w-16 h-16 bg-green-500 text-gray-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-all relative z-10 shadow-xl shadow-green-500/20">
+              <div className="w-16 h-16 bg-green-50 text-gray-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-all relative z-10 shadow-xl shadow-green-500/20">
                 <Globe className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight leading-none">

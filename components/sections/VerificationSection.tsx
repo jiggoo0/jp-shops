@@ -121,8 +121,8 @@ export function VerificationSection() {
               <div className="relative aspect-video md:aspect-[16/10] bg-black overflow-hidden flex items-center justify-center p-12">
                 {/* Background Image (Desaturated) */}
                 <Image
-                  src="/vifily-verification.webp"
-                  alt="Vifily Core"
+                  src="/unlink-verification.webp"
+                  alt="Unlink Global Core"
                   fill
                   className="object-cover opacity-20 grayscale group-hover:opacity-30 transition-all duration-1000"
                 />

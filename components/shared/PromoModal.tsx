@@ -94,7 +94,7 @@ export function PromoModal() {
                   </h3>
                   <p className="text-white/60 text-xs font-bold uppercase tracking-widest leading-relaxed">
                     สัมผัสประสบการณ์การเดินทางระดับ 5 ดาว <br />
-                    ด้วยมาตรฐานความปลอดภัย Vifily Global.
+                    ด้วยมาตรฐานความปลอดภัย Unlink Global.
                   </p>
                 </div>
               </div>
@@ -140,13 +140,13 @@ export function PromoModal() {
                 </div>
 
                 <div className="pt-6 border-t border-gray-100 flex flex-col gap-4">
-                  <Link href="/flights" onClick={handleClose}>
+                  <Link href="/partner/generator/flight" onClick={handleClose}>
                     <button className="w-full py-5 bg-[#004D40] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#00695C] transition-all shadow-2xl shadow-emerald-900/20 flex items-center justify-center group">
                       <span>ชมระบบจองสายการบิน</span>
                       <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
                     </button>
                   </Link>
-                  <Link href="/booking" onClick={handleClose}>
+                  <Link href="/partner/generator/hotel" onClick={handleClose}>
                     <button className="w-full py-5 bg-white border-2 border-gray-900 text-gray-900 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-900 hover:text-white transition-all">
                       จองโรงแรม Grand Palais Paris
                     </button>
@@ -157,7 +157,7 @@ export function PromoModal() {
                   <ShieldCheck className="w-8 h-8" />
                   <Globe className="w-8 h-8" />
                   <div className="text-[8px] font-black uppercase tracking-widest text-gray-900">
-                    Vifily Verified
+                    Unlink Verified
                   </div>
                 </div>
               </div>

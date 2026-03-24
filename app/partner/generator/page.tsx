@@ -39,7 +39,7 @@ function FormLoader() {
     <div className="w-full h-96 bg-gray-50 animate-pulse rounded-[2.5rem] flex flex-col items-center justify-center space-y-4">
       <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-400 rounded-full animate-spin"></div>
       <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">
-        Loading Vifily Protocol...
+        Loading UNLINK Protocol...
       </p>
     </div>
   );
@@ -115,7 +115,7 @@ export default function DocumentGeneratorPage() {
             Success!
           </h2>
           <p className="text-gray-500 mb-10 font-medium leading-relaxed">
-            เอกสารระดับสากลของคุณถูกสร้างและลงทะเบียนในระบบ Vifily เรียบร้อยแล้ว
+            เอกสารระดับสากลของคุณถูกสร้างและลงทะเบียนในระบบ UNLINK เรียบร้อยแล้ว
             พร้อมสำหรับการตรวจสอบ
           </p>
           <div className="space-y-4">
@@ -150,7 +150,7 @@ export default function DocumentGeneratorPage() {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">
-                Vifily International Protocol v2.2
+                UNLINK International Protocol v2.2
               </p>
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function DocumentGeneratorPage() {
             <Lock className="w-6 h-6" />
           </div>
           <p className="text-[9px] text-gray-300 font-black uppercase tracking-[0.5em] text-center">
-            Blockchain Secured • 256-bit Encryption • Vifily Standard
+            Blockchain Secured • 256-bit Encryption • UNLINK Standard
           </p>
         </div>
       </div>

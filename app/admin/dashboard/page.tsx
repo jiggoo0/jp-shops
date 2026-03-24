@@ -12,6 +12,7 @@ import {
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
+  // Fetch user first as it's needed for the profile query
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -20,7 +21,7 @@ export default async function AdminDashboard() {
     redirect("/login");
   }
 
-  // ตรวจสอบสิทธิ์ Admin จากตาราง users
+  // Use Promise.all if we have more independent queries here in the future
   const { data: profile } = await supabase
     .from("users")
     .select("role")

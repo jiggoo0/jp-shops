@@ -7,6 +7,7 @@ import { Footer } from "./Footer";
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { ServiceId } from "@/lib";
+import { PromoModal } from "@/components/shared/PromoModal";
 
 const AIAssistant = dynamic(
   () =>
@@ -43,7 +44,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const isMinimalPage =
     pathname.startsWith("/login") ||
     pathname.startsWith("/register") ||
-    pathname.startsWith("/admin");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/booking") ||
+    pathname.startsWith("/flights");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -63,6 +66,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           />
         )}
       </AnimatePresence>
+
+      <PromoModal />
 
       {!pathname.startsWith("/admin") && <AIAssistant />}
     </div>

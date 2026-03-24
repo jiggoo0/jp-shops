@@ -297,7 +297,7 @@ export function Header({ onOpenCheckout }: HeaderProps) {
 
       {/* Mobile Navigation Overlay */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {mobileMenuOpen ? (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -337,7 +337,7 @@ export function Header({ onOpenCheckout }: HeaderProps) {
                 </div>
               ))}
 
-              {userEmail && (
+              {userEmail ? (
                 <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
                   <Link
                     href={
@@ -363,10 +363,10 @@ export function Header({ onOpenCheckout }: HeaderProps) {
                     </span>
                   </button>
                 </div>
-              )}
+              ) : null}
             </div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </header>
   );

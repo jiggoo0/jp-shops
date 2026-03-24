@@ -12,6 +12,7 @@ import {
 
 export default async function AdminBookingsPage() {
   const supabase = await createClient();
+  // Parallelize auth and initial data checks if possible
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -20,12 +21,12 @@ export default async function AdminBookingsPage() {
     redirect("/login");
   }
 
-  // ตรวจสอบสิทธิ์ Admin จากตาราง users
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
+  // Fetch profile and any other independent data in parallel
+  const [profileResult] = await Promise.all([
+    supabase.from("users").select("role").eq("id", user.id).maybeSingle(),
+  ]);
+
+  const profile = profileResult.data;
 
   if (profile?.role !== "admin") {
     redirect("/");
@@ -195,9 +196,9 @@ export default async function AdminBookingsPage() {
                               : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
                           }`}
                         >
-                          {booking.status === "Confirmed" && (
+                          {booking.status === "Confirmed" ? (
                             <CheckCircle2 className="w-3 h-3 mr-1" />
-                          )}
+                          ) : null}
                           {booking.status}
                         </span>
                       </td>

@@ -189,9 +189,28 @@ export default function LoginPage() {
           </div>
         </motion.div>
 
-        <p className="mt-12 text-center text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
-          JP Visual & Docs &copy; {new Date().getFullYear()}
-        </p>
+        <div className="mt-12 flex flex-col items-center space-y-6">
+          {/* UNLINK-GLOBAL TRUST SEAL */}
+          <a
+            href="https://www.unlink-th.com"
+            target="_blank"
+            rel="noopener"
+            title="Verified by UNLINK-GLOBAL"
+            className="hover:scale-105 transition-transform duration-300 block bg-white p-2 rounded-2xl border border-gray-100 shadow-sm"
+          >
+            <Image
+              src="https://www.unlink-th.com/branding/verify-badge.webp"
+              alt="Verified by UNLINK-GLOBAL Digital Reputation Management"
+              width={80}
+              height={80}
+              className="w-16 h-auto grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </a>
+
+          <p className="text-center text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
+            JP Visual & Docs &copy; {new Date().getFullYear()}
+          </p>
+        </div>
       </div>
     </div>
   );

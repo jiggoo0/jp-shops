@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ShieldCheck,
   UserPlus,
@@ -300,6 +301,50 @@ export default function RegisterPage() {
             </Link>
           </div>
         </motion.div>
+
+        {/* UNLINK-GLOBAL TRUST SEAL (Mobile) */}
+        <div className="lg:hidden flex flex-col items-center mt-12 space-y-4">
+          <a
+            href="https://www.unlink-th.com"
+            target="_blank"
+            rel="noopener"
+            title="Verified by UNLINK-GLOBAL"
+            className="hover:scale-105 transition-transform duration-300 block bg-white p-2 rounded-2xl border border-gray-100 shadow-sm"
+          >
+            <Image
+              src="https://www.unlink-th.com/branding/verify-badge.webp"
+              alt="Verified by UNLINK-GLOBAL Digital Reputation Management"
+              width={80}
+              height={80}
+              className="w-16 h-auto grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </a>
+          <p className="text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
+            JP Visual & Docs &copy; {new Date().getFullYear()}
+          </p>
+        </div>
+      </div>
+
+      {/* UNLINK-GLOBAL TRUST SEAL (Desktop) */}
+      <div className="hidden lg:flex absolute bottom-12 left-1/2 -translate-x-1/2 flex-col items-center space-y-4">
+        <a
+          href="https://www.unlink-th.com"
+          target="_blank"
+          rel="noopener"
+          title="Verified by UNLINK-GLOBAL"
+          className="hover:scale-105 transition-transform duration-300 block bg-white p-2 rounded-2xl border border-gray-100 shadow-sm"
+        >
+          <Image
+            src="https://www.unlink-th.com/branding/verify-badge.webp"
+            alt="Verified by UNLINK-GLOBAL Digital Reputation Management"
+            width={80}
+            height={80}
+            className="w-16 h-auto grayscale hover:grayscale-0 transition-all duration-500"
+          />
+        </a>
+        <p className="text-[10px] text-gray-300 font-black uppercase tracking-[0.4em]">
+          JP Visual & Docs &copy; {new Date().getFullYear()}
+        </p>
       </div>
     </div>
   );

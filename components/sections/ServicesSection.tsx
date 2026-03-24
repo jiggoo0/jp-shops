@@ -5,11 +5,11 @@ import Link from "next/link";
 import {
   Briefcase,
   FileSignature,
-  FileText,
   ShieldCheck,
   CreditCard,
   ChevronRight,
   ArrowRight,
+  Plane,
 } from "lucide-react";
 
 import { Button, Card, Section } from "@/components/ui";
@@ -17,43 +17,44 @@ import { ClientMotionDiv } from "@/components/ui/ClientMotion";
 
 const services = [
   {
-    id: "individual",
+    id: "specialist",
     icon: <ShieldCheck className="w-6 h-6" />,
-    title: "ขายปลีก: บุคคลคุณภาพพร้อมใช้",
+    title: "บุคคลคุณภาพพร้อมใช้ (Expertise Profile)",
     description:
-      "เลือกซื้อตัวตนเดี่ยวที่ Google เชื่อไปแล้ว (Retail Identity) มีประวัติ SEO ย้อนหลัง พร้อมสวมสิทธิ์ใช้งานได้ทันที เหมาะสำหรับงานด่วนที่ต้องการความน่าเชื่อถือรายบุคคล",
+      "Identity Farming: ปั้นโปรไฟล์บุคคลที่มีความเชี่ยวชาญสูงในระบบ Google Search พร้อมอายุประวัติ 9 ปี ภายใต้การรับรอง UNLINK-GLOBAL Verified Entity",
     image: "/vifily-verification.webp",
     priceHint: "เริ่มต้น 15,900.-",
+    showSeal: true,
   },
   {
-    id: "corporate",
+    id: "vifily",
     icon: <Briefcase className="w-6 h-6" />,
-    title: "พรีเมียม: สินทรัพย์นิติบุคคล",
+    title: "นิติบุคคลพรีเมียม (Corporate Assets)",
     description:
-      "ส่งมอบบริษัทจำลองที่มีโครงสร้างสมบูรณ์ (Corporate Asset) พอร์ตผลงานแน่น และประวัติความเชื่อถือระดับสูง สำหรับงานโปรเจกต์ใหญ่หรือการค้ำประกันระดับองค์กร",
+      "Enterprise Asset: บริษัทที่มีโครงสร้างสมบูรณ์ พอร์ตผลงานแน่น และได้รับตรา UNLINK Trust Level 3 เพื่อการันตีความมั่นคงในระดับองค์กรสากล",
     image: "/service-loan.webp",
     priceHint: "เริ่มต้น 55,000.-",
   },
   {
-    id: "matching",
+    id: "premium-card",
     icon: <FileSignature className="w-6 h-6" />,
-    title: "จับคู่: อาณาจักรธุรกิจสำเร็จรูป",
+    title: "อาณาจักรธุรกิจสำเร็จรูป (Identity Matching)",
     description:
-      "แพ็กเกจ Combo จับคู่ 'CEO คุณภาพ + บริษัทพรีเมียม' (Identity Matching) เพื่อสร้าง Trust ระดับสูงสุดในระบบ Google และการตรวจสอบทุกรูปแบบ เนียนที่สุดในตลาด",
+      "Business Combo: เชื่อมโยง 'บุคคลคุณภาพ' เข้ากับ 'บริษัทพรีเมียม' สร้าง UNLINK Network ระดับสูงสุด พร้อมสถานะ Verified Entity บน Google",
     image: "/blog-vifily.webp",
     priceHint: "เริ่มต้น 85,000.-",
+    showSeal: true,
   },
   {
-    id: "specialist",
-    icon: <FileText className="w-6 h-6" />,
-    title: "วิศวกรรมเอกสารเฉพาะทาง",
+    id: "flight_ticket",
+    icon: <Plane className="w-6 h-6" />,
+    title: "ตั๋วและที่พัก (Global Travel Protocol)",
     description:
-      "งานซัพพอร์ตเทคนิคระดับสูง ปั้นเอกสารให้เนียนกริบ 100% ตามมาตรฐานสากล ทุกชิ้นงานผ่านการเข้ารหัส Vifily Digital Signature เพื่อความปลอดภัยขั้นสูงสุด",
-    image: "/blog-lending.webp",
-    priceHint: "เริ่มต้น 8,500.-",
+      "Travel Verification: ระบบจำลองตั๋วเครื่องบินและที่พัก 100% จากแบรนด์ชั้นนำทั่วโลก พร้อม QR Code สแกนตรวจสอบสถานะโดย UNLINK-GLOBAL",
+    image: "/service-visa.webp",
+    priceHint: "เริ่มต้น 500.-",
   },
 ];
-
 export function ServicesSection() {
   const handleOpenCheckout = (serviceId: string) => {
     // บริการขายปลีก -> ใช้ระบบชำระเงินอัตโนมัติ
@@ -138,6 +139,36 @@ export function ServicesSection() {
                     <p className="text-gray-800 text-base leading-relaxed mb-10 font-bold italic group-hover:opacity-100 transition-opacity">
                       {service.description}
                     </p>
+
+                    {/* UNLINK-GLOBAL VERIFICATION SEAL (If applicable) */}
+                    {service.showSeal && (
+                      <div className="mb-10 p-6 bg-gray-50 rounded-[2.5rem] border border-gray-100 flex items-center space-x-6 group-hover:bg-white transition-all">
+                        <a
+                          href="https://www.unlink-th.com/verify/c/c-001"
+                          target="_blank"
+                          rel="noopener follow"
+                          title="JP Visual Docs Verified by UNLINK-GLOBAL"
+                          className="flex items-center space-x-4"
+                        >
+                          <Image
+                            src="https://www.unlink-th.com/branding/verify-badge.webp"
+                            alt="Verified Entity"
+                            width={120}
+                            height={120}
+                            className="w-16 h-auto filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.1)]"
+                          />
+                          <div className="flex flex-col">
+                            <span className="text-[11px] font-black uppercase tracking-[1px] text-gray-900 leading-none">
+                              Verified Entity
+                            </span>
+                            <span className="text-[9px] font-bold uppercase tracking-widest text-[#64748b] mt-1">
+                              Unlink-Global Protocol
+                            </span>
+                          </div>
+                        </a>
+                      </div>
+                    )}
+
                     <div className="flex items-center text-[10px] font-black uppercase tracking-[0.25em] text-gray-900 pt-8 border-t border-gray-200 group-hover:border-green-200 transition-all">
                       <span className="flex-grow">Initiate Protocol</span>
                       <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white group-hover:bg-green-600 transition-all shadow-lg">

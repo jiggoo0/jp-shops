@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Hotel,
   CalendarCheck,
+  Globe,
 } from "lucide-react";
 
 export default async function AdminDashboard() {
@@ -92,6 +93,26 @@ export default async function AdminDashboard() {
               </p>
               <div className="flex items-center text-xs font-black uppercase tracking-[0.2em] text-blue-400 group-hover:text-white transition-colors">
                 <span>Manage Bookings</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* E-Booking Simulators (Mocks) */}
+          <Link href="/admin/ebooking/hotels" className="group block">
+            <div className="bg-green-600/10 p-8 rounded-3xl border border-green-500/30 hover:bg-green-600/20 hover:border-green-500/60 transition-all duration-300 h-full relative overflow-hidden">
+              <div className="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center mb-6 shadow-xl shadow-green-500/20">
+                <Globe className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-black mb-3 uppercase tracking-tight text-green-100">
+                E-Booking Simulators
+              </h3>
+              <p className="text-green-200/50 text-sm font-medium mb-8">
+                เข้าระบบจำลองการจองตั๋วและที่พักเพื่อบันทึกภาพประกอบการนำเสนอ
+                (Mockups)
+              </p>
+              <div className="flex items-center text-xs font-black uppercase tracking-[0.2em] text-green-400 group-hover:text-white transition-colors">
+                <span>Launch Simulators</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>

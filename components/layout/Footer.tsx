@@ -35,7 +35,7 @@ export function Footer() {
       links: [
         { label: "ยื่นวีซ่าครบวงจร", id: "services" },
         { label: "ที่ปรึกษาสินเชื่อ", id: "services" },
-        { label: "ระบบ VIFILY Check", id: "vifily" },
+        { label: "ระบบ UNLINK Check", id: "vifily" },
         { label: "System Status", href: "/status" },
         { label: "บทความ & ข้อมูล", href: "/blog" },
       ],
@@ -91,12 +91,13 @@ export function Footer() {
             </div>
             <p className="text-gray-700 text-xl max-w-sm mb-12 font-bold italic leading-relaxed">
               &quot;เราช่วยวิเคราะห์และจัดชุดเอกสารให้ครบตามเงื่อนไข
-              ภายใต้มาตรฐานความปลอดภัยที่คุณวางใจได้จริง&quot;
+              ภายใต้มาตรฐานความปลอดภัยที่ UNLINK-GLOBAL รับรอง&quot;
             </p>
-            <div className="flex items-center space-x-6">
+
+            <div className="flex items-center space-x-8 mt-12">
               <div className="flex flex-col">
                 <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">
-                  Integrity Score
+                  Auth Status
                 </span>
                 <div className="flex items-center space-x-1">
                   {[1, 2, 3, 4, 5].map((i) => (
@@ -107,6 +108,23 @@ export function Footer() {
                   ))}
                 </div>
               </div>
+
+              {/* UNLINK-GLOBAL TRUST SEAL */}
+              <a
+                href="https://www.unlink-th.com"
+                target="_blank"
+                rel="noopener"
+                title="Verified by UNLINK-GLOBAL"
+                className="hover:scale-105 transition-transform duration-300 block"
+              >
+                <Image
+                  src="https://www.unlink-th.com/branding/verify-badge.webp"
+                  alt="Verified by UNLINK-GLOBAL Digital Reputation Management"
+                  width={100}
+                  height={100}
+                  className="w-20 h-auto grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </a>
             </div>
           </div>
 
@@ -154,7 +172,7 @@ export function Footer() {
                 JP-VISUAL&DOCS &copy; {new Date().getFullYear()}
               </p>
               <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">
-                Digital Protocol Enabled
+                UNLINK Digital Protocol Enabled
               </p>
             </div>
           </div>
@@ -173,7 +191,7 @@ export function Footer() {
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-900">
-                Vifily Verified
+                Unlink Verified
               </span>
             </div>
           </div>

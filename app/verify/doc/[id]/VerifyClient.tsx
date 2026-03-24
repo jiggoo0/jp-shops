@@ -18,6 +18,7 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import CertificateFrame from "@/components/ui/CertificateFrame";
 
 interface VerifyClientProps {
@@ -97,7 +98,7 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
             key={i}
             className="text-4xl font-black uppercase tracking-widest whitespace-nowrap"
           >
-            VIFILY SECURE DOCUMENT • OFFICIAL VERIFICATION • ORIGINAL
+            UNLINK-GLOBAL SECURE ASSET • OFFICIAL AUTHENTICATION • ORIGINAL
           </span>
         ))}
       </div>
@@ -144,24 +145,32 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
                   {docData.status}
                 </h1>
                 <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.4em]">
-                  Document ID: {docData.id.split("-")[0].toUpperCase()} - SECURE
-                  V2.2
+                  Document ID: {docData.id.split("-")[0].toUpperCase()} -
+                  UL-SECURE PROTOCOL
                 </p>
               </div>
 
-              {/* Verified Badge / Seal */}
-              <div className="absolute top-10 right-10 opacity-20 pointer-events-none hidden md:block">
-                <div className="relative w-32 h-32 border-4 border-white/40 rounded-full flex items-center justify-center p-4">
-                  <div className="text-[8px] font-black text-white text-center uppercase leading-tight tracking-widest text-center">
-                    JP VISUAL
-                    <br />
-                    DOCS
-                    <br />
-                    OFFICIAL
-                    <br />
-                    STAMP
-                  </div>
-                  <BadgeCheck className="absolute -bottom-2 -right-2 w-10 h-10 text-white" />
+              {/* UNLINK-GLOBAL VERIFICATION SEAL */}
+              <div className="absolute top-10 right-10 z-20 hidden md:block">
+                <div id="unlink-trust-seal" className="text-center font-sans">
+                  <a
+                    href="https://www.unlink-th.com/verify/c/c-001"
+                    target="_blank"
+                    rel="noopener follow"
+                    title="JP Visual Docs Verified by UNLINK-GLOBAL"
+                    className="flex flex-col items-center group"
+                  >
+                    <Image
+                      src="https://www.unlink-th.com/branding/verify-badge.webp"
+                      alt="Verified by UNLINK-GLOBAL"
+                      width={120}
+                      height={120}
+                      className="block mb-2 filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <span className="text-[10px] text-[#64748b] font-bold uppercase tracking-[1px]">
+                      Verified Entity
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -215,7 +224,7 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
                         Registry Ref / เลขที่อ้างอิง
                       </p>
                       <p className="text-sm font-mono font-bold text-gray-600 tracking-widest">
-                        VF-{docData.id.slice(0, 8).toUpperCase()}
+                        UL-{docData.id.slice(0, 8).toUpperCase()}
                       </p>
                     </div>
                   </div>
@@ -335,7 +344,7 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
                             {docData.issuer}
                           </p>
                           <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">
-                            Vifily Certified Partner ID:{" "}
+                            UNLINK Licensed Node ID:{" "}
                             {docData.id.slice(-6).toUpperCase()}
                           </p>
                         </div>
@@ -387,6 +396,26 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
                       Digital Trust Standard
                     </span>
                   </div>
+
+                  {/* UNLINK-GLOBAL TRUST SEAL */}
+                  <a
+                    href="https://www.unlink-th.com"
+                    target="_blank"
+                    rel="noopener"
+                    title="Verified by UNLINK-GLOBAL"
+                    className="flex items-center space-x-3 bg-white px-4 py-2 rounded-2xl border border-gray-100 shadow-sm hover:scale-105 transition-all"
+                  >
+                    <Image
+                      src="https://www.unlink-th.com/branding/verify-badge.webp"
+                      alt="Verified by UNLINK-GLOBAL"
+                      width={32}
+                      height={32}
+                      className="w-8 h-auto"
+                    />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-900">
+                      Unlink-Global Verified
+                    </span>
+                  </a>
                 </div>
 
                 <Link href="/" className="w-full">
@@ -402,7 +431,8 @@ export default function VerifyClient({ docData }: VerifyClientProps) {
                     End of Official Verification Record
                   </p>
                   <p className="text-[7px] text-gray-200 font-bold uppercase tracking-[0.6em]">
-                    Vifily Certification Protocol v2.2.0 • Build 2026.03.24
+                    UNLINK-GLOBAL Authentication Protocol v4.2.0 • Build
+                    2026.03.24
                   </p>
                 </div>
               </div>

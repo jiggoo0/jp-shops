@@ -233,6 +233,116 @@ export default function ThaiFlightPage() {
         </div>
       </section>
 
+      {/* Mock Search Results (To make it look like a real system) */}
+      <section className="bg-gray-50 py-24 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12">
+            <h2 className="text-3xl font-black uppercase tracking-tight text-[#004D40]">
+              เที่ยวบินที่ค้นหา (Mock Results)
+            </h2>
+            <p className="text-gray-500 font-medium mt-2">
+              ผลการค้นหาเที่ยวบินเส้นทางหลัก เพื่อความสมจริงในการใช้งานระบบ
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {[
+              {
+                airline: "SAIRKARNBIN TAI",
+                flight: "TG 930",
+                route: "BKK - CDG",
+                time: "00:05 - 07:10",
+                duration: "12h 05m",
+                type: "บินตรง (Direct)",
+                price: "฿ 42,500",
+                class: "Economy",
+                logo: "✈️",
+              },
+              {
+                airline: "KLM Royal Dutch",
+                flight: "KL 876",
+                route: "BKK - AMS",
+                time: "12:15 - 18:30",
+                duration: "11h 15m",
+                type: "บินตรง (Direct)",
+                price: "฿ 38,750",
+                class: "Economy",
+                logo: "🌐",
+              },
+              {
+                airline: "Emirates",
+                flight: "EK 385",
+                route: "BKK - DXB",
+                time: "01:35 - 04:45",
+                duration: "6h 10m",
+                type: "แวะพัก 1 จุด (1 Stop)",
+                price: "฿ 28,900",
+                class: "Economy",
+                logo: "🦅",
+              },
+            ].map((flight, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center space-x-6 w-full md:w-auto">
+                  <div className="w-16 h-16 bg-[#004D40]/5 rounded-2xl flex items-center justify-center text-2xl">
+                    {flight.logo}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight">
+                      {flight.airline}
+                    </h4>
+                    <p className="text-sm font-bold text-gray-500">
+                      {flight.flight} | {flight.class}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex-1 flex items-center justify-center space-x-8 w-full md:w-auto border-y md:border-y-0 md:border-x border-gray-100 py-6 md:py-0 md:px-8">
+                  <div className="text-center">
+                    <p className="text-xl font-black">
+                      {flight.time.split(" - ")[0]}
+                    </p>
+                    <p className="text-xs font-bold text-gray-400">
+                      {flight.route.split(" - ")[0]}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center w-32">
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                      {flight.duration}
+                    </span>
+                    <div className="w-full h-0.5 bg-gray-200 relative">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-[#004D40] rounded-full"></div>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#004D40] mt-1">
+                      {flight.type}
+                    </span>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xl font-black">
+                      {flight.time.split(" - ")[1]}
+                    </p>
+                    <p className="text-xs font-bold text-gray-400">
+                      {flight.route.split(" - ")[1]}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full md:w-48 text-right flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center">
+                  <p className="text-2xl font-black text-[#004D40]">
+                    {flight.price}
+                  </p>
+                  <button className="bg-[#004D40] text-white px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#00332C] transition-colors md:mt-3">
+                    เลือก
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 👑 National Standard Footer */}
       <footer className="bg-gray-50 pt-24 pb-12 px-6 border-t border-gray-100">
         <div className="max-w-7xl mx-auto">

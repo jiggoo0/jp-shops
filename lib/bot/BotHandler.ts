@@ -2,7 +2,7 @@ import { IBotStrategy, BotResponse } from "./strategies/types";
 import { MenuStrategy } from "./strategies/MenuStrategy";
 import { LoanStrategy } from "./strategies/LoanStrategy";
 import { VisaStrategy } from "./strategies/VisaStrategy";
-import { VifilyStrategy } from "./strategies/VifilyStrategy";
+import { UnlinkStrategy } from "./strategies/UnlinkStrategy";
 import { UrgentStrategy } from "./strategies/UrgentStrategy";
 import { SupportStrategy } from "./strategies/SupportStrategy";
 import { DataInputStrategy } from "./strategies/DataInputStrategy";
@@ -19,7 +19,7 @@ export class BotHandler {
       new MenuStrategy(),
       new LoanStrategy(),
       new VisaStrategy(),
-      new VifilyStrategy(),
+      new UnlinkStrategy(),
       new UrgentStrategy(),
       new SupportStrategy(),
       new ImageStrategy(),

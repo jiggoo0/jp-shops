@@ -37,14 +37,15 @@ export function VerificationSection() {
             </div>
 
             <h2 className="text-5xl md:text-7xl font-black mb-10 leading-[0.9] tracking-tighter uppercase">
-              VIFILY <br />{" "}
-              <span className="text-green-500">DIGITAL TRUST.</span>
+              UNLINK-GLOBAL <br />{" "}
+              <span className="text-green-500">TRUST PROTOCOL.</span>
             </h2>
 
             <div className="space-y-8 mb-16">
               <p className="text-gray-300 text-xl leading-relaxed font-bold italic border-l-4 border-green-500 pl-8 bg-white/[0.02] py-6 rounded-r-3xl">
-                &quot;มาตรฐานการตรวจสอบระดับสถาบันการเงิน
-                ที่ถูกออกแบบมาเพื่อยุติทุกข้อกังขาเกี่ยวกับความถูกต้องของเอกสารดิจิทัล&quot;
+                &quot;อำนาจการรับรองความถูกต้องแบบ Real-time
+                ผ่านเครือข่ายความเชื่อถือของ UNLINK-GLOBAL
+                เพื่อยกระดับความน่าเชื่อถือของเอกสารทุกฉบับสู่มาตรฐานสูงสุด&quot;
               </p>
 
               <div className="grid grid-cols-2 gap-6">
@@ -111,7 +112,7 @@ export function VerificationSection() {
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-[10px] font-mono font-black text-gray-400 uppercase tracking-[0.2em]">
-                    Live Scan: #VF-9982
+                    Live Scan: #UL-9982
                   </span>
                 </div>
               </div>
@@ -159,7 +160,7 @@ export function VerificationSection() {
                         Security Hash Verification
                       </p>
                       <p className="text-[7px] font-mono font-bold text-gray-900 text-center truncate mt-1">
-                        0x8829...FF92-VIFILY-SECURE
+                        0x8829...FF92-UNLINK-SECURE
                       </p>
                     </div>
                   </div>
@@ -207,6 +208,24 @@ export function VerificationSection() {
                   </div>
                   <div className="h-10 w-px bg-white/5"></div>
                   <CheckCircle2 className="w-6 h-6 text-green-500" />
+
+                  {/* UNLINK-GLOBAL TRUST SEAL */}
+                  <div className="h-10 w-px bg-white/5"></div>
+                  <a
+                    href="https://www.unlink-th.com"
+                    target="_blank"
+                    rel="noopener"
+                    title="Verified by UNLINK-GLOBAL"
+                    className="hover:scale-110 transition-transform duration-300 block bg-white/5 p-1 rounded-lg border border-white/10"
+                  >
+                    <Image
+                      src="https://www.unlink-th.com/branding/verify-badge.webp"
+                      alt="Verified by UNLINK-GLOBAL"
+                      width={40}
+                      height={40}
+                      className="w-10 h-auto"
+                    />
+                  </a>
                 </div>
               </div>
             </div>

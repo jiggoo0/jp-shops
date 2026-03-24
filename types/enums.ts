@@ -1,5 +1,9 @@
 export type PlanType = "1_day" | "7_days" | "15_days" | "30_days" | "365_days";
-export type ServiceId = "doc_verification" | "ai_assistant";
+export type ServiceId =
+  | "doc_verification"
+  | "ai_assistant"
+  | "flight_ticket"
+  | "hotel_booking";
 export type PaymentCategory = "subscription" | "service";
 
 export interface PlanConfig {

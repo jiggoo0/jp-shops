@@ -89,5 +89,89 @@ async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
         `✅ User ${userId} upgraded to ${targetId} until ${expiryDate.toLocaleDateString()}`,
       );
     }
+  } else if (category === "service" && targetId === "flight_ticket") {
+    // 3. If it's a flight ticket generation service
+    const flightMetadata = session.metadata || {};
+    console.log(`✅ Flight Ticket Generation Triggered for ${userId}`);
+
+    // Save to flight_tickets table
+    const { data: ticketData, error: ticketError } = await supabase
+      .from("flight_tickets")
+      .insert({
+        user_id: userId,
+        airline: flightMetadata.airline,
+        passenger_name: flightMetadata.passengerName,
+        pnr: flightMetadata.pnr,
+        eticket: flightMetadata.eTicket,
+        flight_data: {
+          flightNumber: flightMetadata.flightNumber,
+          departure: flightMetadata.departure,
+          departureTime: flightMetadata.departureTime,
+          arrival: flightMetadata.arrival,
+          arrivalTime: flightMetadata.arrivalTime,
+          date: flightMetadata.date,
+          cabinClass: flightMetadata.cabinClass,
+          seat: flightMetadata.seat,
+          issueDate: flightMetadata.issueDate,
+        },
+        payment_id: session.id, // Or look up the payment record ID
+      })
+      .select()
+      .single();
+
+    if (ticketError) {
+      console.error("❌ Error saving flight ticket:", ticketError.message);
+    } else {
+      console.log(`✅ Flight Ticket record created: ${ticketData.id}`);
+
+      // In a real implementation:
+      // a. Generate High-Res PDF without watermarks using Puppeteer/Playwright
+      // b. Send via selected deliveryMethod (Email or LINE)
+      if (flightMetadata.deliveryMethod === "line") {
+        console.log(
+          `📡 Dispatching PDF to LINE ID: ${flightMetadata.lineId} for Ticket ID: ${ticketData.id}`,
+        );
+      } else {
+        console.log(
+          `📧 Dispatching PDF to Email: ${flightMetadata.guestEmail} for Ticket ID: ${ticketData.id}`,
+        );
+      }
+    }
+  } else if (category === "service" && targetId === "hotel_booking") {
+    // 4. If it's a hotel booking generation service
+    const hotelMetadata = session.metadata || {};
+    console.log(`✅ Hotel Booking Generation Triggered for ${userId}`);
+
+    // Save to hotel_bookings table
+    const { data: bookingData, error: bookingError } = await supabase
+      .from("hotel_bookings")
+      .insert({
+        user_id: userId,
+        hotel_name: hotelMetadata.hotelName,
+        guest_name: hotelMetadata.guestName,
+        confirmation_no: hotelMetadata.confirmationNo,
+        check_in_date: hotelMetadata.checkInDate,
+        check_out_date: hotelMetadata.checkOutDate,
+        room_type: hotelMetadata.roomType,
+        address: hotelMetadata.address,
+        payment_id: session.id,
+      })
+      .select()
+      .single();
+
+    if (bookingError) {
+      console.error("❌ Error saving hotel booking:", bookingError.message);
+    } else {
+      console.log(`✅ Hotel Booking record created: ${bookingData.id}`);
+      if (hotelMetadata.deliveryMethod === "line") {
+        console.log(
+          `📡 Dispatching Hotel PDF to LINE ID: ${hotelMetadata.lineId} for Booking ID: ${bookingData.id}`,
+        );
+      } else {
+        console.log(
+          `📧 Dispatching Hotel PDF to Email: ${hotelMetadata.guestEmail} for Booking ID: ${bookingData.id}`,
+        );
+      }
+    }
   }
 }

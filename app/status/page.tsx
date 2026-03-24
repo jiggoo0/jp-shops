@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Activity,
   ShieldCheck,
@@ -256,7 +257,7 @@ export default function StatusPage() {
 
         {/* Footer Integrity Badge */}
         <div className="mt-32 pt-16 border-t border-gray-100 flex flex-col items-center">
-          <div className="flex items-center space-x-6 grayscale opacity-50 mb-8">
+          <div className="flex flex-wrap justify-center items-center gap-12 grayscale opacity-50 mb-12">
             <div className="flex items-center space-x-2">
               <Lock className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest text-gray-900">
@@ -269,6 +270,26 @@ export default function StatusPage() {
                 Certified
               </span>
             </div>
+
+            {/* UNLINK-GLOBAL TRUST SEAL */}
+            <a
+              href="https://www.unlink-th.com"
+              target="_blank"
+              rel="noopener"
+              title="Verified by UNLINK-GLOBAL"
+              className="flex items-center space-x-3 grayscale-0 opacity-100"
+            >
+              <Image
+                src="https://www.unlink-th.com/branding/verify-badge.webp"
+                alt="Verified by UNLINK-GLOBAL"
+                width={32}
+                height={32}
+                className="w-8 h-auto"
+              />
+              <span className="text-[9px] font-black uppercase tracking-widest text-gray-900">
+                Unlink-Global
+              </span>
+            </a>
           </div>
           <p className="text-[9px] font-black text-gray-300 uppercase tracking-[0.4em]">
             JP-VISUAL&DOCS GLOBAL INFRASTRUCTURE &bull; EST. 2017

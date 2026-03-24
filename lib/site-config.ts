@@ -4,7 +4,7 @@ export const siteConfig = {
   title:
     "JP Visual Docs | เจ้าป่า - วิศวกรรมเอกสารและที่ปรึกษาตัวตนดิจิทัลระดับสูง",
   description:
-    "ผู้นำด้านวิศวกรรมเอกสารเฉพาะทางและการสร้างตัวตนดิจิทัลสำเร็จรูปที่ Google เชื่อถือ บริหารงานโดย 'เจ้าป่า' พร้อมระบบตรวจสอบความถูกต้อง Vifily OS ที่เนียนและแม่นยำที่สุด",
+    "ผู้นำด้านวิศวกรรมเอกสารเฉพาะทางและการสร้างตัวตนดิจิทัลสำเร็จรูปที่ Google เชื่อถือ ภายใต้มาตรฐานความปลอดภัย UNLINK-GLOBAL ที่แม่นยำที่สุด",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.jpvisouldocs.shop",
   ogImage: "https://www.jpvisouldocs.shop/og-main.png",
   contact: {
@@ -33,15 +33,14 @@ export const siteConfig = {
     "ทางลัดอนุมัติเอกสาร",
     "ปั้นโปรไฟล์ Google",
     "JP Visual Docs",
+    "UNLINK-GLOBAL Trust",
     "Digital Trust Expert",
   ],
   author: {
-    name: "เจ้าป่า (Chao Pa)",
+    name: "UNLINK-GLOBAL Architecture",
     url: "https://www.jpvisouldocs.shop/about",
   },
 };
-
-export type SiteConfig = typeof siteConfig;
 
 export const getJsonLd = () => ({
   "@context": "https://schema.org",

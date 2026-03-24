@@ -18,10 +18,21 @@ import { serviceConfig, type ServiceId } from "@/lib";
 interface CheckoutModalProps {
   onClose: () => void;
   initialServiceId?: ServiceId;
+  initialServiceData?: Record<string, unknown>;
+}
+
+interface CheckoutFormData {
+  caseName: string;
+  description: string;
+  email: string;
+  deliveryMethod: "email" | "line";
+  lineId: string;
 }
 
 const getServiceIcon = (id: string) => {
   switch (id) {
+    case "flight_ticket":
+      return <Plane className="w-5 h-5" />;
     case "loan":
       return <Briefcase className="w-5 h-5" />;
     case "travel":
@@ -46,16 +57,19 @@ const getServiceIcon = (id: string) => {
 export function CheckoutModal({
   onClose,
   initialServiceId,
+  initialServiceData,
 }: CheckoutModalProps) {
   const [step, setStep] = useState(initialServiceId ? 2 : 1);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceId>(
     initialServiceId || "loan",
   );
-  const [formData, setFormData] = useState({
-    caseName: "",
+  const [formData, setFormData] = useState<CheckoutFormData>({
+    caseName: (initialServiceData?.passengerName as string) || "",
     description: "",
     email: "",
+    deliveryMethod: "email",
+    lineId: "",
   });
 
   const handleCheckout = async () => {
@@ -72,7 +86,10 @@ export function CheckoutModal({
             caseName: formData.caseName,
             caseDescription: formData.description,
             guestEmail: formData.email,
+            deliveryMethod: formData.deliveryMethod,
+            lineId: formData.lineId,
             isTemplateContent: "true",
+            ...initialServiceData, // Pass the flight data through Stripe
           },
         }),
       });
@@ -221,18 +238,58 @@ export function CheckoutModal({
               <div className="pt-8 border-t border-gray-100 space-y-6">
                 <div>
                   <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3 ml-2">
-                    อีเมลสำหรับรับงาน (Delivery Email)
+                    ช่องทางการรับเอกสาร (Delivery Method)
                   </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    placeholder="เช่น partner@example.com"
-                    className="w-full h-16 px-6 bg-gray-50 border-2 border-transparent focus:border-gray-900 rounded-2xl outline-none font-bold text-gray-900 transition-all"
-                    required
-                  />
+                  <div className="flex space-x-4 mb-4">
+                    <button
+                      onClick={() =>
+                        setFormData({ ...formData, deliveryMethod: "email" })
+                      }
+                      className={`flex-1 py-3 rounded-xl border-2 font-bold text-sm transition-all ${
+                        formData.deliveryMethod === "email"
+                          ? "border-gray-900 bg-gray-900 text-white"
+                          : "border-gray-100 bg-white text-gray-500 hover:border-gray-300"
+                      }`}
+                    >
+                      Email
+                    </button>
+                    <button
+                      onClick={() =>
+                        setFormData({ ...formData, deliveryMethod: "line" })
+                      }
+                      className={`flex-1 py-3 rounded-xl border-2 font-bold text-sm transition-all ${
+                        formData.deliveryMethod === "line"
+                          ? "border-green-500 bg-green-500 text-white"
+                          : "border-gray-100 bg-white text-gray-500 hover:border-gray-300"
+                      }`}
+                    >
+                      LINE
+                    </button>
+                  </div>
+
+                  {formData.deliveryMethod === "email" ? (
+                    <input
+                      type="email"
+                      value={(formData.email || "") as string}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="เช่น partner@example.com"
+                      className="w-full h-14 px-6 bg-gray-50 border-2 border-transparent focus:border-gray-900 rounded-xl outline-none font-bold text-gray-900 transition-all"
+                      required={formData.deliveryMethod === "email"}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={(formData.lineId || "") as string}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lineId: e.target.value })
+                      }
+                      placeholder="LINE ID สำหรับจัดส่งเอกสาร"
+                      className="w-full h-14 px-6 bg-gray-50 border-2 border-transparent focus:border-green-500 rounded-xl outline-none font-bold text-gray-900 transition-all"
+                      required={formData.deliveryMethod === "line"}
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3 ml-2">
@@ -245,7 +302,7 @@ export function CheckoutModal({
                       setFormData({ ...formData, caseName: e.target.value })
                     }
                     placeholder="ระบุเพื่อบันทึกประวัติ"
-                    className="w-full h-16 px-6 bg-gray-50 border-2 border-transparent focus:border-gray-900 rounded-2xl outline-none font-bold text-gray-900 transition-all"
+                    className="w-full h-14 px-6 bg-gray-50 border-2 border-transparent focus:border-gray-900 rounded-xl outline-none font-bold text-gray-900 transition-all"
                     required
                   />
                 </div>

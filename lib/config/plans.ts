@@ -9,7 +9,9 @@ export type ServiceId =
   | "visa"
   | "specialist"
   | "vifily"
-  | "premium-card";
+  | "premium-card"
+  | "flight_ticket"
+  | "hotel_booking";
 export type PaymentCategory = "subscription" | "service";
 
 export const planConfig: Record<
@@ -134,39 +136,63 @@ export const serviceConfig: Record<
     ],
   },
   specialist: {
-    name: "Expert Specialist Credentials",
+    name: "Elite Specialist Credentials",
     price: 2500,
-    description: "จัดทำเอกสารเชิงเทคนิคเฉพาะทางระดับสูง",
+    description: "บุคคลคุณภาพพร้อมใช้ (Expertise Profile)",
     longDescription:
-      "บริการสำหรับงานเอกสารที่ต้องการทักษะเชิงเทคนิคพิเศษหรืองานด่วนที่ต้องการคุณภาพงานในระดับไร้ที่ติ (Flawless Quality)",
+      "จัดทำและปั้นโปรไฟล์บุคคลที่มีความเชี่ยวชาญสูง (9 ปี+) ในระบบ Google Search เพื่อสร้างความน่าเชื่อถือในระดับสูงสุด พร้อมประวัติ SEO ที่แข็งแกร่ง",
     steps: [
-      "แจ้งรายละเอียดงานเชิงเทคนิค",
-      "ออกแบบโครงสร้างข้อมูลเอกสารระดับสูง",
-      "ตรวจสอบความเรียบร้อยและรับไฟล์ต้นฉบับ",
+      "ระบุทักษะหรือหมวดหมู่ที่ต้องการปั้น",
+      "ระบบ AI และทีมผู้เชี่ยวชาญเข้าสู่กระบวนการจัดทำตัวตนดิจิทัล",
+      "รับมอบสิทธิ์ (Identity Swap) และเอกสารรับรอง Vifily",
     ],
   },
   vifily: {
     name: "Vifily Digital Trust Engine",
     price: 1900,
-    description: "การรับรองความน่าเชื่อถือดิจิทัลระดับสากล",
+    description: "สินทรัพย์นิติบุคคลพรีเมียม (Corporate Assets)",
     longDescription:
-      "สร้างตัวตนดิจิทัลที่มีความน่าเชื่อถือระดับ Global ผ่านระบบ Vifily พร้อมรหัส QR เฉพาะบุคคลที่ตรวจสอบได้ทั่วโลก",
+      "สร้างหรือจัดทำนิติบุคคลที่มีโครงสร้างสมบูรณ์ พอร์ตผลงานแน่น และได้รับตราประทับ UNLINK Trust Level 3 เพื่อการันตีความมั่นคงระดับองค์กรในสายตาผู้ตรวจสอบสากล",
     steps: [
-      "ลงทะเบียนข้อมูลพาร์ทเนอร์",
-      "สร้าง Protocol ความเชื่อมั่นเฉพาะบุคคล",
-      "รับสิทธิ์การตรวจสอบผ่าน Vifily Portal",
+      "ระบุอุตสาหกรรมและพอร์ตโฟลิโอเป้าหมาย",
+      "ตรวจสอบประวัติและการฝังตัวตนดิจิทัลเข้าระบบ Google Trust",
+      "รับมอบทรัพย์สินทางดิจิทัลและรหัสตรวจสอบสถานะสถานประกอบการ",
     ],
   },
   "premium-card": {
     name: "Physical Luxury Identity",
     price: 5500,
-    description: "ผลิตบัตรรับรองและบัตรสิทธิ์เกรดพรีเมียม",
+    description: "อาณาจักรธุรกิจสำเร็จรูป (Identity Matching)",
     longDescription:
-      "ยกระดับภาพลักษณ์ด้วยงานพิมพ์คุณภาพสูงสุดบนวัสดุเกรดพรีเมียม พร้อมระบบจัดส่งที่ปลอดภัยและเป็นความลับ",
+      "โซลูชันแบบ Combo จับคู่บุคคลคุณภาพ (CEO) เข้ากับนิติบุคคลพรีเมียม เพื่อสร้างเครือข่ายความเชื่อถือ (UNLINK Network) ระดับสูงสุดที่สอดรับกัน 100%",
     steps: [
-      "เลือกวัสดุและยืนยันดีไซน์",
-      "ตรวจสอบความถูกต้องของข้อมูลสิทธิ์",
-      "ผลิตและจัดส่งผ่าน Secure Logistics",
+      "วางโครงสร้างสายสัมพันธ์ทางธุรกิจ (Entity Relationship)",
+      "Sync ข้อมูลตัวตนบุคคลเข้ากับตัวตนองค์กร",
+      "รับมอบสิทธิ์การบริหารจัดการและประวัติการทำงานที่สมบูรณ์",
+    ],
+  },
+  flight_ticket: {
+    name: "Automatic Flight Ticket Generator",
+    price: 500,
+    description: "ตั๋วเครื่องบินจำลอง (Global Flight Protocol)",
+    longDescription:
+      "ระบบจำลอง E-ticket แบบ 100% จากสายการบินชั้นนำ (KLM, ANA, Etihad) พร้อม QR Code ตรวจสอบความถูกต้องภายใต้มาตรฐาน UNLINK-GLOBAL",
+    steps: [
+      "เลือกสายการบินและกรอกข้อมูลการเดินทาง",
+      "ตรวจสอบความถูกต้องจาก Preview 70%",
+      "ชำระเงินและรับเอกสารพร้อม QR Code สแกนตรวจสอบได้ 7 วัน",
+    ],
+  },
+  hotel_booking: {
+    name: "Automatic Hotel Confirmation Generator",
+    price: 500,
+    description: "ใบยืนยันที่พักจำลอง (Premium Hotel Protocol)",
+    longDescription:
+      "จำลองใบยืนยันการจองโรงแรมที่อยู่จริงทั่วโลก (Amsterdam, Tokyo, Abu Dhabi) ในรูปแบบ Official Confirmation 100% พร้อมระบบสแกน QR Code (UNLINK Auth)",
+    steps: [
+      "เลือกโรงแรมเป้าหมายและกรอกข้อมูลผู้พัก",
+      "ตรวจสอบความสมบูรณ์จากระบบ Preview 70%",
+      "ชำระเงินเพื่อรับใบยืนยันตัวจริงที่สแกนตรวจสอบได้",
     ],
   },
 };

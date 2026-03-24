@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getSubscriptionStatus } from "@/lib/services/subscription";
 import { planConfig, type PlanType } from "@/lib/config/plans";
 import Link from "next/link";
-import { ShieldCheck, FileText, Clock, ArrowRight } from "lucide-react";
+import { ShieldCheck, FileText, Clock, ArrowRight, Globe } from "lucide-react";
 import { redirect } from "next/navigation";
 import { SubscriptionBooster } from "@/components/ui/SubscriptionBooster";
 
@@ -52,20 +52,20 @@ export default async function PartnerDashboard() {
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-12 h-1.5 bg-gray-900 rounded-full"></div>
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">
-                Partner Control Center
+                UNLINK Global Command Center
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-gray-900 leading-[0.85]">
               Welcome, <br />
-              <span className="text-gray-300 italic">Lion Partner.</span>
+              <span className="text-gray-300 italic">Partner Entity.</span>
             </h1>
           </div>
           <div className="hidden lg:block text-right">
             <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">
-              System Version
+              Auth Engine
             </p>
             <p className="text-gray-900 text-xs font-black">
-              Vifily OS v15.1.4
+              UNLINK Secure v4.2.1
             </p>
           </div>
         </div>
@@ -86,26 +86,45 @@ export default async function PartnerDashboard() {
           variant="floating"
         />
 
-        {/* Quick Actions */}
         <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-8 px-2">
-          Core Services
+          Core Services & Demonstrations
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <Link href="/partner/generator" className="group block">
             <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 h-full relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gray-50 rounded-full -mr-16 -mt-16 opacity-50 group-hover:bg-green-500/10 transition-colors"></div>
               <div className="w-16 h-16 bg-gray-900 text-white rounded-2xl flex items-center justify-center mb-8 group-hover:bg-green-600 transition-colors relative z-10 shadow-xl">
                 <FileText className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
-                AI Document Generator
+              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight leading-none">
+                AI Generator
               </h3>
-              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic">
-                สร้างเอกสารสลิปเงินเดือนหรือหนังสือรับรองมาตรฐาน Vifily
-                พร้อมระบบตรวจสอบจริง
+              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic text-sm">
+                สร้างเอกสารสลิปเงินเดือน ตั๋วเครื่องบิน หรือที่พัก มาตรฐาน
+                UNLINK-GLOBAL
               </p>
               <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
                 <span>Access Generator</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/partner/showcase" className="group block">
+            <div className="bg-gray-900 p-10 rounded-[3rem] shadow-2xl hover:shadow-green-500/20 transition-all duration-500 h-full relative overflow-hidden border-4 border-gray-800">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full -mr-16 -mt-16 group-hover:bg-green-500/20 transition-colors"></div>
+              <div className="w-16 h-16 bg-green-500 text-gray-900 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-all relative z-10 shadow-xl shadow-green-500/20">
+                <Globe className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight leading-none">
+                Capability Showcase
+              </h3>
+              <p className="text-gray-400 font-medium mb-10 leading-relaxed italic text-sm">
+                สำรวจตัวอย่างหน้าเว็บไซต์จำลอง (Bank, Visa, Google)
+                ระดับเนียนกริบ
+              </p>
+              <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-green-500 transition-colors">
+                <span>Launch Showcase</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -117,12 +136,11 @@ export default async function PartnerDashboard() {
               <div className="w-16 h-16 bg-white text-gray-900 border-2 border-gray-900 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-gray-900 group-hover:text-white transition-all relative z-10 shadow-lg">
                 <Clock className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight">
-                Document Archive
+              <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight leading-none">
+                Record Archive
               </h3>
-              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic">
-                เรียกดูประวัติเอกสารทั้งหมดของคุณ คัดลอกลิงก์ตรวจสอบ
-                หรือจัดการสถานะเอกสาร
+              <p className="text-gray-600 font-medium mb-10 leading-relaxed italic text-sm">
+                เรียกดูประวัติเอกสาร คัดลอกลิงก์ตรวจสอบ หรือจัดการสถานะ
               </p>
               <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
                 <span>View Archive</span>

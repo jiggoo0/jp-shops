@@ -174,6 +174,22 @@ export default function EuropeBookingPage() {
               reviews: "8,120",
               img: "https://images.unsplash.com/photo-1549463591-24c1882ba398?auto=format&fit=crop&q=80&w=800",
             },
+            {
+              name: "Shangri-La Paris",
+              area: "16th arr., Paris",
+              price: "45,000",
+              score: "9.8",
+              reviews: "3,150",
+              img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=800",
+            },
+            {
+              name: "Le Meurice",
+              area: "8th arr., Paris",
+              price: "28,900",
+              score: "9.4",
+              reviews: "1,890",
+              img: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=800",
+            },
           ].map((hotel, i) => (
             <div
               key={i}

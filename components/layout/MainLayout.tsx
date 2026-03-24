@@ -25,12 +25,22 @@ const CheckoutModal = dynamic(
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [initialService, setInitialService] = useState<ServiceId>("loan");
+  const [initialServiceData, setInitialServiceData] = useState<
+    Record<string, unknown>
+  >({});
   const pathname = usePathname();
 
   useEffect(() => {
     const handleOpenCheckout = (e: Event | CustomEvent) => {
       if ("detail" in e && e.detail?.serviceId) {
         setInitialService(e.detail.serviceId);
+        if (e.detail.serviceData) {
+          setInitialServiceData(
+            e.detail.serviceData as Record<string, unknown>,
+          );
+        } else {
+          setInitialServiceData({});
+        }
       }
       setIsCheckoutOpen(true);
     };
@@ -45,8 +55,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/register") ||
     pathname.startsWith("/admin") ||
-    pathname.startsWith("/booking") ||
-    pathname.startsWith("/flights");
+    pathname.startsWith("/verify/doc") ||
+    pathname.startsWith("/verify/flight") ||
+    pathname.startsWith("/verify/hotel") ||
+    pathname.startsWith("/partner/showcase");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -63,6 +75,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <CheckoutModal
             onClose={() => setIsCheckoutOpen(false)}
             initialServiceId={initialService}
+            initialServiceData={initialServiceData}
           />
         )}
       </AnimatePresence>

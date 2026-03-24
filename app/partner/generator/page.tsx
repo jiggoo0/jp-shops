@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/client";
 import { createDocument } from "@/actions/document";
 import { createPayrollCertificate } from "@/actions/payroll";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
   User,
@@ -44,9 +45,10 @@ function FormLoader() {
   );
 }
 
-type GeneratorType = "standard" | "payroll";
+type GeneratorType = "standard" | "payroll" | "flight" | "hotel";
 
 export default function DocumentGeneratorPage() {
+  const router = useRouter();
   const supabase = createClient();
   const [generatorType, setGeneratorType] = useState<GeneratorType>("standard");
   const [generatedId, setGeneratedId] = useState<string | null>(null);
@@ -169,28 +171,42 @@ export default function DocumentGeneratorPage() {
         </div>
 
         {/* Generator Type Selector */}
-        <div className="grid grid-cols-2 gap-4 mb-12 p-2 bg-gray-100/50 rounded-[2rem] border border-gray-100">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 p-2 bg-gray-100/50 rounded-[2rem] border border-gray-100">
           <button
             onClick={() => setGeneratorType("standard")}
-            className={`flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[10px] ${
+            className={`flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] ${
               generatorType === "standard"
                 ? "bg-white text-gray-900 shadow-xl"
                 : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <FileText className="w-4 h-4" />
-            <span>Standard Document</span>
+            <span>Standard</span>
           </button>
           <button
             onClick={() => setGeneratorType("payroll")}
-            className={`flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[10px] ${
+            className={`flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] ${
               generatorType === "payroll"
                 ? "bg-blue-600 text-white shadow-xl shadow-blue-100"
                 : "text-gray-400 hover:text-gray-600"
             }`}
           >
             <Landmark className="w-4 h-4" />
-            <span>Thai Payroll Cert</span>
+            <span>Payroll</span>
+          </button>
+          <button
+            onClick={() => router.push("/partner/generator/flight")}
+            className="flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] text-gray-400 hover:bg-white hover:text-gray-900"
+          >
+            <Globe className="w-4 h-4" />
+            <span>Flight</span>
+          </button>
+          <button
+            onClick={() => router.push("/partner/generator/hotel")}
+            className="flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] text-gray-400 hover:bg-white hover:text-gray-900"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Hotel</span>
           </button>
         </div>
 

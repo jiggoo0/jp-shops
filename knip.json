@@ -7,22 +7,9 @@
     "actions/**/*.ts",
     "lib/auth.ts",
     "lib/index.ts",
-    "middleware.ts",
-    "next.config.ts"
+    "lib/bot/strategies/*.ts"
   ],
-  "ignore": [
-    "node_modules/**",
-    ".next/**",
-    "supabase/migrations/**",
-    "types/**"
-  ],
-
-  "ignoreDependencies": [
-    "sharp",
-    "unrs-resolver",
-    "eslint-config-next",
-    "postcss-load-config"
-  ],
-  "ignoreBinaries": ["next", "prettier", "eslint", "knip", "tsc"],
+  "ignore": ["types/**"],
+  "ignoreDependencies": ["eslint-config-next", "postcss-load-config"],
   "ignoreExportsUsedInFile": true
 }

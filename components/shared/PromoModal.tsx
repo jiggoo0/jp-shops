@@ -10,6 +10,7 @@ import {
   Globe,
   ArrowRight,
   Check,
+  Hotel,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -140,15 +141,16 @@ export function PromoModal() {
                 </div>
 
                 <div className="pt-6 border-t border-gray-100 flex flex-col gap-4">
-                  <Link href="/partner/generator/flight" onClick={handleClose}>
+                  <Link href="/booking/flights" onClick={handleClose}>
                     <button className="w-full py-5 bg-[#004D40] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#00695C] transition-all shadow-2xl shadow-emerald-900/20 flex items-center justify-center group">
                       <span>ชมระบบจองสายการบิน</span>
                       <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
                     </button>
                   </Link>
-                  <Link href="/partner/generator/hotel" onClick={handleClose}>
-                    <button className="w-full py-5 bg-white border-2 border-gray-900 text-gray-900 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-900 hover:text-white transition-all">
-                      จองโรงแรม Grand Palais Paris
+                  <Link href="/booking/hotels" onClick={handleClose}>
+                    <button className="w-full py-5 bg-white border-2 border-gray-900 text-gray-900 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-900 hover:text-white transition-all flex items-center justify-center group">
+                      <span>จองโรงแรม Grand Palais Paris</span>
+                      <Hotel className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
                     </button>
                   </Link>
                 </div>

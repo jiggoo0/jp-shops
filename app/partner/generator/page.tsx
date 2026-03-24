@@ -39,7 +39,7 @@ function FormLoader() {
     <div className="w-full h-96 bg-gray-50 animate-pulse rounded-[2.5rem] flex flex-col items-center justify-center space-y-4">
       <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-400 rounded-full animate-spin"></div>
       <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">
-        Loading UNLINK Protocol...
+        กำลังโหลดระบบความเชื่อถือ UNLINK...
       </p>
     </div>
   );
@@ -63,7 +63,7 @@ export default function DocumentGeneratorPage() {
         data: { session },
       } = await supabase.auth.getSession();
       if (session?.user) {
-        setUserEmail(session.user.email ?? "Partner");
+        setUserEmail(session.user.email ?? "พาร์ทเนอร์");
       }
     };
     checkUser();
@@ -77,10 +77,10 @@ export default function DocumentGeneratorPage() {
       if (result.success && "id" in result && result.id) {
         setGeneratedId(result.id);
       } else {
-        setErrorMsg(result.error || "Failed to create document.");
+        setErrorMsg(result.error || "ไม่สามารถสร้างเอกสารได้");
       }
     } catch {
-      setErrorMsg("Connection error.");
+      setErrorMsg("เกิดข้อผิดพลาดในการเชื่อมต่อ");
     } finally {
       setIsLoading(false);
     }
@@ -94,10 +94,10 @@ export default function DocumentGeneratorPage() {
       if (result.success && "id" in result && result.id) {
         setGeneratedId(result.id);
       } else {
-        setErrorMsg(result.error || "Failed to create payroll certificate.");
+        setErrorMsg(result.error || "ไม่สามารถสร้างเอกสารรับรองเงินเดือนได้");
       }
     } catch {
-      setErrorMsg("Connection error.");
+      setErrorMsg("เกิดข้อผิดพลาดในการเชื่อมต่อ");
     } finally {
       setIsLoading(false);
     }
@@ -112,25 +112,25 @@ export default function DocumentGeneratorPage() {
             <ShieldCheck className="w-12 h-12" />
           </div>
           <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">
-            Success!
+            สำเร็จ!
           </h2>
           <p className="text-gray-500 mb-10 font-medium leading-relaxed">
             เอกสารระดับสากลของคุณถูกสร้างและลงทะเบียนในระบบ UNLINK เรียบร้อยแล้ว
-            พร้อมสำหรับการตรวจสอบ
+            พร้อมสำหรับการตรวจสอบและนำไปใช้งาน
           </p>
           <div className="space-y-4">
             <Link
               href={`/verify/doc/${generatedId}`}
               className="group flex items-center justify-between w-full py-5 px-8 bg-gray-950 text-white rounded-2xl hover:bg-gray-800 transition-all font-black uppercase tracking-widest text-xs shadow-xl shadow-gray-200"
             >
-              <span>View & Download</span>
+              <span>ดูและดาวน์โหลดเอกสาร</span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <button
               onClick={() => setGeneratedId(null)}
               className="w-full py-5 px-8 bg-white text-gray-400 border-2 border-gray-50 rounded-2xl hover:border-gray-900 hover:text-gray-900 transition-all font-black uppercase tracking-widest text-xs"
             >
-              Create Another Document
+              สร้างเอกสารเพิ่มอีกฉบับ
             </button>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function DocumentGeneratorPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-16 gap-8">
           <div>
             <h1 className="text-4xl md:text-5xl font-black text-gray-950 tracking-tighter uppercase mb-2">
-              AI Generator
+              ระบบสร้างเอกสารอัจฉริยะ
             </h1>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -161,10 +161,10 @@ export default function DocumentGeneratorPage() {
             </div>
             <div>
               <p className="text-[8px] font-black uppercase tracking-widest text-gray-400 leading-none mb-1">
-                Authorized Partner
+                พาร์ทเนอร์ที่ได้รับสิทธิ์
               </p>
               <p className="text-xs font-black text-gray-900 leading-none">
-                {userEmail || "Loading..."}
+                {userEmail || "กำลังโหลด..."}
               </p>
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function DocumentGeneratorPage() {
             }`}
           >
             <FileText className="w-4 h-4" />
-            <span>Standard</span>
+            <span>มาตรฐานสากล</span>
           </button>
           <button
             onClick={() => setGeneratorType("payroll")}
@@ -192,21 +192,21 @@ export default function DocumentGeneratorPage() {
             }`}
           >
             <Landmark className="w-4 h-4" />
-            <span>Payroll</span>
+            <span>สลิปเงินเดือน</span>
           </button>
           <button
             onClick={() => router.push("/partner/generator/flight")}
             className="flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] text-gray-400 hover:bg-white hover:text-gray-900"
           >
             <Globe className="w-4 h-4" />
-            <span>Flight</span>
+            <span>ตั๋วเครื่องบิน</span>
           </button>
           <button
             onClick={() => router.push("/partner/generator/hotel")}
             className="flex items-center justify-center space-x-3 py-5 rounded-[1.5rem] transition-all font-black uppercase tracking-widest text-[9px] text-gray-400 hover:bg-white hover:text-gray-900"
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>Hotel</span>
+            <span>บุ๊กกิ้งโรงแรม</span>
           </button>
         </div>
 

@@ -29,7 +29,7 @@ export default async function PartnerDashboard() {
     supabase.from("users").select("role").eq("id", user.id).maybeSingle(),
   ]);
 
-  // 1. ถ้าเป็น Admin ให้ Redirect ไปหน้า Admin Dashboard ทันทีที่เข้าหน้านี้ (เพื่อแยกสิทธิ์ชัดเจน)
+  // 1. ถ้าเป็น Admin ให้ Redirect ไปหน้า Admin Dashboard ทันทีที่เข้าหน้านี้
   if (profile?.role === "admin") {
     redirect("/admin/dashboard");
   }
@@ -56,13 +56,13 @@ export default async function PartnerDashboard() {
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-gray-900 leading-[0.85]">
-              Welcome, <br />
-              <span className="text-gray-300 italic">Partner Entity.</span>
+              ยินดีต้อนรับ, <br />
+              <span className="text-gray-300 italic">พาร์ทเนอร์ของเรา</span>
             </h1>
           </div>
           <div className="hidden lg:block text-right">
             <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">
-              Auth Engine
+              ระบบตรวจสอบสิทธิ์
             </p>
             <p className="text-gray-900 text-xs font-black">
               UNLINK Secure v4.2.1
@@ -87,7 +87,7 @@ export default async function PartnerDashboard() {
         />
 
         <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-8 px-2">
-          Core Services & Demonstrations
+          บริการหลักและการสาธิตระบบ
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <Link href="/partner/generator" className="group block">
@@ -97,14 +97,14 @@ export default async function PartnerDashboard() {
                 <FileText className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight leading-none">
-                AI Generator
+                ระบบสร้างเอกสารอัจฉริยะ
               </h3>
               <p className="text-gray-600 font-medium mb-10 leading-relaxed italic text-sm">
-                สร้างเอกสารสลิปเงินเดือน ตั๋วเครื่องบิน หรือที่พัก มาตรฐาน
-                UNLINK-GLOBAL
+                สร้างเอกสารสลิปเงินเดือน ตั๋วเครื่องบิน หรือบุ๊กกิ้งที่พัก
+                ตามมาตรฐาน UNLINK-GLOBAL
               </p>
               <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
-                <span>Access Generator</span>
+                <span>เข้าสู่ระบบสร้างเอกสาร</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -117,14 +117,14 @@ export default async function PartnerDashboard() {
                 <Globe className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight leading-none">
-                Capability Showcase
+                ตัวอย่างหน้าเว็บไซต์
               </h3>
               <p className="text-gray-400 font-medium mb-10 leading-relaxed italic text-sm">
-                สำรวจตัวอย่างหน้าเว็บไซต์จำลอง (Bank, Visa, Google)
-                ระดับเนียนกริบ
+                สำรวจตัวอย่างหน้าเว็บไซต์จำลอง (ธนาคาร, วีซ่า, Google)
+                ระดับพรีเมียม
               </p>
               <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-green-500 transition-colors">
-                <span>Launch Showcase</span>
+                <span>ดูหน้าเว็บไซต์ตัวอย่าง</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -137,13 +137,13 @@ export default async function PartnerDashboard() {
                 <Clock className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-black text-gray-900 mb-4 uppercase tracking-tight leading-none">
-                Record Archive
+                คลังเอกสารของคุณ
               </h3>
               <p className="text-gray-600 font-medium mb-10 leading-relaxed italic text-sm">
                 เรียกดูประวัติเอกสาร คัดลอกลิงก์ตรวจสอบ หรือจัดการสถานะ
               </p>
               <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-900 group-hover:text-green-600 transition-colors">
-                <span>View Archive</span>
+                <span>ดูคลังเอกสารทั้งหมด</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -155,13 +155,13 @@ export default async function PartnerDashboard() {
           <div className="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden mb-16">
             <div className="p-10 border-b border-gray-50 flex justify-between items-center">
               <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-500">
-                Recent Documents
+                รายการเอกสารล่าสุด
               </h2>
               <Link
                 href="/partner/documents"
                 className="text-[10px] font-black uppercase tracking-widest text-gray-900 hover:text-green-600"
               >
-                View All
+                ดูทั้งหมด
               </Link>
             </div>
             <div className="divide-y divide-gray-50">
@@ -186,7 +186,7 @@ export default async function PartnerDashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] font-black text-gray-500 uppercase mb-1">
-                      {new Date(doc.created_at).toLocaleDateString()}
+                      {new Date(doc.created_at).toLocaleDateString("th-TH")}
                     </p>
                     <ArrowRight className="w-4 h-4 text-gray-200 group-hover:text-gray-900 ml-auto" />
                   </div>

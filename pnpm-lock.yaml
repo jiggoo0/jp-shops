@@ -72,6 +72,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.3.5
+      '@next/swc-linux-arm64-musl':
+        specifier: ^16.2.1
+        version: 16.2.1
       '@types/node':
         specifier: ^20
         version: 20.19.37
@@ -807,7 +810,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@next/swc-linux-x64-gnu@15.1.4':
     resolution: {integrity: sha512-9TGEgOycqZFuADyFqwmK/9g6S0FYZ3tphR4ebcmCwhL8Y12FW8pIBKJvSwV+UBjMkokstGNH+9F8F031JZKpHw==}
@@ -3676,8 +3678,7 @@ snapshots:
   '@next/swc-linux-arm64-musl@15.1.4':
     optional: true
 
-  '@next/swc-linux-arm64-musl@16.2.1':
-    optional: true
+  '@next/swc-linux-arm64-musl@16.2.1': {}
 
   '@next/swc-linux-x64-gnu@15.1.4':
     optional: true

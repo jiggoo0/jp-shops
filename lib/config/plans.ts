@@ -178,6 +178,7 @@ export const documentSchema = z.object({
   expiryDate: z.string(),
   status: z.string().default("Verified"),
   issuer: z.string(),
+  metadata: z.any().optional().default({}),
 });
 
 export type DocumentInput = z.infer<typeof documentSchema>;

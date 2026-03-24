@@ -17,6 +17,16 @@ const uiSchema = z.object({
   }),
   status: z.string().min(2, "Status is required"),
   issuer: z.string().min(2, "Issuer is required"),
+  metadata: z
+    .object({
+      position: z.string().optional(),
+      salary: z.coerce.number().optional(),
+      allowance: z.coerce.number().optional(),
+      tax: z.coerce.number().optional(),
+      sso: z.coerce.number().optional(),
+      companyName: z.string().optional(),
+    })
+    .optional(),
 });
 
 type FormValues = z.infer<typeof uiSchema>;
@@ -35,6 +45,7 @@ export default function DocumentForm({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(uiSchema),
@@ -47,8 +58,21 @@ export default function DocumentForm({
         .split("T")[0],
       status: "Verified",
       issuer: "JP-Visual&Docs Intelligence",
+      metadata: {
+        position: "Manager",
+        salary: 35000,
+        allowance: 5000,
+        tax: 500,
+        sso: 750,
+        companyName: "JP Visual Docs Co., Ltd.",
+      },
     },
   });
+
+  const docType = watch("documentType");
+  const isPayroll =
+    docType.toLowerCase().includes("payroll") ||
+    docType.toLowerCase().includes("เงินเดือน");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -157,6 +181,84 @@ export default function DocumentForm({
               </p>
             )}
           </div>
+
+          {/* Conditional Payroll Fields */}
+          {isPayroll && (
+            <div className="col-span-2 mt-4 pt-8 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="col-span-2">
+                <h3 className="text-xs font-black uppercase tracking-widest text-blue-600 mb-2">
+                  Salary Certificate Details (ข้อมูลใบรับรองเงินเดือน)
+                </h3>
+              </div>
+
+              <div className="col-span-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  ชื่อบริษัท (Company Name)
+                </label>
+                <input
+                  type="text"
+                  {...register("metadata.companyName")}
+                  className="w-full px-5 py-3 border border-blue-100 bg-blue-50/10 rounded-xl focus:ring-4 focus:ring-blue-900/5 focus:border-blue-900 outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  ตำแหน่ง (Position)
+                </label>
+                <input
+                  type="text"
+                  {...register("metadata.position")}
+                  className="w-full px-5 py-3 border border-blue-100 bg-blue-50/10 rounded-xl focus:ring-4 focus:ring-blue-900/5 focus:border-blue-900 outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  เงินเดือน (Salary)
+                </label>
+                <input
+                  type="number"
+                  {...register("metadata.salary")}
+                  className="w-full px-5 py-3 border border-blue-100 bg-blue-50/10 rounded-xl focus:ring-4 focus:ring-blue-900/5 focus:border-blue-900 outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  รายได้อื่นๆ (Allowance)
+                </label>
+                <input
+                  type="number"
+                  {...register("metadata.allowance")}
+                  className="w-full px-5 py-3 border border-blue-100 bg-blue-50/10 rounded-xl focus:ring-4 focus:ring-blue-900/5 focus:border-blue-900 outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                    ภาษี (Tax)
+                  </label>
+                  <input
+                    type="number"
+                    {...register("metadata.tax")}
+                    className="w-full px-5 py-3 border border-gray-100 bg-gray-50/30 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                    ประกันสังคม (SSO)
+                  </label>
+                  <input
+                    type="number"
+                    {...register("metadata.sso")}
+                    className="w-full px-5 py-3 border border-gray-100 bg-gray-50/30 rounded-xl focus:ring-4 focus:ring-gray-900/5 focus:border-gray-900 outline-none transition-all font-medium"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

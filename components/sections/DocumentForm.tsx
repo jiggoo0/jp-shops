@@ -75,7 +75,12 @@ export default function DocumentForm({
     docType.toLowerCase().includes("เงินเดือน");
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form
+      onSubmit={handleSubmit((data) =>
+        onSubmit(data as unknown as DocumentInput),
+      )}
+      className="space-y-8"
+    >
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-8 py-5 border-b border-gray-100 bg-gray-50/50 flex items-center space-x-3">
           <FileText className="w-5 h-5 text-gray-400" />

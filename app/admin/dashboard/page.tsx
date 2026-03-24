@@ -1,7 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users, FileText, Activity, Settings, ArrowRight } from "lucide-react";
+import {
+  Users,
+  FileText,
+  Activity,
+  ArrowRight,
+  Hotel,
+  CalendarCheck,
+} from "lucide-react";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -47,9 +54,10 @@ export default async function AdminDashboard() {
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Partner Management */}
           <Link href="/admin/users" className="group block">
             <div className="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 hover:bg-gray-800 hover:border-gray-600 transition-all duration-300 h-full">
-              <div className="w-12 h-12 bg-white text-gray-900 rounded-xl flex items-center justify-center mb-6 shadow-xl">
+              <div className="w-12 h-12 bg-white text-gray-900 rounded-xl flex items-center justify-center mb-6 shadow-xl shadow-white/5">
                 <Users className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-black mb-3 uppercase tracking-tight">
@@ -66,6 +74,29 @@ export default async function AdminDashboard() {
             </div>
           </Link>
 
+          {/* Hotel & Booking Management (NEW) */}
+          <Link href="/admin/bookings" className="group block">
+            <div className="bg-blue-600/10 p-8 rounded-3xl border border-blue-500/30 hover:bg-blue-600/20 hover:border-blue-500/60 transition-all duration-300 h-full relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Hotel className="w-24 h-24" />
+              </div>
+              <div className="w-12 h-12 bg-blue-500 text-white rounded-xl flex items-center justify-center mb-6 shadow-xl shadow-blue-500/20">
+                <CalendarCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-black mb-3 uppercase tracking-tight text-blue-100">
+                จัดการ Booking & โรงแรม
+              </h3>
+              <p className="text-blue-200/50 text-sm font-medium mb-8">
+                ควบคุมข้อมูลการจอง รายการโรงแรมยุโรป และสถานะการจองทั้งหมด
+              </p>
+              <div className="flex items-center text-xs font-black uppercase tracking-[0.2em] text-blue-400 group-hover:text-white transition-colors">
+                <span>Manage Bookings</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Document QC */}
           <Link
             href="/admin/dashboard"
             className="group block opacity-50 hover:opacity-100 transition-opacity"
@@ -79,23 +110,6 @@ export default async function AdminDashboard() {
               </h3>
               <p className="text-gray-500 text-sm font-medium mb-8">
                 สุ่มตรวจเอกสารความเชื่อมั่นที่ถูกสร้างขึ้นทั้งหมดในระบบ
-              </p>
-            </div>
-          </Link>
-
-          <Link
-            href="/admin/dashboard"
-            className="group block opacity-50 hover:opacity-100 transition-opacity"
-          >
-            <div className="bg-gray-800/30 p-8 rounded-3xl border border-gray-800 transition-all duration-300 h-full">
-              <div className="w-12 h-12 bg-gray-700 text-gray-400 rounded-xl flex items-center justify-center mb-6">
-                <Settings className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-black mb-3 uppercase tracking-tight">
-                ตั้งค่าระบบ
-              </h3>
-              <p className="text-gray-500 text-sm font-medium mb-8">
-                ปรับแต่งค่าตัวแปรหลัก ราคาแพ็กเกจ หรือข้อความในเว็บ
               </p>
             </div>
           </Link>

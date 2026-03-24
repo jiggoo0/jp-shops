@@ -5,10 +5,18 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogOut, User as UserIcon, Menu, X, ArrowRight } from "lucide-react";
+import {
+  LogOut,
+  User as UserIcon,
+  Menu,
+  X,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 import { Button } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
 import { Session } from "@supabase/supabase-js";
+import { signOut as nextAuthSignOut } from "next-auth/react";
 
 interface HeaderProps {
   onOpenCheckout?: () => void;
@@ -89,10 +97,15 @@ export function Header({ onOpenCheckout }: HeaderProps) {
     if (!supabase || !supabase.auth) return;
     setIsLoggingOut(true);
     try {
+      // 1. Sign out from Supabase (Client Side)
       await supabase.auth.signOut();
+
+      // 2. Sign out from NextAuth (Handles Cookies & Session)
+      // Redirect to home page after sign out
+      await nextAuthSignOut({ callbackUrl: "/" });
+
       setUserEmail(null);
-      router.push("/");
-      router.refresh();
+      setUserRole(null);
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
@@ -104,15 +117,13 @@ export function Header({ onOpenCheckout }: HeaderProps) {
     setMobileMenuOpen(false);
 
     if (pathname !== "/") {
-      // ถ้าไม่ได้อยู่หน้าแรก ให้กลับไปหน้าแรกพร้อม hash
       router.push(`/#${id}`);
       return;
     }
 
-    // ถ้าอยู่หน้าแรกอยู่แล้ว ให้เลื่อนไปยังส่วนนั้น
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // ปรับชดเชยความสูงของ Navbar
+      const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -217,14 +228,20 @@ export function Header({ onOpenCheckout }: HeaderProps) {
                     : "/partner/dashboard"
                 }
                 className="flex items-center space-x-2"
+                title={userRole === "admin" ? "Admin Panel" : "Partner Portal"}
               >
-                <div className="w-8 h-8 rounded-xl bg-gray-900 text-white flex items-center justify-center">
-                  <UserIcon className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-xl bg-gray-900 text-white flex items-center justify-center hover:bg-green-600 transition-colors">
+                  {userRole === "admin" ? (
+                    <ShieldCheck className="w-4 h-4" />
+                  ) : (
+                    <UserIcon className="w-4 h-4" />
+                  )}
                 </div>
               </Link>
               <button
                 onClick={handleLogout}
                 className="p-1.5 text-gray-400 hover:text-red-500 transition-all"
+                title="Sign Out"
               >
                 <LogOut
                   className={`w-4 h-4 ${isLoggingOut ? "animate-pulse" : ""}`}
@@ -247,14 +264,22 @@ export function Header({ onOpenCheckout }: HeaderProps) {
             size="sm"
             onClick={() =>
               userEmail
-                ? router.push("/partner/dashboard")
+                ? router.push(
+                    userRole === "admin"
+                      ? "/admin/dashboard"
+                      : "/partner/dashboard",
+                  )
                 : onOpenCheckout
                   ? onOpenCheckout()
                   : router.push("/register")
             }
             className="rounded-full px-6 bg-gray-900 text-white font-black uppercase tracking-[0.2em] text-[10px] h-10 shadow-xl hover:bg-green-600 transition-all"
           >
-            {userEmail ? "Portal" : "ประเมินด่วน"}
+            {userEmail
+              ? userRole === "admin"
+                ? "Admin"
+                : "Portal"
+              : "ประเมินด่วน"}
           </Button>
 
           <button
@@ -270,7 +295,7 @@ export function Header({ onOpenCheckout }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Navigation Overlay: Full Opacity */}
+      {/* Mobile Navigation Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -311,6 +336,34 @@ export function Header({ onOpenCheckout }: HeaderProps) {
                   )}
                 </div>
               ))}
+
+              {userEmail && (
+                <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
+                  <Link
+                    href={
+                      userRole === "admin"
+                        ? "/admin/dashboard"
+                        : "/partner/dashboard"
+                    }
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex flex-col items-center justify-center p-6 bg-gray-950 text-white rounded-[2rem] space-y-2"
+                  >
+                    <UserIcon className="w-6 h-6" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      {userRole === "admin" ? "Admin" : "Portal"}
+                    </span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex flex-col items-center justify-center p-6 bg-red-50 text-red-600 rounded-[2rem] space-y-2"
+                  >
+                    <LogOut className="w-6 h-6" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      Logout
+                    </span>
+                  </button>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

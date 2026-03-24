@@ -25,6 +25,18 @@ import { useState } from "react";
 export default function BookingPage() {
   const [mainImage, setMainImage] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [isBooking, setIsBooking] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleBooking = () => {
+    setIsBooking(true);
+    // Simulate API Call
+    setTimeout(() => {
+      setIsBooking(false);
+      setShowSuccess(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 2000);
+  };
 
   const images = [
     "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&q=80&w=1200",
@@ -413,8 +425,19 @@ export default function BookingPage() {
                     </div>
                   </div>
 
-                  <button className="w-full h-20 bg-[#006ce4] text-white rounded-[1.5rem] font-black uppercase tracking-widest text-sm hover:bg-[#005bb8] transition-all shadow-[0_20px_40px_-10px_rgba(0,108,228,0.4)] active:scale-[0.98]">
-                    Reserve Selection
+                  <button
+                    onClick={handleBooking}
+                    disabled={isBooking}
+                    className="w-full h-20 bg-[#006ce4] text-white rounded-[1.5rem] font-black uppercase tracking-widest text-sm hover:bg-[#005bb8] transition-all shadow-[0_20px_40px_-10px_rgba(0,108,228,0.4)] active:scale-[0.98] disabled:bg-gray-400 flex items-center justify-center"
+                  >
+                    {isBooking ? (
+                      <div className="flex items-center space-x-3">
+                        <div className="w-5 h-5 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Processing...</span>
+                      </div>
+                    ) : (
+                      "Reserve Selection"
+                    )}
                   </button>
 
                   <div className="flex items-center justify-center space-x-3 text-[10px] font-black uppercase tracking-widest text-green-600 bg-green-50 py-3 rounded-full">
@@ -501,6 +524,67 @@ export default function BookingPage() {
           </div>
         </div>
       </section>
+
+      {/* Booking Success Modal Overlay */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-gray-950/80 backdrop-blur-sm flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-white rounded-[3rem] max-w-lg w-full p-12 relative overflow-hidden text-center shadow-2xl"
+            >
+              <div className="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
+              <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Check className="w-10 h-10" />
+              </div>
+              <h2 className="text-3xl font-black uppercase tracking-tighter mb-4 text-gray-900">
+                Booking Confirmed
+              </h2>
+              <p className="text-gray-500 font-medium mb-8">
+                Your stay at{" "}
+                <strong className="text-gray-900">
+                  Grand Palais Luxury & Spa
+                </strong>{" "}
+                is fully secured. An email confirmation has been sent.
+              </p>
+
+              <div className="bg-gray-50 p-6 rounded-2xl mb-8 text-left border border-gray-100">
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
+                  Confirmation Number
+                </p>
+                <p className="text-xl font-mono font-black text-gray-900 mb-4">
+                  BKG-2026-001
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                  <div className="flex items-center space-x-2">
+                    <ShieldCheck className="w-4 h-4 text-blue-600" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">
+                      Vifily Protected
+                    </span>
+                  </div>
+                  <span className="text-sm font-black text-gray-900">
+                    ฿14,200
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowSuccess(false)}
+                className="w-full py-4 bg-gray-900 text-white rounded-xl font-black uppercase tracking-widest text-xs hover:bg-green-600 transition-all"
+              >
+                View My Itinerary
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

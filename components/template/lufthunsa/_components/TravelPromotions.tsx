@@ -29,7 +29,7 @@ const OFFERS = [
     price: "480",
     country: "Spain",
     image:
-      "https://images.unsplash.com/photo-1583997051654-af6caac0f418?q=80&w=2071",
+      "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?q=80&w=2071",
   },
 ];
 

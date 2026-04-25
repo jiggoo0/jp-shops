@@ -5,6 +5,7 @@ import React from "react";
 import styles from "./KBTTemplate.module.css";
 import { KBT_NAV_LINKS } from "./constants";
 import Image from "next/image";
+import Link from "next/link";
 import BaseTemplate from "../BaseTemplate";
 import FlightDeals from "./_components/FlightDeals";
 import QuickServices from "./_components/QuickServices";
@@ -145,7 +146,13 @@ const KBTTemplate: React.FC<TemplateProps> = ({ view }) => {
             <nav className={styles.nav}>
               <ul>
                 {KBT_NAV_LINKS.map((link, i) => (
-                  <li key={i}>{link.label}</li>
+                  <li key={i}>
+                    <Link 
+                      href={link.label === "หน้าแรก" ? "/template/kbt" : link.label === "จองเที่ยวบิน" ? "/template/kbt/booking" : "#"}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </nav>

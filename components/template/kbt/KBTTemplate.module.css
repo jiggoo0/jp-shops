@@ -62,6 +62,24 @@
   color: #4b2382;
 }
 
+.nav a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s, border-bottom 0.2s;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+  color: #f9a825;
+  border-bottom: 2px solid #f9a825;
+}
+
+.activeNavLink {
+  color: #f9a825 !important;
+  border-bottom: 2px solid #f9a825 !important;
+}
+
 .hero {
   height: 600px;
   position: relative;

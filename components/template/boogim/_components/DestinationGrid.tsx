@@ -7,7 +7,7 @@ const DESTINATIONS = [
     name: "กรุงเทพมหานคร",
     properties: "3,452",
     image:
-      "https://images.unsplash.com/photo-1508004526068-ff2f22b8f24b?q=80&w=2070",
+      "https://images.unsplash.com/photo-1563492065599-3520f775eeed?q=80&w=2070",
   },
   {
     name: "ภูเก็ต",
@@ -37,7 +37,7 @@ const DESTINATIONS = [
     name: "เชียงใหม่",
     properties: "1,240",
     image:
-      "https://images.unsplash.com/photo-1585129049162-71fa2b3320c2?q=80&w=2070",
+      "https://images.unsplash.com/photo-1596422846543-b5c64883993c?q=80&w=2070",
   },
 ];
 

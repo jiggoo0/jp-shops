@@ -50,6 +50,11 @@ export const metadata: Metadata = {
     images: [siteConfig.ogImage],
     creator: "@jpvisdocs",
   },
+  icons: {
+    icon: "/favicon-32x32.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

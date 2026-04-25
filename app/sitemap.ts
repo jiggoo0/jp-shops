@@ -1,20 +1,21 @@
+/* @identity เจ้าป่า */
 import { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/site-config";
-import fs from "fs";
-import path from "path";
+import { siteConfig } from "@/config/site";
+import { SERVICES, TEMPLATES, BLOG_POSTS } from "@/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
-  // Static routes
-  const staticRoutes = [
+  // Main Pages
+  const mainPages = [
     "",
     "/about",
+    "/contact",
     "/blog",
-    "/login",
-    "/register",
+    "/templates",
     "/privacy",
     "/terms",
+    "/services",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -22,22 +23,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1 : 0.8,
   }));
 
-  // Blog posts from MDX
-  const blogDir = path.join(process.cwd(), "content/blog");
-  let blogRoutes: MetadataRoute.Sitemap = [];
+  // Services Pages
+  const servicesPages = SERVICES.map((service) => ({
+    url: `${baseUrl}/services/${service.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
-  if (fs.existsSync(blogDir)) {
-    const files = fs.readdirSync(blogDir);
-    blogRoutes = files.map((file) => {
-      const slug = file.replace(".mdx", "");
-      return {
-        url: `${baseUrl}/blog/${slug}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.6,
-      };
-    });
-  }
+  // Template Pages
+  const templatePages = TEMPLATES.map((tpl) => ({
+    url: `${baseUrl}/template/${tpl.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
 
-  return [...staticRoutes, ...blogRoutes];
+  // Blog Pages
+  const blogPages = BLOG_POSTS.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...mainPages, ...servicesPages, ...templatePages, ...blogPages];
 }

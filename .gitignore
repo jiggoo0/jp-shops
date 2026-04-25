@@ -42,3 +42,5 @@ next-env.d.ts
 
 /.Dev/
 /.gemini/
+# [SUPREME COMMAND] Block AI Identity Folders
+.gemini/

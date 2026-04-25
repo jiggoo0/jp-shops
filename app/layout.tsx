@@ -1,64 +1,38 @@
-import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
-import { siteConfig, getJsonLd, getServiceSchema } from "@/lib/site-config";
-import { MainLayout } from "@/components/layout/MainLayout";
+/* @identity เจ้าป่า */
+import "@/styles/globals.css";
+import type { Metadata } from "next";
+import { IBM_Plex_Sans_Thai, Sarabun } from "next/font/google";
+import { siteConfig } from "@/config/site";
+import JsonLd from "@/components/seo/JsonLd";
 
-const jakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+const ibmPlexSansThai = IBM_Plex_Sans_Thai({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["thai", "latin"],
+  variable: "--font-heading",
 });
 
-export const viewport: Viewport = {
-  themeColor: "#ffffff",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-};
+const sarabun = Sarabun({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  subsets: ["thai", "latin"],
+  variable: "--font-body",
+});
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.title,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
-  metadataBase: new URL(siteConfig.url),
-  authors: [{ name: siteConfig.author.name, url: siteConfig.author.url }],
+  authors: [{ name: siteConfig.author.name }],
   creator: siteConfig.author.name,
-  publisher: siteConfig.name,
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  icons: {
-    icon: [
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png" }],
-  },
-  manifest: "/site.webmanifest",
   openGraph: {
-    title: siteConfig.title,
-    description: siteConfig.description,
+    type: "website",
+    locale: "th_TH",
     url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
       {
@@ -68,18 +42,13 @@ export const metadata: Metadata = {
         alt: siteConfig.name,
       },
     ],
-    locale: "th_TH",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.title,
+    title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: siteConfig.social.twitter,
-  },
-  verification: {
-    google: "google-site-verification-id", // Update with actual verification ID
+    creator: "@jpvisdocs",
   },
 };
 
@@ -90,18 +59,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th" className="scroll-smooth">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([getJsonLd(), getServiceSchema()]),
-          }}
-        />
-      </head>
       <body
-        className={`${jakartaSans.variable} font-sans antialiased selection:bg-green-100 selection:text-green-900`}
+        className={`${ibmPlexSansThai.variable} ${sarabun.variable} flex min-h-screen flex-col font-body antialiased`}
       >
-        <MainLayout>{children}</MainLayout>
+        <JsonLd />
+        {children}
       </body>
     </html>
   );

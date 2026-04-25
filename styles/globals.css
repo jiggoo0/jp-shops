@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020617; /* Deep Midnight Navy */
+    --foreground: #f8fafc;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-body), "Sarabun", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), "IBM Plex Sans Thai", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+@layer base {
+  body {
+    @apply font-body text-slate-900 dark:text-slate-100;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold text-slate-900 dark:text-white;
+  }
+}
+
+@layer utilities {
+  ... .text-balance {
+    text-wrap: balance;
+  }
+}

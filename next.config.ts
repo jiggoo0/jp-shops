@@ -1,8 +1,10 @@
+/* @identity เจ้าป่า */
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  cacheComponents: true,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     remotePatterns: [
@@ -25,6 +27,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "www.unlink-th.com",
+      },
+      {
+        protocol: "https",
+        hostname: "registry.un-link-th.com",
       },
       {
         protocol: "https",

@@ -1,0 +1,146 @@
+# 🗺️ AEMDEVWEB PROJECT MAP
+# Generated: 25/4/2569 20:50:18 (Bangkok Time)
+# This file is auto-generated. DO NOT EDIT MANUALLY.
+# Purpose: Provide architectural context for AI Agents and Developers.
+# Filters: Excluding node_modules, build artifacts, and lock files.
+
+./
+├── app/
+│   ├── (main)/
+│   │   ├── about/
+│   │   │   └── page.tsx
+│   │   ├── blog/
+│   │   │   ├── [slug]/
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── contact/
+│   │   │   └── page.tsx
+│   │   ├── privacy/
+│   │   │   └── page.tsx
+│   │   ├── services/
+│   │   │   ├── [slug]/
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── templates/
+│   │   │   └── page.tsx
+│   │   ├── terms/
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── (showcase)/
+│   │   ├── template/
+│   │   │   └── [slug]/
+│   │   │       ├── [[...view]]/
+│   │   │       │   └── page.tsx
+│   │   │       ├── error.tsx
+│   │   │       └── loading.tsx
+│   │   └── layout.tsx
+│   ├── error.tsx
+│   ├── icon.tsx
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── manifest.ts
+│   ├── not-found.tsx
+│   ├── robots.ts
+│   └── sitemap.ts
+├── components/
+│   ├── layout/
+│   │   ├── Footer/
+│   │   │   ├── Copyright.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── index.ts
+│   │   └── Navbar/
+│   │       ├── Navbar.tsx
+│   │       └── index.ts
+│   ├── sections/
+│   │   ├── Hero/
+│   │   │   ├── Hero.tsx
+│   │   │   └── index.ts
+│   │   ├── Services/
+│   │   │   ├── Services.tsx
+│   │   │   └── index.ts
+│   │   └── AdditionalSections.tsx
+│   ├── seo/
+│   │   └── JsonLd.tsx
+│   ├── template/
+│   │   ├── boogim/
+│   │   │   ├── _components/
+│   │   │   ├── BoogimTemplate.module.css
+│   │   │   ├── BoogimTemplate.tsx
+│   │   │   ├── constants.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── kbt/
+│   │   │   ├── _components/
+│   │   │   ├── KBTTemplate.module.css
+│   │   │   ├── KBTTemplate.tsx
+│   │   │   ├── constants.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── lotti-seoul/
+│   │   │   ├── _components/
+│   │   │   ├── LottiSeoulTemplate.module.css
+│   │   │   ├── LottiSeoulTemplate.tsx
+│   │   │   ├── constants.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── lufthunsa/
+│   │   │   ├── _components/
+│   │   │   ├── LufthunsaTemplate.module.css
+│   │   │   ├── LufthunsaTemplate.tsx
+│   │   │   ├── constants.ts
+│   │   │   ├── index.ts
+│   │   │   └── types.ts
+│   │   ├── BaseTemplate.tsx
+│   │   ├── TemplateFactory.tsx
+│   │   ├── TemplateManager.ts
+│   │   └── registry.ts
+│   └── ui/
+│       ├── Button.tsx
+│       └── Card.tsx
+├── config/
+│   └── site.ts
+├── constants/
+│   └── index.ts
+├── content/
+│   └── blog/
+│       └── visa-service-tips.mdx
+├── docs/
+│   └── PromptDev.md
+├── hooks/
+│   └── use-is-mobile.ts
+├── lib/
+│   └── utils.ts
+├── public/
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   ├── blog-evisa.webp
+│   ├── blog-lending.webp
+│   ├── blog-unlink.webp
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── favicon.ico
+│   ├── hero-image.webp
+│   ├── logo.svg
+│   ├── og-main.png
+│   ├── service-loan.webp
+│   ├── service-visa.webp
+│   └── unlink-verification.webp
+├── scripts/
+│   └── generate-map.mjs
+├── styles/
+│   └── globals.css
+├── types/
+│   └── index.ts
+├── GEMINI-MAP.txt
+├── README.md
+├── eslint.config.mjs
+├── knip.json
+├── mdx-components.tsx
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tailwind.config.ts
+└── tsconfig.json

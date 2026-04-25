@@ -4,12 +4,18 @@
   "entry": [
     "app/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
-    "actions/**/*.ts",
-    "lib/auth.ts",
-    "lib/index.ts",
-    "lib/bot/strategies/*.ts"
+    "config/**/*.{ts,tsx}",
+    "constants/**/*.{ts,tsx}",
+    "scripts/**/*.mjs"
   ],
-  "ignore": ["types/**"],
-  "ignoreDependencies": ["eslint-config-next", "postcss-load-config"],
+  "ignore": ["mdx-components.tsx"],
+  "ignoreDependencies": [
+    "eslint-config-next",
+    "postcss",
+    "autoprefixer",
+    "eslint",
+    "prettier-plugin-tailwindcss",
+    "postcss-load-config"
+  ],
   "ignoreExportsUsedInFile": true
 }

@@ -1,0 +1,168 @@
+/* @identity เจ้าป่า */
+.container {
+  min-height: 100vh;
+  font-family: "Playfair Display", serif;
+  background-color: white;
+  color: #333;
+}
+
+.header {
+  border-bottom: 1px solid #eee;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.left,
+.right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.lotti {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 8px;
+}
+
+.city {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: #c5a059;
+}
+
+.reservationBtn {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.mainNav {
+  padding: 15px 0;
+}
+
+.mainNav ul li {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.mainNav ul li:hover {
+  color: #c5a059;
+}
+
+.active {
+  color: #c5a059 !important;
+  font-weight: 600;
+}
+
+.hero {
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroImage {
+  object-fit: cover;
+  z-index: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+}
+
+.heroContent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: -1;
+}
+
+.sub {
+  display: block;
+  font-size: 14px;
+  letter-spacing: 6px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 300;
+  max-width: 800px;
+}
+
+.quickReserve {
+  background-color: #f9f9f9;
+  padding: 40px 10%;
+}
+
+.reserveForm {
+  background: white;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+}
+
+.item {
+  flex: 1;
+  padding: 20px 40px;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.item label {
+  font-size: 10px;
+  color: #c5a059;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.item span {
+  font-size: 16px;
+}
+
+.searchBtn {
+  background-color: #c5a059;
+  color: white;
+  border: none;
+  padding: 0 60px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 60px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #999;
+}

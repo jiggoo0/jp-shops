@@ -1,6 +1,5 @@
 /* @identity เจ้าป่า */
 import { notFound } from "next/navigation";
-import { SERVICES } from "@/constants";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { CheckCircle2, Clock, BadgeDollarSign, ArrowLeft } from "lucide-react";
@@ -8,13 +7,16 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import { getBreadcrumbSchema } from "@/lib/schema";
+import { getServiceById, getServices } from "@/lib/data";
+import { IconRenderer } from "@/components/ui/IconRenderer";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return SERVICES.map((service) => ({
+  const services = await getServices();
+  return services.map((service) => ({
     slug: service.id,
   }));
 }
@@ -23,7 +25,7 @@ export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.id === slug);
+  const service = await getServiceById(slug);
 
   if (!service) return {};
 
@@ -39,7 +41,7 @@ export async function generateMetadata({
 
 export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.id === slug);
+  const service = await getServiceById(slug);
 
   if (!service) {
     notFound();
@@ -68,12 +70,15 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           </Link>
           <div className="max-w-4xl">
             <div className="mb-8 inline-block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-              <service.icon className="h-12 w-12 text-primary" />
+              <IconRenderer
+                name={service.icon}
+                className="h-12 w-12 text-primary"
+              />
             </div>
             <h1 className="mb-6 text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white">
               {service.title}
             </h1>
-            <p className="max-w-2xl text-xl leading-relaxed text-slate-600 dark:text-slate-400">
+            <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground dark:text-slate-400">
               {service.description}
             </p>
           </div>
@@ -87,7 +92,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             <div className="space-y-12 lg:col-span-2">
               <div>
                 <h2 className="mb-6 text-2xl font-bold">รายละเอียดบริการ</h2>
-                <p className="text-muted-foreground mb-6 text-lg leading-relaxed">
+                <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
                   ทีมงานมืออาชีพของเราพร้อมดูแลเคสของคุณอย่างใกล้ชิด
                   โดยเน้นความถูกต้อง แม่นยำ และความรวดเร็ว
                   เราเข้าใจถึงความเร่งด่วนและความกังวลใจของลูกค้า
@@ -104,13 +109,14 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4"
+                      className="group flex items-center gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950"
                     >
-                      <CheckCircle2
-                        className="shrink-0 text-primary"
-                        size={20}
-                      />
-                      <span className="font-medium">{item}</span>
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                        <CheckCircle2 size={18} />
+                      </div>
+                      <span className="font-semibold text-slate-700 transition-colors group-hover:text-primary dark:text-slate-300 dark:group-hover:text-secondary">
+                        {item}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -162,7 +168,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </div>
                 <CardContent className="space-y-6 p-6">
                   <div className="flex items-center justify-between border-b border-slate-100 py-3">
-                    <div className="text-muted-foreground flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
                       <BadgeDollarSign size={18} />
                       <span>ราคาบริการ</span>
                     </div>
@@ -171,7 +177,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                     </span>
                   </div>
                   <div className="flex items-center justify-between border-b border-slate-100 py-3">
-                    <div className="text-muted-foreground flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
                       <Clock size={18} />
                       <span>ระยะเวลา</span>
                     </div>
@@ -179,7 +185,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   </div>
 
                   <div className="pt-4">
-                    <p className="text-muted-foreground mb-4 text-center text-xs italic">
+                    <p className="mb-4 text-center text-xs italic text-muted-foreground">
                       &quot;ปรึกษาเราวันนี้ เพื่อโอกาสความสำเร็จที่มากกว่า&quot;
                     </p>
                     <Link href="/contact" className="block w-full">

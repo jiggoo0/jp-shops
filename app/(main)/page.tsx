@@ -1,12 +1,17 @@
 /* @identity เจ้าป่า */
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
-import {
-  FAQSection,
-  ContactSection,
-} from "@/components/sections/AdditionalSections";
+import FAQSection from "@/components/sections/FAQ";
+import ContactSection from "@/components/sections/Contact";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "เจ้าป่า - บริการดูแลเอกสารสินเชื่อและวีซ่าระดับมืออาชีพ",
+  description:
+    "บริการวิเคราะห์และจัดเตรียมเอกสารสำหรับการยื่นสินเชื่อและวีซ่า ครบวงจรโดยผู้เชี่ยวชาญ เปลี่ยนความซับซ้อนให้เป็นความสำเร็จด้วยมาตรฐานสากล",
+};
 
 export default function Home() {
   return (

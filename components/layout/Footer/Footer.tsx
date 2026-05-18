@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           <div className="space-y-4">
             <h3 className="text-lg font-bold text-primary">JP-VISUAL&DOCS</h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-muted-foreground">
               {siteConfig.description}
             </p>
             <div className="flex gap-4">
@@ -41,7 +41,7 @@ const Footer = () => {
 
           <div>
             <h4 className="mb-4 font-semibold">บริการของเรา</h4>
-            <ul className="text-muted-foreground space-y-2 text-sm">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/#services" className="hover:text-primary">
                   เตรียมเอกสารสินเชื่อ
@@ -72,7 +72,7 @@ const Footer = () => {
 
           <div>
             <h4 className="mb-4 font-semibold">ลิงก์ที่สำคัญ</h4>
-            <ul className="text-muted-foreground space-y-2 text-sm">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/about" className="hover:text-primary">
                   เกี่ยวกับเรา
@@ -103,7 +103,7 @@ const Footer = () => {
 
           <div>
             <h4 className="mb-4 font-semibold">ติดต่อเรา</h4>
-            <ul className="text-muted-foreground space-y-2 text-sm">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="font-medium text-slate-900">
                 <Link href="/contact" className="hover:text-primary">
                   หน้าติดต่อเรา
@@ -119,7 +119,7 @@ const Footer = () => {
                 <span className="font-medium italic text-primary">
                   &quot;{siteConfig.author.name}&quot;
                 </span>
-                <p className="text-muted-foreground text-[10px]">
+                <p className="text-[10px] text-muted-foreground">
                   {siteConfig.author.role}
                 </p>
               </li>
@@ -127,7 +127,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="text-muted-foreground mt-12 border-t pt-8 text-center text-xs">
+        <div className="mt-12 border-t pt-8 text-center text-xs text-muted-foreground">
           <Copyright authorName={siteConfig.author.name} />
         </div>
       </div>

@@ -1,9 +1,10 @@
 /* @identity เจ้าป่า */
-import dynamic from "next/dynamic";
 import React from "react";
+import dynamic from "next/dynamic";
 
 /**
  * Registry Pattern: จัดการการลงทะเบียนและเข้าถึง Template ทั้งหมดในจุดเดียว
+ * ใช้ dynamic imports เพื่อลดขนาด Bundle ตั้งต้น (Initial Bundle Size)
  */
 export const TEMPLATE_REGISTRY: Record<
   string,

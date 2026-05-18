@@ -6,6 +6,7 @@ interface BaseTemplateProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
   containerClassName?: string;
+  mainClassName?: string;
 }
 
 /**
@@ -17,11 +18,12 @@ const BaseTemplate: React.FC<BaseTemplateProps> = ({
   children,
   footer,
   containerClassName = "",
+  mainClassName = "",
 }) => {
   return (
-    <div className={containerClassName}>
+    <div className={`flex min-h-screen flex-col ${containerClassName}`}>
       {header}
-      <main>{children}</main>
+      <main className={`flex-grow ${mainClassName}`}>{children}</main>
       {footer}
     </div>
   );

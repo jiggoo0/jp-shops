@@ -14,7 +14,7 @@ export default function TemplateError({ reset }: { reset: () => void }) {
       <h1 className="mb-4 text-3xl font-black">
         ขออภัย เกิดข้อผิดพลาดบางอย่าง
       </h1>
-      <p className="text-muted-foreground mb-10 max-w-md leading-relaxed">
+      <p className="mb-10 max-w-md leading-relaxed text-muted-foreground">
         ระบบไม่สามารถโหลดหน้าเว็บไซต์ที่คุณต้องการได้ในขณะนี้
         กรุณาลองใหม่อีกครั้ง หรือกลับสู่หน้าหลัก
       </p>

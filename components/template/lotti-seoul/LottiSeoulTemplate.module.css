@@ -159,8 +159,12 @@
   cursor: pointer;
 }
 
+.main {
+  padding-bottom: 80px;
+}
+
 .footer {
-  padding: 60px;
+  padding: 80px 5%;
   text-align: center;
   font-size: 12px;
   letter-spacing: 1px;

@@ -1,11 +1,11 @@
 /* @identity เจ้าป่า */
 import { notFound } from "next/navigation";
-import { TemplateManager } from "@/components/template/TemplateManager";
-import { TemplateFactory } from "@/components/template/TemplateFactory";
-import { TEMPLATES } from "@/constants";
+import { TemplateManager } from "@/components/template/core/TemplateManager";
+import { TemplateFactory } from "@/components/template/core/TemplateFactory";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { getBreadcrumbSchema } from "@/lib/schema";
+import { getTemplateBySlug, getTemplates } from "@/lib/data";
 
 interface ShowcasePageProps {
   params: Promise<{
@@ -15,9 +15,10 @@ interface ShowcasePageProps {
 }
 
 export async function generateStaticParams() {
+  const templates = await getTemplates();
   // ดึง Slugs ทั้งหมดจาก Registry
-  return TemplateManager.getAllSlugs().map((slug) => ({
-    slug: slug,
+  return templates.map((t) => ({
+    slug: t.slug,
     view: [],
   }));
 }
@@ -26,7 +27,7 @@ export async function generateMetadata({
   params,
 }: ShowcasePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const template = TEMPLATES.find((t) => t.slug === slug);
+  const template = await getTemplateBySlug(slug);
 
   if (!template) return {};
 
@@ -44,7 +45,7 @@ export default async function ShowcaseTemplatePage({
   params,
 }: ShowcasePageProps) {
   const { slug, view } = await params;
-  const template = TEMPLATES.find((t) => t.slug === slug);
+  const template = await getTemplateBySlug(slug);
 
   // ตรวจสอบความถูกต้องเบื้องต้น
   if (!TemplateManager.getTemplate(slug) || !template) {

@@ -1,15 +1,22 @@
 /* @identity เจ้าป่า */
-import {
-  Plane,
-  Hotel,
-  ShieldCheck,
-  CreditCard,
-  FileSearch,
-  Ticket,
-  Users,
-} from "lucide-react";
+import { Service, Template, BlogPost, FAQ } from "@/types";
 
-export const SERVICES = [
+export const FAQ_DATA: FAQ[] = [
+  {
+    q: "กรณีถูกปฏิเสธวีซ่ามาหลายครั้ง ยังมีโอกาสผ่านไหม?",
+    a: "มีโอกาสสูงครับ ทีมงานจะวิเคราะห์จดหมายปฏิเสธ (Refusal Letter) อย่างละเอียด เพื่อแก้จุดบกพร่องและเตรียมหลักฐานสนับสนุนใหม่ที่แน่นหนากว่าเดิม",
+  },
+  {
+    q: "การจัดเตรียมเอกสารสินเชื่อใช้เวลานานเท่าไหร่?",
+    a: "โดยปกติจะใช้เวลา 5-10 วันทำการ ขึ้นอยู่กับความซับซ้อนของเคสและประเภทของอาชีพครับ",
+  },
+  {
+    q: "บริการจองตั๋วเครื่องบินและที่พัก เป็นของจริงไหม?",
+    a: "เราออกใบจองที่มีรหัส PNR จริง ซึ่งสามารถตรวจสอบกับสายการบินได้ เพื่อใช้ประกอบการยื่นวีซ่าโดยเฉพาะ",
+  },
+];
+
+export const SERVICES: Service[] = [
   {
     id: "loan-docs",
     title: "ดูแลและจัดเตรียมเอกสารยื่นสินเชื่อ",
@@ -17,7 +24,7 @@ export const SERVICES = [
       "สำหรับกรณีที่เคยถูกปฏิเสธ เราช่วยวิเคราะห์และจัดเตรียมเอกสารใหม่ให้มีความน่าเชื่อถือ",
     price: "เริ่มต้น 3,xxx บาท",
     duration: "3-7 วันทำการ",
-    icon: CreditCard,
+    icon: "CreditCard",
   },
   {
     id: "visa-docs",
@@ -26,7 +33,7 @@ export const SERVICES = [
       "เน้นบริการสำหรับสุภาพสตรีที่เคยถูกปฏิเสธวีซ่า จัดทำเอกสารสนับสนุนเพื่อสร้างความเชื่อมั่น",
     price: "เริ่มต้น 5,xxx บาท",
     duration: "5-10 วันทำการ",
-    icon: Plane,
+    icon: "Plane",
   },
   {
     id: "general-docs",
@@ -35,7 +42,7 @@ export const SERVICES = [
       "รับจัดทำเอกสารประกอบการทำธุรกรรมต่างๆ หรือจัดหาเอกสารตามความต้องการ",
     price: "ตามประเภทเอกสาร",
     duration: "1-3 วันทำการ",
-    icon: FileSearch,
+    icon: "FileSearch",
   },
   {
     id: "booking-docs",
@@ -44,7 +51,7 @@ export const SERVICES = [
       "ออกใบจองตั๋วเครื่องบิน ที่พัก และรถโดยสาร เพื่อใช้ประกอบการยื่นวีซ่า",
     price: "เริ่มต้น 5xx บาท",
     duration: "ภายใน 24 ชม.",
-    icon: Ticket,
+    icon: "Ticket",
   },
   {
     id: "branding-docs",
@@ -53,25 +60,25 @@ export const SERVICES = [
       "บริการให้คำปรึกษาและจัดทำโปรไฟล์เพื่อสร้างภาพลักษณ์ที่ดูดี มีความน่าเชื่อถือ",
     price: "ประเมินตามเนื้องาน",
     duration: "7-14 วันทำการ",
-    icon: Users,
+    icon: "Users",
   },
 ];
 
-export const TEMPLATES = [
+export const TEMPLATES: Template[] = [
   {
     slug: "kbt",
     name: "การบินไตย (KBT)",
     description:
       "ระบบจำลองสายการบินพรีเมียม เลียนแบบโครงสร้างและโทนสีมาตรฐานสากล",
     category: "Airline",
-    icon: Plane,
+    icon: "Plane",
   },
   {
     slug: "boogim",
     name: "Boogim.com",
     description: "ระบบจองที่พักและโรงแรมจำลอง ฟังก์ชันครบถ้วนสำหรับการทำใบจอง",
     category: "Hotel",
-    icon: Hotel,
+    icon: "Hotel",
   },
   {
     slug: "eu-airline",
@@ -79,7 +86,7 @@ export const TEMPLATES = [
     description:
       "ตัวอย่างหน้าเว็บสายการบินในยุโรป เน้นความน่าเชื่อถือและภาพลักษณ์สากล",
     category: "Airline",
-    icon: ShieldCheck,
+    icon: "ShieldCheck",
   },
   {
     slug: "kr-hotel",
@@ -87,16 +94,16 @@ export const TEMPLATES = [
     description:
       "ระบบจำลองหน้าเว็บโรงแรมในเกาหลีใต้ ดีไซน์ทันสมัยสไตล์ Minimal",
     category: "Hotel",
-    icon: Hotel,
+    icon: "Hotel",
   },
 ];
 
-export const BLOG_POSTS = [
+export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "visa-service-tips",
-    title: "บริการยื่นวีซ่าสำหรับสุภาพสตรีที่ถูกปฏิเสธ",
+    title: "กลยุทธ์การแก้เคสวีซ่าสำหรับสุภาพสตรีที่ถูกปฏิเสธ",
     excerpt:
-      "เทคนิคการวิเคราะห์สาเหตุและแนวทางการเตรียมเอกสารให้ผ่านฉลุยในรอบถัดไป",
+      "เจาะลึกการวิเคราะห์จดหมายปฏิเสธ (Refusal Letter) และเทคนิคการจัดเตรียมเอกสารใหม่เพื่อกู้คืนความเชื่อมั่นและโอกาสในการผ่านวีซ่า",
     date: "2026-04-25",
     author: "เจ้าป่า",
   },

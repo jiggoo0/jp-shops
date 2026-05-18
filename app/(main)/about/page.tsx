@@ -1,5 +1,12 @@
 /* @identity เจ้าป่า */
 import { UserCheck, Shield, Award } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "เกี่ยวกับเรา",
+  description:
+    "ทำความรู้จักกับ JP-VISUAL&DOCS ทีมงานมืออาชีพผู้เชี่ยวชาญด้านกลยุทธ์เอกสารและภาพลักษณ์ระดับสากล",
+};
 
 export default function AboutPage() {
   return (
@@ -9,7 +16,7 @@ export default function AboutPage() {
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
             เกี่ยวกับ JP-VISUAL&DOCS
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-slate-400">
             เบื้องหลังความสำเร็จในการยื่นเอกสารและสร้างภาพลักษณ์ระดับสากล
             เราดูแลทุกรายละเอียดเพื่อให้คุณก้าวไปข้างหน้าได้อย่างมั่นใจ
           </p>
@@ -30,7 +37,7 @@ export default function AboutPage() {
                 ไม่ว่าจะเป็นการกู้บ้านไม่ผ่าน การถูกปฏิเสธวีซ่า
                 หรือการต้องการสร้างภาพลักษณ์ที่น่าเชื่อถือในโลกธุรกิจ
               </p>
-              <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
+              <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
                 เราเชื่อว่า &quot;เอกสารที่ถูกต้องและถูกจุด&quot;
                 คือกุญแจสำคัญที่เปิดประตูสู่โอกาสใหม่ๆ
                 งานของเราไม่ใช่แค่การจัดทำกระดาษ
@@ -73,7 +80,7 @@ export default function AboutPage() {
               </div>
               <div className="absolute -bottom-8 -right-8 hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-xl lg:block">
                 <p className="text-3xl font-bold italic text-primary">100%</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   Professional Standard
                 </p>
               </div>

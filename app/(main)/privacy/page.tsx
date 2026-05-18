@@ -1,4 +1,11 @@
 /* @identity เจ้าป่า */
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "นโยบายความเป็นส่วนตัว",
+  description:
+    "นโยบายการรักษาข้อมูลและความลับของลูกค้าสำหรับบริการ JP-VISUAL&DOCS",
+};
 
 export default function PrivacyPage() {
   return (
@@ -8,7 +15,7 @@ export default function PrivacyPage() {
           <h1 className="mb-4 text-4xl font-extrabold">
             นโยบายความเป็นส่วนตัว
           </h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl">
+          <p className="mx-auto max-w-2xl text-muted-foreground">
             ความลับของลูกค้าคือความสำคัญสูงสุดของเรา
           </p>
         </div>

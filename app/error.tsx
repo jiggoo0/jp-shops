@@ -25,7 +25,7 @@ export default function GlobalError({
       <h1 className="mb-2 text-3xl font-black text-slate-900">
         เกิดข้อผิดพลาดรุนแรง
       </h1>
-      <p className="text-muted-foreground mb-10 max-w-md">
+      <p className="mb-10 max-w-md text-muted-foreground">
         ขออภัยครับ ระบบพบปัญหาทางเทคนิคที่ไม่คาดคิด ทีมงาน "เจ้าป่า"
         กำลังเร่งตรวจสอบ กรุณาลองรีเฟรชหน้าเว็บอีกครั้ง
       </p>

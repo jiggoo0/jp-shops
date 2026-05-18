@@ -65,7 +65,9 @@
 .nav a {
   text-decoration: none;
   color: inherit;
-  transition: color 0.2s, border-bottom 0.2s;
+  transition:
+    color 0.2s,
+    border-bottom 0.2s;
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
 }
@@ -165,6 +167,10 @@
 
 .submitBtn:hover {
   opacity: 0.9;
+}
+
+.main {
+  padding: 0 10% 80px;
 }
 
 .footer {

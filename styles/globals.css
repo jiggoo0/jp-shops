@@ -4,12 +4,16 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #334155; /* slate-700 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #020617; /* Deep Midnight Navy */
     --foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8; /* slate-400 */
   }
 }
 

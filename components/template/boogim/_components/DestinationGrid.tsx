@@ -37,7 +37,7 @@ const DESTINATIONS = [
     name: "เชียงใหม่",
     properties: "1,240",
     image:
-      "https://images.unsplash.com/photo-1524491989242-af57bbfe4df3?q=80&w=2070",
+      "https://images.unsplash.com/photo-150892487164a-4d538f2026cc?q=80&w=2070",
   },
 ];
 

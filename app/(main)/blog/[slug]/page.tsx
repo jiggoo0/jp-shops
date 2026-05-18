@@ -1,22 +1,23 @@
 /* @identity เจ้าป่า */
 import { notFound } from "next/navigation";
-import { BLOG_POSTS } from "@/constants";
 import { siteConfig } from "@/config/site";
 import { getBreadcrumbSchema } from "@/lib/schema";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/data";
 
 interface BlogPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export default async function BlogPostPage({ params }: BlogPageProps) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();

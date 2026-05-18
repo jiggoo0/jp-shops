@@ -13,7 +13,7 @@ const Navbar = () => {
     { title: "เกี่ยวกับเรา", href: "/about" },
     { title: "บริการ", href: "/#services" },
     { title: "เทมเพลตจำลอง", href: "/templates" },
-    { title: "บล็อก", href: "/blog" },
+    { title: "บทความ", href: "/blog" },
     { title: "FAQ", href: "/#faq" },
   ];
 
@@ -87,7 +87,7 @@ const Navbar = () => {
                 <span className="text-sm font-medium italic text-primary">
                   &quot;เจ้าป่า&quot;
                 </span>
-                <p className="text-muted-foreground mt-1 text-xs">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Chief Strategic Architect
                 </p>
               </div>

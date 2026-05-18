@@ -12,6 +12,10 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
         primary: {
           DEFAULT: "#002D62", // Deep Navy (Trust & Stability)
           foreground: "#FFFFFF",

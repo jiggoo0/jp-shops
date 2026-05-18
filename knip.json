@@ -8,13 +8,9 @@
     "constants/**/*.{ts,tsx}",
     "scripts/**/*.mjs"
   ],
-  "ignore": ["mdx-components.tsx"],
   "ignoreDependencies": [
     "eslint-config-next",
-    "postcss",
     "autoprefixer",
-    "eslint",
-    "prettier-plugin-tailwindcss",
     "postcss-load-config"
   ],
   "ignoreExportsUsedInFile": true

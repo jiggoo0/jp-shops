@@ -11,7 +11,7 @@ export default function NotFound() {
       </div>
       <h1 className="mb-2 text-4xl font-black">404</h1>
       <h2 className="mb-4 text-2xl font-bold">ไม่พบหน้าที่คุณต้องการ</h2>
-      <p className="text-muted-foreground mb-10 max-w-md">
+      <p className="mb-10 max-w-md text-muted-foreground">
         ขออภัยครับ หน้าที่คุณกำลังค้นหาอาจจะถูกย้าย หรือไม่มีอยู่จริงในระบบ
         กรุณาตรวจสอบ URL อีกครั้ง หรือกลับไปยังหน้าหลัก
       </p>

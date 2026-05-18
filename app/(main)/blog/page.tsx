@@ -1,16 +1,30 @@
 /* @identity เจ้าป่า */
 import Link from "next/link";
-import { BLOG_POSTS } from "@/constants";
+import { getBlogPosts } from "@/lib/data";
+import { Metadata } from "next";
 
-export default function BlogListPage() {
+export const metadata: Metadata = {
+  title: "คลังความรู้และกลยุทธ์ - JP-VISUAL&DOCS",
+  description:
+    "เจาะลึกเทคนิคการจัดการเอกสารสินเชื่อ วีซ่า และการสร้างภาพลักษณ์ระดับสากล โดยทีมงานมืออาชีพ",
+};
+
+export default async function BlogListPage() {
+  const posts = await getBlogPosts();
+
   return (
     <>
-      <section className="bg-slate-50 py-20">
+      <section className="bg-slate-50 py-20 dark:bg-zinc-900/50">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4 text-4xl font-extrabold">บทความและสาระน่ารู้</h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl">
-            รวมเทคนิคและข้อมูลสำคัญด้านการจัดการเอกสาร วีซ่า และสินเชื่อ
-            โดยทีมงานมืออาชีพ
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+            คลังความรู้และกลยุทธ์
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground dark:text-slate-400">
+            เจาะลึกเทคนิคการจัดการเอกสารและกลยุทธ์การสร้างโปรไฟล์เพื่อความสำเร็จ
+            ถ่ายทอดจากประสบการณ์จริงโดยทีมงาน{" "}
+            <span className="font-bold italic text-primary">
+              JP-VISUAL&DOCS
+            </span>
           </p>
         </div>
       </section>
@@ -18,7 +32,7 @@ export default function BlogListPage() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {BLOG_POSTS.map((post) => (
+            {posts.map((post) => (
               <Link
                 href={`/blog/${post.slug}`}
                 key={post.slug}
@@ -31,10 +45,10 @@ export default function BlogListPage() {
                   <h3 className="mb-3 text-xl font-bold transition-colors group-hover:text-primary">
                     {post.title}
                   </h3>
-                  <p className="text-muted-foreground mb-6 line-clamp-3 flex-grow text-sm">
+                  <p className="mb-6 line-clamp-3 flex-grow text-sm text-muted-foreground">
                     {post.excerpt}
                   </p>
-                  <div className="flex items-center gap-2 border-t pt-6 text-sm font-semibold">
+                  <div className="flex items-center gap-2 border-t pt-6 text-sm font-semibold text-primary">
                     อ่านต่อ{" "}
                     <span className="transition-transform group-hover:translate-x-1">
                       →

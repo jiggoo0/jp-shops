@@ -1,6 +1,6 @@
 /* @identity เจ้าป่า */
 import React from "react";
-import { TemplateManager } from "./TemplateManager";
+import { TEMPLATE_REGISTRY } from "./TemplateManager";
 
 interface TemplateFactoryProps {
   slug: string;
@@ -15,12 +15,10 @@ export const TemplateFactory: React.FC<TemplateFactoryProps> = ({
   slug,
   view,
 }) => {
-  const ActiveTemplate = React.useMemo(
-    () => TemplateManager.getTemplate(slug),
-    [slug]
-  );
+  // ดึง Component จาก Registry โดยตรงเพื่อเลี่ยง Lint error "Cannot create components during render"
+  const Template = TEMPLATE_REGISTRY[slug];
 
-  if (!ActiveTemplate) {
+  if (!Template) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4 text-center">
         <div>
@@ -35,5 +33,5 @@ export const TemplateFactory: React.FC<TemplateFactoryProps> = ({
     );
   }
 
-  return React.createElement(ActiveTemplate, { view });
+  return <Template view={view} />;
 };

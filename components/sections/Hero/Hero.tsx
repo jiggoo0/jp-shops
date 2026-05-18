@@ -24,7 +24,7 @@ const Hero = () => {
               มืออาชีพ
             </span>
           </h1>
-          <p className="mt-8 max-w-2xl font-body text-lg leading-relaxed text-slate-600 sm:text-xl dark:text-slate-400">
+          <p className="mt-8 max-w-2xl font-body text-lg leading-relaxed text-muted-foreground sm:text-xl dark:text-slate-400">
             บริการดูแลและจัดเตรียมเอกสารสำหรับการยื่นสินเชื่อและวีซ่า
             ครบวงจรโดยผู้เชี่ยวชาญ เราเปลี่ยนความซับซ้อนให้เป็นความสำเร็จ
             ด้วยมาตรฐานที่ทั่วโลกยอมรับ

@@ -1,4 +1,10 @@
 /* @identity เจ้าป่า */
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "เงื่อนไขการใช้บริการ",
+  description: "ข้อตกลงและเงื่อนไขการใช้บริการจาก JP-VISUAL&DOCS",
+};
 
 export default function TermsPage() {
   return (
@@ -6,7 +12,7 @@ export default function TermsPage() {
       <section className="border-b bg-slate-50 py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="mb-4 text-4xl font-extrabold">เงื่อนไขการใช้บริการ</h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl">
+          <p className="mx-auto max-w-2xl text-muted-foreground">
             ข้อตกลงและเงื่อนไขสำหรับการรับบริการจาก JP-VISUAL&DOCS
           </p>
         </div>

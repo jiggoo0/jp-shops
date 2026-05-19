@@ -30,17 +30,17 @@ async function ServicesList() {
                 className="h-8 w-8 text-primary"
               />
             </div>
-            <h3 className="mb-3 text-xl font-bold transition-colors group-hover:text-primary">
+            <h3 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-primary dark:text-white">
               {service.title}
             </h3>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               {service.description}
             </p>
           </CardContent>
           <CardFooter className="flex flex-col gap-4 border-t border-slate-50 bg-slate-50/50 p-6 dark:bg-zinc-800/30">
             <div className="flex w-full items-center justify-between text-sm font-medium">
               <span className="text-primary">{service.price}</span>
-              <span className="italic text-muted-foreground">
+              <span className="italic text-slate-500 dark:text-slate-400">
                 {service.duration}
               </span>
             </div>

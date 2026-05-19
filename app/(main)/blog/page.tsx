@@ -33,13 +33,12 @@ async function BlogPostsList() {
               <div className="mb-3 text-sm font-medium text-primary">
                 {post.date}
               </div>
-              <h3 className="mb-3 text-xl font-bold transition-colors group-hover:text-primary">
+              <h3 className="mb-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-primary dark:text-white">
                 {post.title}
               </h3>
-              <p className="mb-6 line-clamp-3 flex-grow text-sm text-muted-foreground">
+              <p className="mb-6 line-clamp-3 flex-grow text-sm text-slate-600 dark:text-slate-400">
                 {post.excerpt}
-              </p>
-              <div className="flex items-center gap-2 border-t pt-6 text-sm font-semibold text-primary">
+              </p>              <div className="flex items-center gap-2 border-t pt-6 text-sm font-semibold text-primary">
                 อ่านต่อ{" "}
                 <span className="transition-transform group-hover:translate-x-1">
                   →

@@ -53,7 +53,7 @@ export default async function TemplatesPage() {
                 <h3 className="mb-3 text-xl font-bold text-slate-900 dark:text-white">
                   {tpl.name}
                 </h3>
-                <p className="mb-8 flex-grow text-sm leading-relaxed text-muted-foreground dark:text-slate-400">
+                <p className="mb-8 flex-grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {tpl.description}
                 </p>
                 <Link

@@ -13,7 +13,7 @@ export const getOrganizationSchema = () => ({
   name: siteConfig.name,
   url: siteConfig.url,
   logo: `${siteConfig.url}/logo.svg`,
-  image: `${siteConfig.url}/og-main.png`,
+  image: `${siteConfig.url}/og-main.webp`,
   description: siteConfig.description,
   address: {
     "@type": "PostalAddress",

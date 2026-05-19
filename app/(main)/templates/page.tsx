@@ -30,7 +30,7 @@ export default async function TemplatesPage() {
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
             ระบบเว็บไซต์จำลอง (Templates)
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-slate-400">
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-800 dark:text-slate-400">
             เลือกชมตัวอย่างระบบที่เราพัฒนาเพื่อรองรับความต้องการด้านเอกสารและการสร้างภาพลักษณ์ระดับสากล
           </p>
         </div>

@@ -6,6 +6,7 @@ import ContactSection from "@/components/sections/Contact";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "เจ้าป่า - บริการดูแลเอกสารสินเชื่อและวีซ่าระดับมืออาชีพ",
@@ -17,7 +18,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Services />
+      <Suspense fallback={<div className="h-96 animate-pulse bg-slate-50" />}>
+        <Services />
+      </Suspense>
 
       {/* Templates Quick Link */}
       <section className="relative overflow-hidden bg-primary py-24 text-white">
@@ -70,7 +73,9 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-white/5 blur-[120px]"></div>
       </section>
 
-      <FAQSection />
+      <Suspense fallback={<div className="h-96 animate-pulse bg-slate-50" />}>
+        <FAQSection />
+      </Suspense>
       <ContactSection />
     </>
   );

@@ -1,6 +1,7 @@
 /* @identity เจ้าป่า */
 import { UserCheck, Shield, Award } from "lucide-react";
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "เกี่ยวกับเรา",
@@ -16,9 +17,10 @@ export default function AboutPage() {
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
             เกี่ยวกับ JP-VISUAL&DOCS
           </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground dark:text-slate-400">
-            เบื้องหลังความสำเร็จในการยื่นเอกสารและสร้างภาพลักษณ์ระดับสากล
-            เราดูแลทุกรายละเอียดเพื่อให้คุณก้าวไปข้างหน้าได้อย่างมั่นใจ
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-800 dark:text-slate-400">
+            ร่วมขับเคลื่อนทุกเป้าหมายด้วยกลยุทธ์การจัดการเอกสารและภาพลักษณ์ระดับสากล
+            เราพร้อมดูแลทุกรายละเอียดด้วยความใส่ใจ
+            เพื่อให้คุณบรรลุความสำเร็จอย่างราบรื่นและมั่นใจ
           </p>
         </div>
       </section>
@@ -27,58 +29,64 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-2">
             <div>
-              <h2 className="mb-6 text-3xl font-bold italic text-primary">
-                &quot;เจ้าป่า&quot;
+              <h2 className="mb-6 text-3xl font-bold text-primary">
+                วิสัยทัศน์และการทำงานของเรา
               </h2>
-              <p className="mb-6 text-lg leading-relaxed">
-                เราคือทีมงานมืออาชีพที่นำโดยคุณ **&quot;เจ้าป่า&quot;** (Chief
-                Strategic Architect)
-                ผู้มีประสบการณ์และความเชี่ยวชาญในการแก้ปัญหาเคสยากๆ
-                ไม่ว่าจะเป็นการกู้บ้านไม่ผ่าน การถูกปฏิเสธวีซ่า
-                หรือการต้องการสร้างภาพลักษณ์ที่น่าเชื่อถือในโลกธุรกิจ
+              <p className="mb-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                **JP-VISUAL&DOCS**
+                คือทีมที่ปรึกษาเชิงกลยุทธ์ที่มุ่งเน้นความสำเร็จของลูกค้าเป็นสำคัญ
+                นำทีมโดยคุณ **&quot;เจ้าป่า&quot;** (Chief Strategic Architect)
+                ผู้มีความเชี่ยวชาญและประสบการณ์ในการแก้ปัญหาที่ซับซ้อน
+                ไม่ว่าจะเป็นการวางแผนเอกสารเพื่อขอสินเชื่อ
+                การวิเคราะห์เคสวีซ่าที่ผ่านยาก
+                หรือการเสริมสร้างภาพลักษณ์ธุรกิจให้น่าเชื่อถือในระดับสากล
               </p>
-              <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-                เราเชื่อว่า &quot;เอกสารที่ถูกต้องและถูกจุด&quot;
-                คือกุญแจสำคัญที่เปิดประตูสู่โอกาสใหม่ๆ
-                งานของเราไม่ใช่แค่การจัดทำกระดาษ
-                แต่เป็นการวางกลยุทธ์เพื่อให้คุณได้รับผลลัพธ์ที่ต้องการ
+              <p className="mb-8 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+                เพราะเราเชื่อมั่นว่า
+                &quot;ความถูกต้องแม่นยำและการวางแผนที่ตรงจุด&quot;
+                คือกุญแจสำคัญสู่การเปิดประตูแห่งโอกาสใหม่ๆ
+                บริการของเราจึงไม่ใช่เพียงการจัดทำเอกสาร
+                แต่คือการวางแผนกลยุทธ์แบบองค์รวมเพื่อให้มั่นใจว่าลูกค้าทุกท่านจะได้รับผลลัพธ์ที่คุ้มค่าและดีที่สุด
               </p>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                <div className="group flex items-center gap-4">
+                  <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                     <UserCheck size={24} />
                   </div>
-                  <span className="text-lg font-semibold">
-                    วิเคราะห์เคสรายบุคคลอย่างละเอียด
+                  <span className="text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    การวิเคราะห์และประเมินเคสรายบุคคลเชิงลึก
                   </span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                <div className="group flex items-center gap-4">
+                  <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                     <Shield size={24} />
                   </div>
-                  <span className="text-lg font-semibold">
-                    รักษาความลับลูกค้าสูงสุด
+                  <span className="text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    มาตรฐานการรักษาความลับและความเป็นส่วนตัวสูงสุด
                   </span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                <div className="group flex items-center gap-4">
+                  <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                     <Award size={24} />
                   </div>
-                  <span className="text-lg font-semibold">
-                    ผลงานเป็นที่ประจักษ์และได้รับการยอมรับ
+                  <span className="text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    ความสำเร็จที่พิสูจน์ได้และได้รับการยอมรับในระดับสากล
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="relative">
-              <div className="aspect-square overflow-hidden rounded-2xl bg-slate-200 shadow-2xl">
-                <div className="flex h-full w-full items-center justify-center bg-primary text-5xl font-bold italic text-white">
-                  JP-VISUAL
-                </div>
+              <div className="aspect-square overflow-hidden rounded-2xl bg-slate-200 shadow-2xl dark:bg-zinc-800">
+                <Image
+                  src="/images/about/profile.webp"
+                  alt="เจ้าป่า - Chief Strategic Architect"
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <div className="absolute -bottom-8 -right-8 hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-xl lg:block">
+              <div className="absolute -bottom-8 -right-8 hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-xl lg:block dark:border-zinc-800 dark:bg-zinc-950">
                 <p className="text-3xl font-bold italic text-primary">100%</p>
                 <p className="text-sm text-muted-foreground">
                   Professional Standard

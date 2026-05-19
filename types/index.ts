@@ -10,6 +10,7 @@ export interface Service {
   price: string;
   duration: string;
   icon: string;
+  image?: string;
 }
 
 /**
@@ -40,4 +41,5 @@ export interface BlogPost {
   excerpt: string;
   date: string;
   author: string;
+  image?: string;
 }

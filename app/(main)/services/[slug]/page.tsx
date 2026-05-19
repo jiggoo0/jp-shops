@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { CheckCircle2, Clock, BadgeDollarSign, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import { getBreadcrumbSchema } from "@/lib/schema";
@@ -68,19 +69,32 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           >
             <ArrowLeft size={16} /> ดูบริการทั้งหมด
           </Link>
-          <div className="max-w-4xl">
-            <div className="mb-8 inline-block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-              <IconRenderer
-                name={service.icon}
-                className="h-12 w-12 text-primary"
-              />
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="max-w-4xl">
+              <div className="mb-8 inline-block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+                <IconRenderer
+                  name={service.icon}
+                  className="h-12 w-12 text-primary"
+                />
+              </div>
+              <h1 className="mb-6 text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white">
+                {service.title}
+              </h1>
+              <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground dark:text-slate-400">
+                {service.description}
+              </p>
             </div>
-            <h1 className="mb-6 text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white">
-              {service.title}
-            </h1>
-            <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground dark:text-slate-400">
-              {service.description}
-            </p>
+            {service.image && (
+              <div className="relative aspect-video overflow-hidden rounded-3xl border border-slate-200 shadow-2xl dark:border-zinc-800">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -188,7 +202,11 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                     <p className="mb-4 text-center text-xs italic text-muted-foreground">
                       &quot;ปรึกษาเราวันนี้ เพื่อโอกาสความสำเร็จที่มากกว่า&quot;
                     </p>
-                    <Link href="/contact" className="block w-full">
+                    <Link
+                      href={siteConfig.links.line}
+                      target="_blank"
+                      className="block w-full"
+                    >
                       <Button className="w-full py-6 text-lg">
                         ติดต่อสอบถามข้อมูล
                       </Button>

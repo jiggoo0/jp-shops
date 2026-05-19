@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           <h1 className="mb-4 text-4xl font-extrabold">
             นโยบายความเป็นส่วนตัว
           </h1>
-          <p className="mx-auto max-w-2xl text-muted-foreground">
+          <p className="mx-auto max-w-2xl text-slate-800 dark:text-slate-400">
             ความลับของลูกค้าคือความสำคัญสูงสุดของเรา
           </p>
         </div>

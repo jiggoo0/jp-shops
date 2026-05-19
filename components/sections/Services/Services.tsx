@@ -2,6 +2,7 @@
 import { getServices } from "@/lib/data";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import Link from "next/link";
+import Image from "next/image";
 import { IconRenderer } from "@/components/ui/IconRenderer";
 
 const Services = async () => {
@@ -26,7 +27,19 @@ const Services = async () => {
               key={service.id}
               className="group block"
             >
-              <Card className="h-full transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl">
+              <Card className="h-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl">
+                {service.image && (
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  </div>
+                )}
                 <CardContent className="pt-8">
                   <div className="mb-6 inline-block rounded-xl bg-primary/5 p-4 transition-colors group-hover:bg-primary/10">
                     <IconRenderer

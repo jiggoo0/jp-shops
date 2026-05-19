@@ -10,19 +10,19 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <section className="border-b bg-slate-50 py-20">
+      <section className="border-b bg-slate-50 py-24 dark:bg-zinc-900/50">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-4 text-4xl font-extrabold">
+          <h1 className="mb-6 text-4xl font-black text-slate-950 sm:text-5xl dark:text-white">
             นโยบายความเป็นส่วนตัว
           </h1>
-          <p className="mx-auto max-w-2xl text-slate-800 dark:text-slate-400">
+          <p className="mx-auto max-w-2xl text-lg font-medium leading-relaxed text-slate-900 dark:text-slate-300">
             ความลับของลูกค้าคือความสำคัญสูงสุดของเรา
           </p>
         </div>
       </section>
 
       <section className="py-20">
-        <div className="container prose prose-slate mx-auto max-w-4xl px-4 lg:prose-lg dark:prose-invert">
+        <div className="container prose prose-slate mx-auto max-w-4xl px-4 text-slate-900 lg:prose-lg dark:prose-invert dark:text-slate-100">
           <h2>1. การเก็บรวบรวมข้อมูล</h2>
           <p>
             เราเก็บรวบรวมข้อมูลที่จำเป็นสำหรับการจัดทำเอกสารและดำเนินเรื่องตามที่ลูกค้าต้องการเท่านั้น
